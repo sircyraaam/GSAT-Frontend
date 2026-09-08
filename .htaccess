@@ -1,0 +1,48 @@
+# ============================================================
+# GSAT-FE — Apache config (project root)
+#
+# The pages live in public/ and link out to ../assets/, so this
+# directory is the document root and public/ is the entry point.
+# Hitting the root sends you to the login page.
+#
+# The redirects are external (R=302), not internal rewrites: the
+# browser has to actually be on /public/ for the relative links in
+# each page (dashboard.html, ../assets/css/style.css) to resolve.
+# The targets are relative so this also works when the app is
+# installed in a subdirectory.
+# ============================================================
+
+# No directory listings anywhere.
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # "/" -> the login page
+  RewriteRule ^$ public/ [R=302,L]
+
+  # Anything that is not a real file or directory -> the login page.
+  # assets/ is excluded on purpose: a mistyped stylesheet or font URL
+  # should return a visible 404, not silently serve the login HTML.
+  # The exclusion is on the rule pattern (which is relative to this
+  # directory) rather than on REQUEST_URI, so it still holds when the
+  # app is installed under a subdirectory.
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule !^assets/ public/ [R=302,L]
+</IfModule>
+
+# Everything in this project is UTF-8. Plenty of shared hosts still ship
+# "AddDefaultCharset ISO-8859-1", and a charset in the Content-Type header
+# beats the <meta charset> in the page — which is how a middot turns into
+# "Â·". Declaring it here keeps the header and the markup in agreement.
+AddDefaultCharset utf-8
+
+<IfModule mod_mime.c>
+  AddCharset utf-8 .html .css .js .json .svg
+
+  # Some hosts still miss these; the icon font and the logo need them.
+  AddType font/woff2 .woff2
+  AddType font/woff  .woff
+  AddType image/webp .webp
+</IfModule>

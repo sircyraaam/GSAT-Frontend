@@ -1,0 +1,26 @@
+<!-- Shared topbar. The signed-in name and role title are filled in by app.js;
+     the page title inside the content area says which module you are on. -->
+<header class="gsat-topbar">
+  <button class="gsat-burger" id="gsat-burger" type="button" aria-label="Toggle sidebar">
+    <i class="bi bi-list"></i>
+  </button>
+
+  <div class="gsat-user-wrap">
+    <div class="gsat-user" id="gsat-user-toggle">
+      <img src="../assets/images/site-acquisition-logo.webp" alt="" class="gsat-user-logo">
+      <span class="gsat-user-role" data-bind="roleTitle"></span>
+      <span class="gsat-user-name" data-bind="userName"></span>
+      <i class="bi bi-chevron-down gsat-caret" id="gsat-user-caret"></i>
+    </div>
+
+    <div class="gsat-user-menu" id="gsat-user-menu" hidden>
+      <div class="gsat-user-menu-head">
+        <div class="small text-secondary">Signed in as</div>
+        <div class="fw-semibold" data-bind="userName"></div>
+      </div>
+      <a href="my-profile.html" class="gsat-user-menu-item">My Profile</a>
+      <div class="gsat-user-menu-item" id="gsat-reset-demo">Reset demo data</div>
+      <div class="gsat-user-menu-item text-danger" id="gsat-logout">Log out</div>
+    </div>
+  </div>
+</header>

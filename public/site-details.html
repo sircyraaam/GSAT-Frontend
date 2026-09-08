@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'Site Assessment' });</script>
+</head>
+<body data-page="site-details" data-crumb="Site Assessment" data-allow="SAS SAM PM REM FMS" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <div>
+          <h1 class="gsat-page-title">Site Assessment</h1>
+          <div class="gsat-page-sub">
+            <span data-bind="tradeArea"></span> &nbsp;&middot;&nbsp; <span data-bind="siteCode"></span>
+          </div>
+        </div>
+        <a href="site-assessment.html" class="btn btn-outline-secondary" id="btn-return">Return</a>
+      </div>
+
+      <!-- ------------------- SAM decision bar (whole assessment) ------------------- -->
+      <div class="gsat-card mb-3" id="sam-decision" hidden>
+        <div class="gsat-card-body d-flex align-items-center flex-wrap gap-2">
+          <div>
+            <div class="fw-bold">Approval decision</div>
+            <div class="gsat-note">Your decision applies to the whole assessment consisting all 11 tabs.</div>
+          </div>
+          <span class="ms-auto"></span>
+          <button type="button" class="btn btn-success" id="btn-approve">Approve assessment</button>
+          <button type="button" class="btn btn-outline-danger" id="btn-return-sas">Return to SAS</button>
+        </div>
+      </div>
+
+      <div class="gsat-card"><div class="row g-0">
+
+        <!-- ------------------------- step rail ------------------------- -->
+        <div class="col-lg-3 gsat-steps">
+          <div class="gsat-steps-title">Assessment tabs</div>
+
+          <div class="gsat-step" data-step="Site Details">
+            <span class="num">01</span><span class="lbl">Site Details</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+          <div class="gsat-step" data-step="Lessor's Details">
+            <span class="num">02</span><span class="lbl">Lessor's Details</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+          <div class="gsat-step" data-step="Commercial Terms">
+            <span class="num">03</span><span class="lbl">Commercial Terms</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+          <div class="gsat-step" data-step="Others">
+            <span class="num">04</span><span class="lbl">Others</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+          <div class="gsat-step" data-step="Lessor's Requirements">
+            <span class="num">05</span><span class="lbl">Lessor's Requirements</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+          <div class="gsat-step" data-step="Point Of Interest (POI)">
+            <span class="num">06</span><span class="lbl">Point Of Interest (POI)</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+          <div class="gsat-step" data-step="Major Drugstore">
+            <span class="num">07</span><span class="lbl">Major Drugstore</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+          <div class="gsat-step" data-step="Other Nearby Establishments">
+            <span class="num">08</span><span class="lbl">Other Nearby Establishments</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+          <div class="gsat-step" data-step="Nearest Generika Branch">
+            <span class="num">09</span><span class="lbl">Nearest Generika Branch</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+          <div class="gsat-step" data-step="Nearest RHU">
+            <span class="num">10</span><span class="lbl">Nearest RHU</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+          <div class="gsat-step" data-step="SAR Template">
+            <span class="num">11</span><span class="lbl">SAR Template</span><span class="tick"><i class="bi bi-check-lg"></i></span></div>
+
+          <div class="gsat-steps-count"><span data-bind="doneCount">0</span> of 11 tabs complete</div>
+        </div>
+
+        <!-- ------------------------- panes ------------------------- -->
+        <div class="col-lg-9"><div class="gsat-card-body">
+
+          <!-- PM only: the one field this role encodes sits on tab 03 -->
+          <div class="gsat-banner warn" id="pm-tab3-note" data-roles="PM" hidden>
+            Actual Floor Area (sqm) is encoded on <strong>Tab 03 &mdash; Commercial Terms</strong>.
+            Continue to that tab to enter it.
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <div class="fw-bold fs-5" data-bind="paneTitle"></div>
+            <div class="small text-secondary">Tab <span data-bind="paneIndex">1</span> of 11</div>
+          </div>
+
+          <!-- 01 — Site Details -->
+          <section data-pane="Site Details">
+            <div class="gsat-detail-row" data-field="address" data-req>
+              <div class="lbl req">Address</div>
+              <div><input type="text" class="form-control fld-text" data-k="address"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="city">
+              <div class="lbl">City</div>
+              <div><input type="text" class="form-control fld-text gsat-locked" data-k="city" data-source="municipality" readonly></div>
+            </div>
+            <div class="gsat-detail-row" data-field="lng" data-req>
+              <div class="lbl req">Longitude</div>
+              <div><input type="text" class="form-control fld-text" data-k="lng" data-coord="lng" placeholder="e.g. 123.8854"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="lat" data-req>
+              <div class="lbl req">Latitude</div>
+              <div><input type="text" class="form-control fld-text" data-k="lat" data-coord="lat" placeholder="e.g. 10.3157"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="zip" data-req>
+              <div class="lbl req">Zip Code</div>
+              <div>
+                <input type="text" class="form-control fld-text" data-k="zip" data-digits="4" placeholder="4 digits">
+                <div class="gsat-note">4 numeric characters only.</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- 02 — Lessor's Details -->
+          <section data-pane="Lessor's Details" hidden>
+            <div class="gsat-detail-row" data-field="lessor" data-req>
+              <div class="lbl req">Lessor's Name</div>
+              <div><input type="text" class="form-control fld-text" data-k="lessor"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="authrep">
+              <div class="lbl">Authorized Representative</div>
+              <div>
+                <input type="text" class="form-control fld-text" data-k="authrep">
+                <div class="gsat-note">Optional.</div>
+              </div>
+            </div>
+            <div class="gsat-detail-row" data-field="lcontact" data-req>
+              <div class="lbl req">Lessor's Contact Number</div>
+              <div>
+                <input type="text" class="form-control fld-text" data-k="lcontact" data-phone="ph"
+                  inputmode="numeric" autocomplete="tel" maxlength="13" placeholder="0917 123 4567">
+                <div class="gsat-note">Philippine mobile number is 11 digits starting with 09. Pasting +63 works too.</div>
+              </div>
+            </div>
+            <div class="gsat-detail-row" data-field="lemail" data-req>
+              <div class="lbl req">Email</div>
+              <div><input type="text" class="form-control fld-text" data-k="lemail" placeholder="name@domain.com"></div>
+            </div>
+          </section>
+
+          <!-- 03 — Commercial Terms -->
+          <section data-pane="Commercial Terms" hidden>
+            <div class="gsat-detail-row" data-field="leaseterm" data-req>
+              <div class="lbl req">Lease Terms (Years)</div>
+              <div><input type="text" class="form-control fld-text" data-k="leaseterm"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="floorarea" data-req>
+              <div class="lbl req">Floor Area (sqm)</div>
+              <div><input type="text" class="form-control fld-text" data-k="floorarea"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="actualfloorarea" data-pm-only>
+              <div class="lbl">Actual Floor Area (sqm)</div>
+              <div>
+                <input type="text" class="form-control fld-text" data-k="actualfloorarea">
+                <div class="gsat-note" data-roles="PM">Project Manager entry. Saving this does not change the record status.</div>
+                <div class="gsat-note" data-roles="SAS Admin SAM REM FMS">Encoded by the Project Manager only.</div>
+              </div>
+            </div>
+            <div class="gsat-detail-row" data-field="rent" data-req>
+              <div class="lbl req">Monthly Rent</div>
+              <div><input type="text" class="form-control fld-text" data-k="rent"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="rentsqm">
+              <div class="lbl">Rent per sqm</div>
+              <div>
+                <input type="text" class="form-control fld-text gsat-locked" data-k="rentsqm" data-calc="rentPerSqm" readonly>
+                <div class="gsat-note">Monthly Rent &divide; Floor Area. Computed by the system.</div>
+              </div>
+            </div>
+            <div class="gsat-detail-row" data-field="escal" data-req>
+              <div class="lbl req">Escalation (%)</div>
+              <div><input type="text" class="form-control fld-text" data-k="escal"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="escalapp" data-req>
+              <div class="lbl req">Escalation Application</div>
+              <div>
+                <select class="form-select fld-select" data-k="escalapp">
+                  <option value="">Select</option>
+                  <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>
+                </select>
+              </div>
+            </div>
+            <div class="gsat-detail-row" data-field="advrent" data-req>
+              <div class="lbl req">Advance Rent</div>
+              <div><input type="text" class="form-control fld-text" data-k="advrent"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="secdep" data-req>
+              <div class="lbl req">Security Deposit</div>
+              <div><input type="text" class="form-control fld-text" data-k="secdep"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="grace" data-req>
+              <div class="lbl req">Grace Period (weeks)</div>
+              <div><input type="text" class="form-control fld-text" data-k="grace"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="earnw">
+              <div class="lbl">w/ Earnest Money</div>
+              <div><input type="text" class="form-control fld-text" data-k="earnw"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="earnwo">
+              <div class="lbl">w/o Earnest Money</div>
+              <div><input type="text" class="form-control fld-text" data-k="earnwo"></div>
+            </div>
+          </section>
+
+          <!-- 04 — Others -->
+          <section data-pane="Others" hidden>
+            <div class="gsat-detail-row" data-field="cr" data-req>
+              <div class="lbl req">With CR</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="cr">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="handsink" data-req>
+              <div class="lbl req">With Handsink</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="handsink">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="waterline" data-req>
+              <div class="lbl req">Waterline</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="waterline">
+                <span class="gsat-radio" data-val="MWSS"><span class="dot"></span>MWSS</span>
+                <span class="gsat-radio" data-val="Deep Well"><span class="dot"></span>Deep Well</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="internet" data-req>
+              <div class="lbl req">Internet Providers Available</div>
+              <div><div class="d-grid gap-2 pt-1 gsat-check-grid" data-check-group="internet">
+                <span class="gsat-check" data-val="Globe"><span class="box"></span>Globe</span>
+                <span class="gsat-check" data-val="PLDT"><span class="box"></span>PLDT</span>
+                <span class="gsat-check" data-val="Converge"><span class="box"></span>Converge</span>
+                <span class="gsat-check" data-val="Dito"><span class="box"></span>Dito</span>
+                <span class="gsat-check" data-val="Starlink"><span class="box"></span>Starlink</span>
+                <span class="gsat-check" data-val="Others"><span class="box"></span>Others</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="internetOther" data-show-in="internet|Others" hidden>
+              <div class="lbl">Other Internet Provider</div>
+              <div><input type="text" class="form-control fld-text" data-k="internetOther"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="forlease" data-req>
+              <div class="lbl req">Site Available For Lease</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="forlease">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+          </section>
+
+          <!-- 05 — Lessor's Requirements -->
+          <section data-pane="Lessor's Requirements" hidden>
+            <div class="gsat-detail-row" data-field="tct" data-req>
+              <div class="lbl req">TCT</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="tct">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="tcttype" data-req data-show-eq="tct|Yes" hidden>
+              <div class="lbl req">TCT Type</div>
+              <div><div class="d-grid gap-2 pt-1 gsat-check-grid cols-2" data-check-group="tcttype">
+                <span class="gsat-check" data-val="Award Notice"><span class="box"></span>Award Notice</span>
+                <span class="gsat-check" data-val="Deed of Sale"><span class="box"></span>Deed of Sale</span>
+                <span class="gsat-check" data-val="Tax Declaration"><span class="box"></span>Tax Declaration</span>
+                <span class="gsat-check" data-val="Real Property Tax"><span class="box"></span>Real Property Tax</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="inlieu" data-req data-show-eq="tct|No" hidden>
+              <div class="lbl req">In Lieu of TCT</div>
+              <div><div class="d-grid gap-2 pt-1 gsat-check-grid cols-2" data-check-group="inlieu">
+                <span class="gsat-check" data-val="Award Notice"><span class="box"></span>Award Notice</span>
+                <span class="gsat-check" data-val="Deed of Sale"><span class="box"></span>Deed of Sale</span>
+                <span class="gsat-check" data-val="Tax Declaration"><span class="box"></span>Tax Declaration</span>
+                <span class="gsat-check" data-val="Real Property Tax"><span class="box"></span>Real Property Tax</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="taxdec" data-req>
+              <div class="lbl req">Updated Tax Declaration (Land &amp; Bldg.)</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="taxdec">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="rpt" data-req>
+              <div class="lbl req">Updated Real Property Tax (Land &amp; Bldg.)</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="rpt">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="taxclear" data-req>
+              <div class="lbl req">Tax Clearance</div>
+              <div><input type="text" class="form-control fld-text" data-k="taxclear"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="cor" data-req>
+              <div class="lbl req">Certificate of Registration</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="cor">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="sampleor" data-req>
+              <div class="lbl req">Sample OR</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="sampleor">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="bldgpermit" data-req>
+              <div class="lbl req">Building &amp; Occupancy Permit</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="bldgpermit">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="bizpermit" data-req>
+              <div class="lbl req">Lessor's Business Permit</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="bizpermit">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+          </section>
+
+          <!-- 06 — Point Of Interest (POI) -->
+          <section data-pane="Point Of Interest (POI)" hidden>
+            <div class="gsat-detail-row" data-field="pubmarket" data-req>
+              <div class="lbl req">Public Market</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="pubmarket">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="talipapa" data-req>
+              <div class="lbl req">Talipapa</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="talipapa">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="commbldg" data-req>
+              <div class="lbl req">Commercial Bldg / Community Mall</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="commbldg">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="jeep" data-req>
+              <div class="lbl req">Jeepney Terminal</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="jeep">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="trike" data-req>
+              <div class="lbl req">Tricycle Terminal</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="trike">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="cvs" data-req>
+              <div class="lbl req">Convenience Store</div>
+              <div><div class="d-grid gap-2 pt-1 gsat-check-grid" data-check-group="cvs">
+                <span class="gsat-check" data-val="7-Eleven"><span class="box"></span>7-Eleven</span>
+                <span class="gsat-check" data-val="Alfamart"><span class="box"></span>Alfamart</span>
+                <span class="gsat-check" data-val="Lawson"><span class="box"></span>Lawson</span>
+                <span class="gsat-check" data-val="Uncle John's"><span class="box"></span>Uncle John's</span>
+                <span class="gsat-check" data-val="Dali"><span class="box"></span>Dali</span>
+                <span class="gsat-check" data-val="O!Save"><span class="box"></span>O!Save</span>
+                <span class="gsat-check" data-val="Family Mart"><span class="box"></span>Family Mart</span>
+                <span class="gsat-check" data-val="All Day"><span class="box"></span>All Day</span>
+                <span class="gsat-check" data-val="Others"><span class="box"></span>Others</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="cvsOther" data-show-in="cvs|Others" hidden>
+              <div class="lbl">Other Convenience Store</div>
+              <div><input type="text" class="form-control fld-text" data-k="cvsOther"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="remittance" data-req>
+              <div class="lbl req">Remittance Center</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="remittance">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+          </section>
+
+          <!-- 07 — Major Drugstore -->
+          <section data-pane="Major Drugstore" hidden>
+            <div class="gsat-detail-row" data-field="drugstores" data-req>
+              <div class="lbl req">Major Drugstores</div>
+              <div><div class="d-grid gap-2 pt-1 gsat-check-grid" data-check-group="drugstores">
+                <span class="gsat-check" data-val="Mercury Drug"><span class="box"></span>Mercury Drug</span>
+                <span class="gsat-check" data-val="Watsons"><span class="box"></span>Watsons</span>
+                <span class="gsat-check" data-val="Southstar"><span class="box"></span>Southstar</span>
+                <span class="gsat-check" data-val="Rose Pharmacy"><span class="box"></span>Rose Pharmacy</span>
+                <span class="gsat-check" data-val="TGP"><span class="box"></span>TGP</span>
+                <span class="gsat-check" data-val="Saint Joseph Drug"><span class="box"></span>Saint Joseph Drug</span>
+                <span class="gsat-check" data-val="Carlos Super Drug"><span class="box"></span>Carlos Super Drug</span>
+                <span class="gsat-check" data-val="Grace Pharmacy"><span class="box"></span>Grace Pharmacy</span>
+                <span class="gsat-check" data-val="Local Drugstore"><span class="box"></span>Local Drugstore</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="localName" data-show-in="drugstores|Local Drugstore" hidden>
+              <div class="lbl">Local Drugstore Name</div>
+              <div><input type="text" class="form-control fld-text" data-k="localName"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="localCount" data-show-in="drugstores|Local Drugstore" hidden>
+              <div class="lbl">Local Drugstore Count</div>
+              <div><input type="text" class="form-control fld-text" data-k="localCount"></div>
+            </div>
+          </section>
+
+          <!-- 08 — Other Nearby Establishments -->
+          <section data-pane="Other Nearby Establishments" hidden>
+            <div class="gsat-detail-row" data-field="pawnshop" data-req>
+              <div class="lbl req">Pawnshop</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="pawnshop">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="resto" data-req>
+              <div class="lbl req">Restaurants</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="resto">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="malls" data-req>
+              <div class="lbl req">Malls</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="malls">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="gas" data-req>
+              <div class="lbl req">Gasoline Stations</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="gas">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+          </section>
+
+          <!-- 09 — Nearest Generika Branch -->
+          <section data-pane="Nearest Generika Branch" hidden>
+            <div class="gsat-detail-row" data-field="branch" data-req>
+              <div class="lbl req">Store / Branch Name</div>
+              <div><input type="text" class="form-control fld-text" data-k="branch"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="branchType" data-req>
+              <div class="lbl req">Store Type</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="branchType">
+                <span class="gsat-radio" data-val="Hub"><span class="dot"></span>Hub</span>
+                <span class="gsat-radio" data-val="Spoke"><span class="dot"></span>Spoke</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="referral" data-req>
+              <div class="lbl req">Referral Fee</div>
+              <div><input type="text" class="form-control fld-text" data-k="referral"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="distance" data-req>
+              <div class="lbl req">Distance from the Proposed Site (KM)</div>
+              <div><input type="text" class="form-control fld-text" data-k="distance"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="franchiseOwner" data-req>
+              <div class="lbl req">Franchise Owner</div>
+              <div><input type="text" class="form-control fld-text" data-k="franchiseOwner"></div>
+            </div>
+            <div class="gsat-detail-row" data-field="informed" data-req>
+              <div class="lbl req">Informed Existing or Nearby Franchisee</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="informed">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+          </section>
+
+          <!-- 10 — Nearest RHU -->
+          <section data-pane="Nearest RHU" hidden>
+            <div class="gsat-detail-row" data-field="rhu" data-req>
+              <div class="lbl req">Rural Health Unit (RHU)</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="rhu">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="rhuDistance" data-req data-show-eq="rhu|Yes" hidden>
+              <div class="lbl req">Distance from Site</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="rhuDistance">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="rhuPrograms" data-req data-show-eq="rhu|Yes" hidden>
+              <div class="lbl req">Programs Accredited</div>
+              <div><div class="d-flex flex-wrap gap-4 pt-2" data-radio-group="rhuPrograms">
+                <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+                <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+              </div></div>
+            </div>
+            <div class="gsat-detail-row" data-field="rhuNote" data-note-only data-show-eq="rhu|No" hidden>
+              <div></div>
+              <div class="gsat-note">Distance from Site and Programs Accredited are disabled. Please proceed to the SAR Template tab.</div>
+            </div>
+          </section>
+
+          <!-- 11 — SAR Template -->
+          <section data-pane="SAR Template" hidden>
+            <div class="gsat-detail-row" data-field="sar" data-req>
+              <div class="lbl req">SAR File</div>
+              <div>
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                  <button type="button" class="btn btn-outline-gsat d-inline-flex align-items-center gap-2" id="btn-upload">
+                    <i class="bi bi-cloud-arrow-up"></i>Upload SAR File
+                  </button>
+                  <input type="file" id="sar-file" class="d-none" accept=".ppt,.pptx,.pdf">
+                  <span class="small text-secondary text-break" id="sar-name">No file attached yet.</span>
+                  <button type="button" class="gsat-icon-btn danger" id="btn-sar-clear"
+                    title="Remove attachment" aria-label="Remove attachment" hidden>
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </div>
+                <div class="gsat-note">PPT and PDF only. The file is stored externally; only the link is saved.</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- ------------------------- action bar ------------------------- -->
+          <div class="d-flex align-items-center flex-wrap gap-2 mt-4">
+            <span class="small text-secondary">Status:</span>
+            <span class="gsat-chip" id="status-chip"></span>
+            <span class="ms-auto"></span>
+
+            <button type="button" class="btn btn-outline-secondary" id="btn-prev" hidden>&larr; Back</button>
+            <button type="button" class="btn btn-outline-success" id="btn-draft" hidden>Save as Draft</button>
+            <button type="button" class="btn btn-success" id="btn-pm-save" data-roles="PM" hidden>Save Actual Floor Area</button>
+            <button type="button" class="btn btn-gsat" id="btn-next" hidden>Next &rarr;</button>
+            <button type="button" class="btn btn-outline-gsat" id="btn-preview" hidden>Preview</button>
+            <button type="button" class="btn btn-success" id="btn-final" hidden>Final Save &amp; Submit</button>
+          </div>
+
+          <div class="text-end small text-secondary mt-2" id="draft-note" hidden>
+            Save as Draft keeps your progress on this assessment. You can leave and continue later.
+          </div>
+
+          <div class="text-end small text-secondary mt-2" id="final-note" hidden>
+            <span data-note="open">Final Save completes this form. The site goes to SAM once the
+              Site Technical Checklist and the Trade and Site Scorecard are complete too.</span>
+            <span data-note="done" hidden>Site Assessment completed &mdash; one of the three forms this site needs.</span>
+          </div>
+        </div></div>
+
+      </div></div>
+
+      <!-- ------------------------- preview overlay ------------------------- -->
+      <div class="gsat-overlay" id="preview-overlay" hidden>
+        <div class="gsat-overlay-card">
+          <div class="gsat-overlay-head">
+            <div>
+              <div class="fw-bold fs-5">Site Assessment Preview</div>
+              <div class="small text-secondary">
+                <span data-bind="tradeArea"></span> &nbsp;&middot;&nbsp; <span data-bind="siteCode"></span>
+              </div>
+            </div>
+            <button type="button" class="btn-close" id="preview-close"></button>
+          </div>
+          <div class="gsat-overlay-body" id="preview-body"></div>
+          <div class="gsat-overlay-foot">
+            <button type="button" class="btn btn-outline-secondary" id="preview-back">Back to Edit</button>
+            <button type="button" class="btn btn-success" id="preview-final">Final Save &amp; Submit to SAM</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ------------------------- return-to-SAS reason ------------------------- -->
+      <div class="gsat-overlay" id="return-overlay" hidden>
+        <div class="gsat-overlay-card" style="max-width:560px">
+          <div class="gsat-overlay-head">
+            <div>
+              <div class="fw-bold fs-5">Return to SAS</div>
+              <div class="small text-secondary">
+                <span data-bind="tradeArea"></span> &nbsp;&middot;&nbsp; <span data-bind="siteCode"></span>
+              </div>
+            </div>
+            <button type="button" class="btn-close" id="return-close"></button>
+          </div>
+          <div class="gsat-overlay-body">
+            <label class="fw-semibold mt-3 mb-1" for="return-reason">
+              Reason for returning <span class="text-danger">*</span>
+            </label>
+            <textarea class="form-control" id="return-reason" rows="4"
+              placeholder="Tell the SAS what needs to be corrected or completed."></textarea>
+            <div class="gsat-note">The reason is sent back to the SAS with the assessment.</div>
+          </div>
+          <div class="gsat-overlay-foot">
+            <button type="button" class="btn btn-outline-secondary" id="return-cancel">Cancel</button>
+            <button type="button" class="btn btn-danger" id="return-confirm">Return to SAS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-preview-head">
+        <div class="gsat-preview-head" data-bind="label"></div>
+      </template>
+
+      <template id="tpl-preview-row">
+        <div class="gsat-preview-row">
+          <div data-bind="label"></div>
+          <div class="val" data-bind="value"></div>
+        </div>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/site-details.js"></script>
+</body>
+</html>

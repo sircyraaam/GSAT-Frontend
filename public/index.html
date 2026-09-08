@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'Login' });</script>
+</head>
+<body data-page="login">
+
+<div class="gsat-login-page">
+  <div class="gsat-login-card">
+    <img src="../assets/images/site-acquisition-logo.webp" alt="Site Acquisition" class="gsat-logo">
+    <div class="gsat-login-title">Site Acquisition</div>
+
+    <div class="mb-3 text-start">
+      <input type="text" id="login-username" class="form-control" placeholder="Username" autocomplete="username">
+    </div>
+    <div class="mb-3 text-start">
+      <input type="password" id="login-password" class="form-control" placeholder="Password" autocomplete="current-password">
+    </div>
+
+    <div class="text-start mb-2">
+      <div class="gsat-kpi-label mb-2">LOG IN AS</div>
+      <div id="role-picker">
+        <button type="button" class="btn btn-outline-secondary gsat-role-btn active" data-role="SAS">SAS</button>
+        <button type="button" class="btn btn-outline-secondary gsat-role-btn" data-role="Admin">Admin</button>
+        <button type="button" class="btn btn-outline-secondary gsat-role-btn" data-role="SAM">SAM</button>
+        <button type="button" class="btn btn-outline-secondary gsat-role-btn" data-role="PM">PM</button>
+        <button type="button" class="btn btn-outline-secondary gsat-role-btn" data-role="REM">REM</button>
+        <button type="button" class="btn btn-outline-secondary gsat-role-btn" data-role="FMS">FMS</button>
+      </div>
+    </div>
+
+    <div id="login-error" class="text-danger small text-start mb-2" hidden></div>
+
+    <button type="button" id="login-btn" class="btn btn-gsat w-100 py-2">Login</button>
+    <div class="text-secondary small mt-3">No Account? Ask assistance to the IT team.</div>
+  </div>
+
+  <div class="gsat-login-foot">
+    &copy; 2025 - Site Acquisition<br>
+    Demo login: mcmena / gsat
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/login.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'My Profile' });</script>
+</head>
+<body data-page="my-profile" data-crumb="My Profile">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <div>
+          <h1 class="gsat-page-title">My Profile</h1>
+          <div class="gsat-page-sub">
+            Your own record. Your name and email are yours to correct; your profile,
+            your status and your code belong to an administrator.
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="button" id="btn-save" class="btn btn-gsat px-4">Save</button>
+          <a href="dashboard.html" class="btn btn-outline-secondary" id="btn-return">Return</a>
+        </div>
+      </div>
+
+      <!-- shown instead of everything below when the signed-in role has no
+           directory record — see my-profile.js -->
+      <div class="gsat-card" id="no-record" hidden><div class="gsat-card-body">
+        <div class="gsat-empty m-0">
+          No directory record is linked to this session, so there is nothing to show here.
+          An administrator can create one under User Management.
+        </div>
+      </div></div>
+
+      <div id="profile-body">
+        <div class="row g-3 gsat-profile-layout">
+          <div class="col-12 col-lg-7">
+            <section class="gsat-card gsat-profile-card h-100">
+              <div class="gsat-profile-card-head">
+                <div class="gsat-profile-head-icon"><i class="bi bi-person"></i></div>
+                <div>
+                  <h2 class="gsat-profile-card-title">Personal details</h2>
+                  <p>Your name and email identify work you create or approve.</p>
+                </div>
+              </div>
+              <div class="gsat-card-body">
+                <div class="row g-3">
+                  <div class="col-12 col-sm-8">
+                    <label class="gsat-form-label d-block mb-2" for="inp-first">First Name</label>
+                    <input type="text" id="inp-first" class="form-control" maxlength="40" autocomplete="off">
+                  </div>
+                  <div class="col-12 col-sm-4">
+                    <label class="gsat-form-label d-block mb-2" for="inp-mi">Middle Initial</label>
+                    <input type="text" id="inp-mi" class="form-control" maxlength="4" autocomplete="off">
+                  </div>
+                  <div class="col-12">
+                    <label class="gsat-form-label d-block mb-2" for="inp-last">Last Name</label>
+                    <input type="text" id="inp-last" class="form-control" maxlength="40" autocomplete="off">
+                  </div>
+                  <div class="col-12">
+                    <label class="gsat-form-label d-block mb-2" for="inp-email">Email Address</label>
+                    <input type="email" id="inp-email" class="form-control" maxlength="80" autocomplete="off">
+                  </div>
+                </div>
+                <div class="gsat-profile-note"><i class="bi bi-info-circle"></i> Changes are recorded in the audit trail.</div>
+              </div>
+            </section>
+          </div>
+
+          <div class="col-12 col-lg-5">
+            <section class="gsat-card gsat-profile-card h-100">
+              <div class="gsat-profile-card-head">
+                <div class="gsat-profile-head-icon muted"><i class="bi bi-shield-lock"></i></div>
+                <div>
+                  <h2 class="gsat-profile-card-title">Account access</h2>
+                  <p>These details are maintained by an administrator.</p>
+                </div>
+              </div>
+              <div class="gsat-card-body">
+                <div class="row g-3">
+                  <div class="col-6">
+                    <label class="gsat-form-label d-block mb-2">User Code</label>
+                    <div class="gsat-locked-field"><input type="text" class="form-control gsat-locked" data-bind="userCode" readonly><i class="bi bi-lock-fill"></i></div>
+                  </div>
+                  <div class="col-6">
+                    <label class="gsat-form-label d-block mb-2">Status</label>
+                    <div class="gsat-locked-field"><input type="text" class="form-control gsat-locked" data-bind="status" readonly><i class="bi bi-lock-fill"></i></div>
+                  </div>
+                  <div class="col-12">
+                    <label class="gsat-form-label d-block mb-2">Profile</label>
+                    <div class="gsat-locked-field"><input type="text" class="form-control gsat-locked" data-bind="profile" readonly><i class="bi bi-lock-fill"></i></div>
+                  </div>
+                  <div class="col-12">
+                    <label class="gsat-form-label d-block mb-2">Territory</label>
+                    <div class="gsat-locked-field"><input type="text" class="form-control gsat-locked" data-bind="territory" placeholder="—" readonly><i class="bi bi-lock-fill"></i></div>
+                  </div>
+                </div>
+                <div class="gsat-profile-audit">
+                  <div><span>Date Created</span><strong data-bind="createdDate">—</strong></div>
+                  <div><span>Last Modified</span><strong data-bind="modifiedDate">—</strong></div>
+                  <div><span>Modified By</span><strong data-bind="modifiedBy">—</strong></div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <div class="gsat-note mt-3">
+          Sign-in credentials are not managed here &mdash; this demo signs in with one fixed
+          username and the role picked on the login card.
+        </div>
+      </div>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/my-profile.js"></script>
+</body>
+</html>

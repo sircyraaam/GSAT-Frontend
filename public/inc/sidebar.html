@@ -1,0 +1,67 @@
+<!-- Shared sidebar. Every module is written out here; app.js removes the ones
+     the signed-in role may not see and marks the entry for the current page. -->
+<aside class="gsat-aside" id="gsat-aside">
+  <div class="gsat-brand">
+    <img src="../assets/images/site-acquisition-logo.webp" alt="" class="gsat-brand-logo">
+    <span class="gsat-brand-full">SITE ACQUISITION</span>
+  </div>
+
+  <div class="gsat-modules-label">Modules</div>
+
+  <a href="dashboard.html" class="gsat-nav" data-nav="dashboard" data-roles="SAS Admin SAM REM">
+    <i class="bi bi-grid-1x2 gsat-nav-icon"></i>
+    <span class="gsat-nav-label">Dashboard</span>
+  </a>
+
+  <a href="site-creation.html" class="gsat-nav" data-nav="site-creation" data-roles="SAS">
+    <i class="bi bi-geo-alt gsat-nav-icon"></i>
+    <span class="gsat-nav-label">Site Creation</span>
+  </a>
+
+  <div class="gsat-nav gsat-nav-group" data-group-toggle="assign" data-roles="Admin">
+    <i class="bi bi-diagram-3 gsat-nav-icon"></i>
+    <span class="gsat-nav-label">Site Assignment</span>
+    <i class="bi bi-chevron-right gsat-caret"></i>
+  </div>
+  <div class="gsat-subgroup" data-group="assign" data-roles="Admin" hidden>
+    <a href="sas-assignment.html" class="gsat-subnav" data-nav="sas-assignment">SAS Assignment</a>
+    <a href="sam-assignment.html" class="gsat-subnav" data-nav="sam-assignment">SAM / REM Assignment</a>
+  </div>
+
+  <div class="gsat-nav gsat-nav-group" data-group-toggle="assess" data-roles="SAS SAM PM REM FMS">
+    <i class="bi bi-clipboard-check gsat-nav-icon"></i>
+    <span class="gsat-nav-label">Site Assessment</span>
+    <i class="bi bi-chevron-right gsat-caret"></i>
+  </div>
+  <div class="gsat-subgroup" data-group="assess" data-roles="SAS SAM PM REM FMS">
+    <a href="site-assessment.html" class="gsat-subnav" data-nav="site-assessment">Site and Lessor Transactions</a>
+  </div>
+
+  <div class="gsat-nav gsat-nav-group" data-group-toggle="report" data-roles="Admin SAM REM FMS">
+    <i class="bi bi-bar-chart-line gsat-nav-icon"></i>
+    <span class="gsat-nav-label">Reports</span>
+    <i class="bi bi-chevron-right gsat-caret"></i>
+  </div>
+  <div class="gsat-subgroup" data-group="report" data-roles="Admin SAM REM FMS" hidden>
+    <a href="site-assessment.html" class="gsat-subnav" data-nav="site-assessment"
+       data-roles="Admin">Site and Lessor Transactions</a>
+    <a href="report-audit-trail.html" class="gsat-subnav" data-nav="report-audit-trail"
+       data-roles="Admin">Audit Trail Report</a>
+  </div>
+
+  <div class="gsat-nav gsat-nav-group" data-group-toggle="users" data-roles="Admin">
+    <i class="bi bi-people gsat-nav-icon"></i>
+    <span class="gsat-nav-label">User Management</span>
+    <i class="bi bi-chevron-right gsat-caret"></i>
+  </div>
+  <div class="gsat-subgroup" data-group="users" data-roles="Admin" hidden>
+    <a href="user-list.html" class="gsat-subnav" data-nav="user-list">User List</a>
+    <a href="user-creation.html" class="gsat-subnav" data-nav="user-creation">User Creation</a>
+    <a href="profiles.html" class="gsat-subnav" data-nav="profiles">Profiles</a>
+  </div>
+
+  <!-- <div class="gsat-aside-note">Modules shown per access rights.</div> -->
+</aside>
+
+<!-- Dims the page behind the off-canvas sidebar on small screens; tapping it closes. -->
+<div class="gsat-scrim" id="gsat-scrim" hidden></div>

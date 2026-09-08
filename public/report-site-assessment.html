@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'Site and Lessor Transaction Module' });</script>
+  <script>window.location.replace('site-assessment.html');</script>
+</head>
+<body data-page="report-site-assessment" data-crumb="Reports / Site and Lessor Transaction" data-allow="Admin SAM REM FMS" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="mb-3">
+        <h1 class="gsat-page-title">Site and Lessor Transaction Module</h1>
+        <div class="gsat-page-sub" data-roles="Admin">
+          All sites created by Site Acquisition Specialists, all territories.
+        </div>
+        <div class="gsat-page-sub" data-roles="SAM">
+          All sites created by the specialists under <span data-bind="userName"></span>, <span data-bind="samTerritory"></span>.
+          A site you have approved is closed out here &mdash; Completed or Fall-Out.
+        </div>
+        <div class="gsat-page-sub" data-roles="REM">
+          All sites in <span data-bind="remRegion"></span> &mdash; <span data-bind="remScope"></span>.
+          You may set the Franchisee Name on the approved Franchise-Owned ones,
+          and close an approved site out as Completed or Fall-Out.
+        </div>
+        <div class="gsat-page-sub" data-roles="FMS">
+          All sites, all territories, view only. The Franchisee Name is the one field you may set,
+          and only on an approved Franchise-Owned site.
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-6 col-lg-3"><div class="gsat-kpi">
+          <div class="gsat-kpi-label">TOTAL SITES</div>
+          <div class="gsat-kpi-value" data-bind="kpiTotal">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi">
+          <div class="gsat-kpi-label">ONGOING</div>
+          <div class="gsat-kpi-value" data-bind="kpiOngoing">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi">
+          <div class="gsat-kpi-label">FOR APPROVAL</div>
+          <div class="gsat-kpi-value" data-bind="kpiForApproval">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi">
+          <div class="gsat-kpi-label">COMPLETED</div>
+          <div class="gsat-kpi-value" data-bind="kpiCompleted">0</div>
+        </div></div>
+      </div>
+
+      <div class="gsat-card mb-3"><div class="gsat-card-body">
+        <div class="gsat-filters">
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-sas">SITE ACQUISITION SPECIALIST</label>
+            <select id="f-sas" class="form-select form-select-sm"></select>
+          </div>
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-status">STATUS</label>
+            <select id="f-status" class="form-select form-select-sm">
+              <option value="">All statuses</option>
+              <option>Pending</option>
+              <option>Ongoing</option>
+              <option>For SAM Approval</option>
+              <option>Approved</option>
+              <option>Completed</option>
+              <option>Fall-Out</option>
+            </select>
+          </div>
+          <div class="gsat-filter wide">
+            <label class="gsat-kpi-label form-label" for="f-q">SEARCH</label>
+            <input type="text" id="f-q" class="form-control form-control-sm" placeholder="Code, trade area, city">
+          </div>
+        </div>
+      </div></div>
+
+      <div class="gsat-card"><div class="gsat-card-body p-0">
+        <div class="table-responsive" id="rows-wrap">
+          <table class="gsat-table">
+            <thead>
+              <tr>
+                <th>Site Code</th>
+                <th>Trade Area</th>
+                <th>City</th>
+                <th>Territory</th>
+                <th>SAM Assigned</th>
+                <th>Created by SAS</th>
+                <th>Franchisee</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="rows-body"></tbody>
+          </table>
+        </div>
+        <div class="gsat-empty m-3" id="rows-empty" hidden>No sites match these filters.</div>
+      </div></div>
+
+      <div class="gsat-note mt-3" data-bind="summary"></div>
+
+      <!-- ---------------------- close-out: Completed / Fall-Out ----------------------
+           Offered on an Approved site and on nothing else. The choice is final, so
+           it is made in a dialog rather than in the row, and a Fall-Out has to be
+           explained before it can be saved. -->
+      <div class="gsat-overlay" id="status-overlay" hidden>
+        <div class="gsat-overlay-card" style="max-width:560px">
+          <div class="gsat-overlay-head">
+            <div>
+              <div class="fw-bold fs-5">Update Status</div>
+              <div class="small text-secondary" id="status-site"></div>
+            </div>
+            <button type="button" class="btn-close" id="status-close"></button>
+          </div>
+          <div class="gsat-overlay-body">
+            <div class="fw-semibold mt-3 mb-2">
+              How did this site end? <span class="text-danger">*</span>
+            </div>
+
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="status-outcome"
+                     id="status-completed" value="Completed" checked>
+              <label class="form-check-label" for="status-completed">
+                <span class="fw-semibold">Completed</span>
+                <span class="d-block small text-secondary">The site pushed through.</span>
+              </label>
+            </div>
+
+            <div class="form-check mt-2">
+              <input class="form-check-input" type="radio" name="status-outcome"
+                     id="status-fallout" value="Fall-Out">
+              <label class="form-check-label" for="status-fallout">
+                <span class="fw-semibold">Fall-Out</span>
+                <span class="d-block small text-secondary">The site did not push through.</span>
+              </label>
+            </div>
+
+            <div id="status-reason-wrap" hidden>
+              <label class="fw-semibold mt-3 mb-1" for="status-reason">
+                Reason for the fall-out <span class="text-danger">*</span>
+              </label>
+              <textarea class="form-control" id="status-reason" rows="4"
+                placeholder="Why did this site not push through?"></textarea>
+            </div>
+
+            <div class="gsat-note">
+              Both statuses are final &mdash; the status cannot be updated again from here.
+              Nothing is removed either way: the site, its assessment, checklist and
+              scorecard stay on the report and stay readable.
+            </div>
+          </div>
+          <div class="gsat-overlay-foot">
+            <button type="button" class="btn btn-outline-secondary" id="status-cancel">Cancel</button>
+            <button type="button" class="btn btn-gsat" id="status-confirm">Update status</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-assessment-row">
+        <tr>
+          <td class="fw-semibold" data-label="Site Code" data-bind="code"></td>
+          <td data-label="Trade Area" data-bind="tradeArea"></td>
+          <td data-label="City" data-bind="city"></td>
+          <td data-label="Territory">
+            <div data-bind="territory"></div>
+            <div class="small text-secondary" data-bind="subTerritory"></div>
+          </td>
+          <td class="cell-sam" data-label="SAM Assigned" data-bind="sam"></td>
+          <td data-label="Created by SAS" data-bind="sas"></td>
+          <td class="cell-franchisee" data-label="Franchisee" data-bind="franchisee"></td>
+          <td data-label="Status">
+            <span class="gsat-chip"></span>
+            <!-- a closed site keeps saying how it closed; only Fall-Out fills this -->
+            <div class="small text-secondary cell-outcome" hidden></div>
+          </td>
+          <td class="js-actions" data-label="Actions">
+            <button type="button" class="btn btn-sm btn-gsat row-view" data-action-label="View Details">
+              <i class="bi bi-eye me-1"></i>View Details
+            </button>
+            <!-- REM / FMS only; the page script drops it for every other role -->
+            <button type="button" class="btn btn-sm btn-outline-gsat row-franchisee" data-action-label="Add Franchise Name" hidden>
+              <i class="bi bi-person-badge me-1"></i>Add Franchise Name
+            </button>
+            <!-- SAM / REM only; the page script drops it for every other role -->
+            <button type="button" class="btn btn-sm btn-outline-gsat row-status" data-action-label="Update Status" hidden>
+              <i class="bi bi-flag me-1"></i>Update Status
+            </button>
+          </td>
+        </tr>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/report-site-assessment.js"></script>
+</body>
+</html>

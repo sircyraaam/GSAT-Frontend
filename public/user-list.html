@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'User List' });</script>
+</head>
+<body data-page="user-list" data-crumb="User Management / User List" data-allow="Admin" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <div>
+          <h1 class="gsat-page-title">User List</h1>
+          <div class="gsat-page-sub">
+            Everyone who holds an account, and the profile each one signs in under.
+          </div>
+        </div>
+        <a href="user-creation.html" class="btn btn-gsat gsat-btn-new">
+          <i class="bi bi-plus-lg"></i><span class="gsat-btn-new-label">New</span>
+        </a>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-6 col-lg-3"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">TOTAL USERS</div>
+          <div class="gsat-kpi-value" data-bind="kpiTotal">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">ACTIVE</div>
+          <div class="gsat-kpi-value" data-bind="kpiActive">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">INACTIVE</div>
+          <div class="gsat-kpi-value" data-bind="kpiInactive">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">PROFILES IN USE</div>
+          <div class="gsat-kpi-value" data-bind="kpiProfiles">0</div>
+        </div></div>
+      </div>
+
+      <div class="gsat-card mb-3"><div class="gsat-card-body">
+        <div class="gsat-filters">
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-profile">PROFILE</label>
+            <select id="f-profile" class="form-select form-select-sm"></select>
+          </div>
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-status">STATUS</label>
+            <select id="f-status" class="form-select form-select-sm" data-no-search>
+              <option value="">All statuses</option>
+              <option>Active</option>
+              <option>Inactive</option>
+            </select>
+          </div>
+          <div class="gsat-filter wide">
+            <label class="gsat-kpi-label form-label" for="f-q">SEARCH</label>
+            <input type="text" id="f-q" class="form-control form-control-sm" placeholder="Code, name, email">
+          </div>
+          <div class="gsat-filter" style="flex: 0 1 120px;">
+            <label class="gsat-kpi-label form-label" for="f-size">SHOW</label>
+            <select id="f-size" class="form-select form-select-sm" data-no-search>
+              <option>10</option>
+              <option>25</option>
+              <option>50</option>
+              <option value="0">All</option>
+            </select>
+          </div>
+          <button type="button" id="f-clear" class="btn btn-sm btn-outline-secondary">Clear filters</button>
+        </div>
+      </div></div>
+
+      <div class="gsat-card"><div class="gsat-card-body p-0">
+        <div class="table-responsive" id="rows-wrap">
+          <table class="gsat-table">
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Profile</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="rows-body"></tbody>
+          </table>
+        </div>
+        <div class="gsat-empty m-3" id="rows-empty" hidden>No users match these filters.</div>
+      </div></div>
+
+      <div class="gsat-pager">
+        <div class="gsat-pager-info" data-bind="summary"></div>
+        <div class="gsat-pager-controls" id="pager" hidden>
+          <button type="button" class="gsat-page" id="pg-prev">Previous</button>
+          <span id="pg-numbers" class="d-inline-flex gap-1"></span>
+          <button type="button" class="gsat-page" id="pg-next">Next</button>
+        </div>
+      </div>
+
+      <div class="gsat-note mt-2">
+        The pencil opens the record. A user is never deleted &mdash; deactivate them on the
+        form instead, which keeps their name on everything they already touched.
+      </div>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-user-row">
+        <tr>
+          <td class="fw-semibold" data-label="Code" data-bind="code"></td>
+          <td data-label="Full Name" data-bind="name"></td>
+          <td data-label="Email" data-bind="email"></td>
+          <td data-label="Profile" data-bind="profile"></td>
+          <td data-label="Status"><span class="gsat-chip"></span></td>
+          <td class="js-actions" data-label="Actions">
+            <button type="button" class="gsat-icon-btn solid row-edit" data-action-label="Edit"
+                    title="Open this user record">
+              <i class="bi bi-pencil-square"></i>
+            </button>
+          </td>
+        </tr>
+      </template>
+
+      <template id="tpl-page-btn">
+        <button type="button" class="gsat-page"></button>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/user-list.js"></script>
+</body>
+</html>

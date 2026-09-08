@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'SAM / REM Assignment' });</script>
+</head>
+<body data-page="sam-assignment" data-crumb="Site Assignment / SAM / REM Assignment" data-allow="Admin" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="mb-3">
+        <h1 class="gsat-page-title">SAM / REM Assignment</h1>
+        <div class="gsat-page-sub">
+          Choose a manager, then move sub-territories under them. One manager per
+          sub-territory and the change applies to every area under it.
+        </div>
+      </div>
+
+      <div class="row g-3">
+
+        <!-- managers -->
+        <div class="col-lg-4"><div class="gsat-panel h-100">
+          <div class="gsat-panel-head">
+            <div class="fw-bold mb-2">Managers</div>
+            <input type="text" id="sam-filter" class="form-control form-control-sm" placeholder="Filter managers">
+          </div>
+          <div class="gsat-panel-body" id="manager-list"></div>
+        </div></div>
+
+        <!-- sub-territories already under the selected manager -->
+        <div class="col-lg-4"><div class="gsat-panel h-100">
+          <div class="gsat-panel-head">
+            <div class="fw-bold" data-bind="selectedSam"></div>
+            <div class="small text-secondary" data-bind="subCount"></div>
+          </div>
+          <div class="gsat-panel-body">
+            <div id="mine-list"></div>
+            <div class="p-3 small text-secondary" id="mine-empty" hidden>No sub-territory under this manager yet.</div>
+          </div>
+        </div></div>
+
+        <!-- every sub-territory, to move one across -->
+        <div class="col-lg-4"><div class="gsat-panel h-100">
+          <div class="gsat-panel-head">
+            <div class="fw-bold">Move a sub-territory</div>
+            <div class="small text-secondary mb-2">Assign it to the selected manager.</div>
+            <input type="text" id="sub-search" class="form-control form-control-sm" placeholder="Search sub-territory or territory">
+          </div>
+          <div class="gsat-panel-body">
+            <div id="pool-list"></div>
+            <div class="p-3 small text-secondary" id="pool-empty" hidden>No sub-territory matches that search.</div>
+          </div>
+        </div></div>
+
+      </div>
+
+      <div class="gsat-note mt-3" data-bind="summary"></div>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-manager-row">
+        <div class="gsat-person-row">
+          <div class="flex-fill min-w-0">
+            <div class="small" data-bind="name"></div>
+            <div class="small text-secondary" data-bind="scope"></div>
+          </div>
+          <span class="gsat-count-pill" data-bind="count"></span>
+        </div>
+      </template>
+
+      <template id="tpl-mine-row">
+        <div class="gsat-person-row" style="cursor:default">
+          <div class="flex-fill min-w-0">
+            <div class="small" data-bind="subTerritory"></div>
+            <div class="small text-secondary" data-bind="where"></div>
+          </div>
+          <span class="gsat-chip gsat-chip-moved" hidden>Moved</span>
+          <button type="button" class="btn btn-sm btn-outline-danger sub-remove"
+                  title="Remove from this manager">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </template>
+
+      <template id="tpl-pool-row">
+        <div class="gsat-person-row" style="cursor:default">
+          <div class="flex-fill min-w-0">
+            <div class="small" data-bind="subTerritory"></div>
+            <div class="small text-secondary" data-bind="owner"></div>
+          </div>
+          <button type="button" class="btn btn-sm btn-success sub-assign">Assign</button>
+          <button type="button" class="btn btn-sm btn-light sub-assigned" disabled hidden>Assigned</button>
+        </div>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/sam-assignment.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'User Information' });</script>
+</head>
+<body data-page="user-creation" data-crumb="User Management / User Information" data-allow="Admin" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <div>
+          <h1 class="gsat-page-title">User Information</h1>
+          <div class="gsat-page-sub" data-mode="new">
+            A new account. The user code is issued on save.
+          </div>
+          <div class="gsat-page-sub" data-mode="edit" hidden>
+            Editing <span class="fw-semibold" data-bind="heading"></span>.
+            The user code and the created stamps are fixed for the life of the record.
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="button" id="btn-save" class="btn btn-gsat px-4">Save</button>
+          <a href="user-list.html" class="btn btn-outline-secondary">Return</a>
+        </div>
+      </div>
+
+      <div class="gsat-card"><div class="gsat-card-body">
+        <div class="gsat-form-grid">
+
+          <label class="gsat-form-label" for="inp-first">First Name:</label>
+          <div><input type="text" id="inp-first" class="form-control" maxlength="40" autocomplete="off"></div>
+
+          <label class="gsat-form-label" for="inp-mi">MI:</label>
+          <div><input type="text" id="inp-mi" class="form-control" maxlength="4" autocomplete="off"></div>
+
+          <label class="gsat-form-label" for="inp-last">Last Name:</label>
+          <div><input type="text" id="inp-last" class="form-control" maxlength="40" autocomplete="off"></div>
+
+          <label class="gsat-form-label">Active?:</label>
+          <div>
+            <span class="gsat-check on" id="chk-active"><span class="box"></span>Account is active</span>
+            <div class="gsat-note" id="active-note" hidden>
+              An inactive account keeps every record it is named on; it just cannot be used to sign in.
+            </div>
+          </div>
+
+          <hr class="gsat-form-rule">
+
+          <label class="gsat-form-label">User ID:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="userId" value="0" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <label class="gsat-form-label">User Code:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="userCode"
+                     placeholder="Auto-generated on save" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <label class="gsat-form-label" for="sel-profile">Profile:</label>
+          <div><select id="sel-profile" class="form-select"></select></div>
+
+          <label class="gsat-form-label" for="inp-email">Email:</label>
+          <div><input type="email" id="inp-email" class="form-control" maxlength="80" autocomplete="off"></div>
+
+          <div class="gsat-note span-all">
+            The profile decides which modules this account sees. Only active profiles are offered
+            &mdash; manage the list under <a href="profiles.html">Profiles</a>.
+          </div>
+
+          <hr class="gsat-form-rule">
+
+          <label class="gsat-form-label">Date Created:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="createdDate" placeholder="—" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <label class="gsat-form-label">Time Created:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="createdTime" placeholder="—" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <label class="gsat-form-label">Deactivation Date:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="deactivatedDate" placeholder="—" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <label class="gsat-form-label">Deactivated By:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="deactivatedBy" placeholder="—" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <label class="gsat-form-label">Modified Date:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="modifiedDate" placeholder="—" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <label class="gsat-form-label">Modified By:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="modifiedBy" placeholder="—" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <div class="gsat-note span-all">
+            These six are written by the system on save. They are what the Audit Trail Report reads back.
+          </div>
+        </div>
+      </div></div>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/user-creation.js"></script>
+</body>
+</html>

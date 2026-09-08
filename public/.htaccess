@@ -1,0 +1,14 @@
+# ============================================================
+# GSAT-FE — Apache config (public/)
+#
+# index.html is the login page, so /public/ lands there.
+#
+# Do NOT block inc/ here. Those partials are not includes that run
+# on the server — every page fetches them over HTTP with
+# GSATInclude(), so they have to stay publicly readable or the
+# sidebar, topbar and stylesheets never load.
+# ============================================================
+
+DirectoryIndex index.html
+
+Options -Indexes

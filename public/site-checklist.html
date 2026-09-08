@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'Site Technical Checklist' });</script>
+</head>
+<body data-page="site-checklist" data-crumb="Site Technical Checklist" data-allow="SAS SAM PM" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <h1 class="gsat-page-title">Site Technical Checklist</h1>
+        <a href="site-assessment.html" class="btn btn-outline-secondary">Return</a>
+      </div>
+
+      <div class="gsat-card"><div class="gsat-card-body">
+
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Trade Area Name:</label>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="tradeArea" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Site Code:</label>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="siteCode" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="gsat-tabs mb-3">
+          <div class="gsat-tab active" data-tab="Site Development - Exterior">Site Development - Exterior</div>
+          <div class="gsat-tab" data-tab="Interior">Interior</div>
+          <div class="gsat-tab" data-tab="Electrical">Electrical</div>
+          <div class="gsat-tab" data-tab="Plumbing Fixtures/Works">Plumbing Fixtures/Works</div>
+          <div class="gsat-tab" data-tab="Others">Others</div>
+        </div>
+
+        <!-- ------------- Site Development - Exterior ------------- -->
+        <section data-pane="Site Development - Exterior">
+          <div class="gsat-cl-section">A. Setback</div>
+          <div class="gsat-cl-row" data-key="Site Development - Exterior|1">
+            <div class="cl-label">With future road widening:</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Site Development - Exterior|2">
+            <div class="cl-label fw-bold">B. Frontage</div>
+            <div class="d-flex align-items-center gap-3">
+              <input type="text" class="form-control form-control-sm cl-text">
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Site Development - Exterior|3">
+            <div class="cl-label fw-bold">C. With Ramp</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Site Development - Exterior|4">
+            <div class="cl-label fw-bold">D. Stairs</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-section">E. Bldg. Condition</div>
+          <div class="gsat-cl-row" data-key="Site Development - Exterior|6">
+            <div class="cl-label">Old Structure</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Site Development - Exterior|7">
+            <div class="cl-label">New or Good Condition</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Site Development - Exterior|8">
+            <div class="cl-label fw-bold">F. Elec. Meter Center</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Site Development - Exterior|9">
+            <div class="cl-label fw-bold">G. Water Meter</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Site Development - Exterior|10">
+            <div class="cl-label fw-bold">H. Parking Space</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Site Development - Exterior|11">
+            <div class="cl-label fw-bold">I. With Metal Roll Up Door</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+        </section>
+
+        <!-- ------------------------- Interior ------------------------- -->
+        <section data-pane="Interior" hidden>
+          <div class="gsat-cl-section">A. Floor Tiles</div>
+          <div class="gsat-cl-row" data-key="Interior|1">
+            <div class="cl-label">White</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Interior|2">
+            <div class="cl-label">Colored/Printed</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Interior|3">
+            <div class="cl-label fw-bold">B. Ceiling Height</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-section">C. Glass</div>
+          <div class="gsat-cl-row" data-key="Interior|5">
+            <div class="cl-label">Glass panels(entrance/front elev.)</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+        </section>
+
+        <!-- ------------------------ Electrical ------------------------ -->
+        <section data-pane="Electrical" hidden>
+          <div class="gsat-cl-row" data-key="Electrical|0">
+            <div class="cl-label fw-bold">A. With Electrical Panel board</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Electrical|1">
+            <div class="cl-label fw-bold">B. Permanent/Temporary power</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Electrical|2">
+            <div class="cl-label fw-bold">C. With Telephone Line</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+        </section>
+
+        <!-- ----------------- Plumbing Fixtures/Works ----------------- -->
+        <section data-pane="Plumbing Fixtures/Works" hidden>
+          <div class="gsat-cl-row" data-key="Plumbing Fixtures/Works|0">
+            <div class="cl-label fw-bold">A. With CR</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Plumbing Fixtures/Works|1">
+            <div class="cl-label fw-bold">B. Handsink</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-section">C. Plumbing</div>
+          <div class="gsat-cl-row" data-key="Plumbing Fixtures/Works|3">
+            <div class="cl-label">Sewer Line</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Plumbing Fixtures/Works|4">
+            <div class="cl-label">Septic Tank</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+        </section>
+
+        <!-- -------------------------- Others -------------------------- -->
+        <section data-pane="Others" hidden>
+          <div class="gsat-cl-section">A. Roofing</div>
+          <div class="gsat-cl-row" data-key="Others|1">
+            <div class="cl-label">Good Condition</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Others|2">
+            <div class="cl-label">Needs Refurbishing</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Others|3">
+            <div class="cl-label fw-bold">B. With Canopy</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Others|4">
+            <div class="cl-label fw-bold">C. With Signage post</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-row" data-key="Others|5">
+            <div class="cl-label fw-bold">D. With Internet Provider</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+
+          <div class="gsat-cl-section">E. Total Floor Area</div>
+          <div class="gsat-cl-row" data-key="Others|7">
+            <div class="cl-label">15 square meters</div>
+            <div class="d-flex align-items-center gap-3" data-radio-group>
+              <span class="gsat-radio" data-val="Yes"><span class="dot"></span>Yes</span>
+              <span class="gsat-radio" data-val="No"><span class="dot"></span>No</span>
+            </div>
+            <div class="small text-secondary">Remarks:</div>
+            <input type="text" class="form-control form-control-sm gsat-soft cl-remarks">
+          </div>
+        </section>
+
+        <!-- ------------------------ action bar ------------------------ -->
+        <div class="d-flex align-items-center flex-wrap gap-2 mt-4">
+          <span class="small text-secondary">Checklist status:</span>
+          <span class="gsat-chip" id="checklist-chip"></span>
+          <span class="ms-auto"></span>
+
+          <button type="button" class="btn btn-outline-success" id="cl-draft">Save as Draft</button>
+          <button type="button" class="btn btn-outline-gsat" id="cl-preview" hidden>Preview</button>
+          <button type="button" class="btn btn-success" id="cl-final" hidden>Final Save</button>
+        </div>
+
+        <div class="text-end small text-secondary mt-2" id="cl-note" hidden>
+          <span data-note="open">Complete all items, then Final Save. The site goes to SAM once the
+            Site Assessment and the Trade and Site Scorecard are complete too.</span>
+          <span data-note="done" hidden>Checklist completed &mdash; one of the three forms this site needs.</span>
+        </div>
+
+      </div></div>
+
+      <!-- ------------------------ preview overlay ------------------------ -->
+      <div class="gsat-overlay" id="preview-overlay" hidden>
+        <div class="gsat-overlay-card">
+          <div class="gsat-overlay-head">
+            <div>
+              <div class="fw-bold fs-5">Checklist Preview</div>
+              <div class="small text-secondary">
+                <span data-bind="tradeArea"></span> &nbsp;&middot;&nbsp; <span data-bind="siteCode"></span>
+              </div>
+            </div>
+            <button type="button" class="btn-close" id="preview-close"></button>
+          </div>
+          <div class="gsat-overlay-body" id="preview-body"></div>
+          <div class="gsat-overlay-foot">
+            <button type="button" class="btn btn-outline-secondary" id="preview-back">Back to Edit</button>
+            <button type="button" class="btn btn-success" id="preview-final">Confirm Final Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-preview-head">
+        <div class="gsat-preview-head" data-bind="label"></div>
+      </template>
+
+      <template id="tpl-preview-row">
+        <div class="gsat-preview-row gsat-preview-row-3">
+          <div data-bind="label"></div>
+          <div class="val" data-bind="value"></div>
+          <div class="text-secondary small" data-bind="remarks"></div>
+        </div>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/site-checklist.js"></script>
+</body>
+</html>

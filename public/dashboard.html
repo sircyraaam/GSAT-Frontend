@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'Dashboard' });</script>
+</head>
+<body data-page="dashboard" data-crumb="Dashboard" data-allow="SAS Admin SAM REM" data-fallback="site-assessment.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <!-- ============================ SAS ============================ -->
+      <section data-roles="SAS">
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+          <h1 class="gsat-page-title">Dashboard</h1>
+          <a href="site-creation.html" class="btn btn-gsat gsat-btn-new" title="New Trade Area" aria-label="New Trade Area">
+            <i class="bi bi-plus-lg"></i><span class="gsat-btn-new-label">New Trade Area</span>
+          </a>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">TOTAL SITES</div>
+            <div class="gsat-kpi-value" data-bind="sasTotal">0</div>
+            <div class="gsat-kpi-note">This year</div>
+          </div></div>
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">PENDING</div>
+            <div class="gsat-kpi-value" data-bind="sasPending">0</div>
+            <div class="gsat-kpi-note">Awaiting assignment</div>
+          </div></div>
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">ONGOING</div>
+            <div class="gsat-kpi-value" data-bind="sasOngoing">0</div>
+            <div class="gsat-kpi-note">In assessment</div>
+          </div></div>
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">COMPLETED</div>
+            <div class="gsat-kpi-value" data-bind="sasCompleted">0</div>
+            <div class="gsat-kpi-note">Pushed through</div>
+          </div></div>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-lg-7"><div class="gsat-card h-100"><div class="gsat-card-body">
+            <div class="fw-bold">Sites created per month</div>
+            <div class="text-secondary small mb-3">Jan &ndash; Aug 2026</div>
+            <div class="gsat-vbar-wrap" id="month-bars"></div>
+            <div class="d-flex gap-2 mt-2" id="month-labels"></div>
+          </div></div></div>
+
+          <div class="col-lg-5"><div class="gsat-card h-100"><div class="gsat-card-body">
+            <div class="fw-bold">Status mix</div>
+            <div class="text-secondary small mb-3">All active records</div>
+            <div class="row align-items-center g-3">
+              <div class="col-6">
+                <div class="gsat-donut" id="status-donut">
+                  <div class="center-label">
+                    <div class="fs-4 fw-bold" data-bind="donutTotal">0</div>
+                    <div class="small text-secondary">records</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-6" id="status-legend"></div>
+            </div>
+          </div></div></div>
+        </div>
+
+        <div class="row g-3">
+          <div class="col-lg-6"><div class="gsat-card h-100"><div class="gsat-card-body">
+            <div class="fw-bold">Sites by territory</div>
+            <div class="text-secondary small mb-3">Year to date</div>
+            <div id="territory-bars"></div>
+          </div></div></div>
+
+          <div class="col-lg-6"><div class="gsat-card h-100"><div class="gsat-card-body">
+            <div class="fw-bold mb-3">Recent site records</div>
+            <div id="recent-records"></div>
+            <a href="site-assessment.html" class="d-inline-block mt-3 small">View all in Site Assessment</a>
+          </div></div></div>
+        </div>
+      </section>
+
+      <!-- =========================== ADMIN =========================== -->
+      <section data-roles="Admin">
+        <h1 class="gsat-page-title mb-3">Dashboard</h1>
+
+        <div class="row g-3 mb-3">
+          <div class="col-12 col-sm-4"><div class="gsat-kpi h-100">
+            <div class="gsat-kpi-label">UNASSIGNED SITES</div>
+            <div class="gsat-kpi-value" data-bind="admUnassigned">0</div>
+            <div class="gsat-kpi-note">Awaiting SAS assignment</div>
+          </div></div>
+          <div class="col-12 col-sm-4"><div class="gsat-kpi h-100">
+            <div class="gsat-kpi-label">ACTIVE SPECIALISTS</div>
+            <div class="gsat-kpi-value" data-bind="admSpecialists">0</div>
+            <div class="gsat-kpi-note">Across 5 territories</div>
+          </div></div>
+          <div class="col-12 col-sm-4"><div class="gsat-kpi h-100">
+            <div class="gsat-kpi-label">SAM / REM</div>
+            <div class="gsat-kpi-value" data-bind="admManagers">0</div>
+            <div class="gsat-kpi-note">One manager per territory</div>
+          </div></div>
+        </div>
+
+        <div class="gsat-card mb-3"><div class="gsat-card-body">
+          <div class="fw-bold">Unassigned sites</div>
+          <div class="text-secondary small mb-3">Assign a Site Acquisition Specialist to start the assessment.</div>
+
+          <div class="table-responsive" id="unassigned-wrap">
+            <table class="gsat-table">
+              <thead>
+                <tr>
+                  <th>Site Code</th>
+                  <th>Trade Area</th>
+                  <th style="width:220px">Assign to SAS</th>
+                  <th style="width:110px"></th>
+                </tr>
+              </thead>
+              <tbody id="unassigned-body"></tbody>
+            </table>
+          </div>
+          <div class="gsat-empty" id="unassigned-empty" hidden>All sites have an assigned specialist.</div>
+        </div></div>
+
+        <div class="row g-3">
+          <div class="col-lg-6"><div class="gsat-card h-100"><div class="gsat-card-body">
+            <div class="fw-bold">SAS workload</div>
+            <div class="text-secondary small mb-3">Open sites per specialist</div>
+            <div id="admin-load"></div>
+          </div></div></div>
+
+          <div class="col-lg-6"><div class="gsat-card h-100"><div class="gsat-card-body">
+            <div class="fw-bold">Territory coverage</div>
+            <div class="text-secondary small mb-3">Assigned SAM / REM per territory</div>
+            <div id="admin-coverage"></div>
+          </div></div></div>
+        </div>
+      </section>
+
+      <!-- ============================ SAM ============================ -->
+      <section data-roles="SAM">
+        <h1 class="gsat-page-title">Dashboard</h1>
+        <div class="gsat-page-sub mb-3">
+          Territory: <span data-bind="samTerritory"></span> &middot; <span data-bind="userName"></span>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">FOR MY APPROVAL</div>
+            <div class="gsat-kpi-value" data-bind="samQueue">0</div>
+            <div class="gsat-kpi-note">Submitted by SAS</div>
+          </div></div>
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">APPROVED BY ME</div>
+            <div class="gsat-kpi-value" data-bind="samApproved">0</div>
+            <div class="gsat-kpi-note">This session</div>
+          </div></div>
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">RETURNED TO SAS</div>
+            <div class="gsat-kpi-value" data-bind="samReturned">0</div>
+            <div class="gsat-kpi-note">Sent back for revision</div>
+          </div></div>
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">SITES IN TERRITORY</div>
+            <div class="gsat-kpi-value" data-bind="samScoped">0</div>
+            <div class="gsat-kpi-note" data-bind="samTerritory"></div>
+          </div></div>
+        </div>
+
+        <!-- The queue is the working list, so the count and the way into it sit
+             in the heading and each row is itself the link — the button used to
+             repeat on every row and every copy opened the same screen. -->
+        <div class="gsat-card mb-3"><div class="gsat-card-body">
+          <div class="gsat-card-title-row mb-3">
+            <div>
+              <div class="fw-bold">Waiting for my approval</div>
+              <div class="text-secondary small">Submitted assessments in your territory.</div>
+            </div>
+            <div class="gsat-title-actions">
+              <span class="gsat-count-pill" data-bind="samQueue">0</span>
+              <a href="site-assessment.html" class="btn btn-sm btn-gsat">
+                Open queue <i class="bi bi-arrow-right ms-1"></i>
+              </a>
+            </div>
+          </div>
+          <div class="gsat-scroll-list gsat-queue-list" id="sam-queue"></div>
+          <div class="gsat-empty sm" id="sam-queue-empty" hidden>Nothing waiting for approval.</div>
+        </div></div>
+
+        <div class="row g-3">
+          <div class="col-lg-6"><div class="gsat-card h-100"><div class="gsat-card-body">
+            <div class="gsat-card-title-row mb-3">
+              <div>
+                <div class="fw-bold">My specialists</div>
+                <div class="text-secondary small">Areas covered in your territory</div>
+              </div>
+              <span class="gsat-count-pill" data-bind="samSasCount">0</span>
+            </div>
+            <div class="gsat-scroll-list" id="sam-specialists"></div>
+            <div class="gsat-empty sm" id="sam-specialists-empty" hidden>No specialist covers your territory yet.</div>
+          </div></div></div>
+
+          <div class="col-lg-6"><div class="gsat-card h-100"><div class="gsat-card-body">
+            <div class="gsat-card-title-row mb-3">
+              <div>
+                <div class="fw-bold">My approval activity</div>
+                <div class="text-secondary small">Decisions you made on submitted assessments</div>
+              </div>
+              <span class="gsat-count-pill" data-bind="samDecisionCount">0</span>
+            </div>
+            <div class="gsat-scroll-list" id="sam-decisions"></div>
+            <div class="gsat-empty sm" id="sam-decisions-empty" hidden>No approvals or returns yet.</div>
+
+            <div class="gsat-mini-head">Status mix &middot; <span data-bind="samTerritory"></span></div>
+            <div class="gsat-stack-bar" id="sam-mix-bar"></div>
+            <div id="sam-status-mix"></div>
+          </div></div></div>
+        </div>
+      </section>
+
+      <!-- ============================ REM ============================ -->
+      <section data-roles="REM">
+        <h1 class="gsat-page-title">Dashboard</h1>
+        <div class="gsat-page-sub mb-3">
+          <span data-bind="remRegion"></span> &middot; <span data-bind="userName"></span>
+          <div class="small text-secondary" data-bind="remScope"></div>
+        </div>
+
+        <div class="row g-3 mb-3">
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">SITES IN MY REGION</div>
+            <div class="gsat-kpi-value" data-bind="remSites">0</div>
+            <div class="gsat-kpi-note" data-bind="remTerritoryCount"></div>
+          </div></div>
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">SAM UNDER ME</div>
+            <div class="gsat-kpi-value" data-bind="remSamCount">0</div>
+            <div class="gsat-kpi-note">Site Acquisition Managers</div>
+          </div></div>
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">SAS UNDER ME</div>
+            <div class="gsat-kpi-value" data-bind="remSasCount">0</div>
+            <div class="gsat-kpi-note">Site Acquisition Specialists</div>
+          </div></div>
+          <div class="col-6 col-lg-3"><div class="gsat-kpi">
+            <div class="gsat-kpi-label">NO FRANCHISEE YET</div>
+            <div class="gsat-kpi-value" data-bind="remNoFranchisee">0</div>
+            <div class="gsat-kpi-note">Approved, Franchise-Owned</div>
+          </div></div>
+        </div>
+
+        <!-- A region is several territories, so each of these lists is long
+             enough to run past the fold: the count sits in the heading and the
+             rows scroll inside the card. -->
+        <div class="gsat-card mb-3"><div class="gsat-card-body">
+          <div class="gsat-card-title-row">
+            <div>
+              <div class="fw-bold">Site Acquisition Managers in my region</div>
+              <div class="text-secondary small mb-3">One row per sub-territory, with the manager who holds it.</div>
+            </div>
+            <span class="gsat-count-pill" data-bind="remSubCount">0</span>
+          </div>
+          <div class="gsat-scroll-list tall" id="rem-managers"></div>
+          <div class="gsat-empty" id="rem-managers-empty" hidden>No sub-territory in this region has a manager.</div>
+        </div></div>
+
+        <div class="row g-3">
+          <div class="col-lg-6"><div class="gsat-card h-100"><div class="gsat-card-body">
+            <div class="gsat-card-title-row">
+              <div>
+                <div class="fw-bold">Specialists in my region</div>
+                <div class="text-secondary small mb-3">Areas covered per Site Acquisition Specialist</div>
+              </div>
+              <span class="gsat-count-pill" data-bind="remSasCount">0</span>
+            </div>
+            <div class="gsat-scroll-list" id="rem-specialists"></div>
+            <div class="gsat-empty" id="rem-specialists-empty" hidden>No specialist covers this region yet.</div>
+          </div></div></div>
+
+          <div class="col-lg-6"><div class="gsat-card h-100"><div class="gsat-card-body">
+            <div class="gsat-card-title-row">
+              <div>
+                <div class="fw-bold">Sites still without a Franchisee Name</div>
+                <div class="text-secondary small mb-3">
+                  Approved Franchise-Owned sites to fill in.
+                </div>
+              </div>
+              <span class="gsat-count-pill" data-bind="remNoFranchisee">0</span>
+            </div>
+            <div class="gsat-scroll-list" id="rem-unnamed"></div>
+            <div class="gsat-empty mb-3" id="rem-unnamed-empty" hidden>No approved Franchise-Owned site in your region is waiting for a name.</div>
+            <a href="report-site-assessment.html" class="d-inline-block mt-3 small">Open the Site Assessment Report</a>
+          </div></div></div>
+        </div>
+      </section>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-month-col">
+        <div class="gsat-vbar-col">
+          <div class="small text-secondary" data-bind="value"></div>
+          <div class="gsat-vbar"></div>
+        </div>
+      </template>
+
+      <template id="tpl-month-label">
+        <div class="flex-fill text-center small text-secondary" data-bind="label"></div>
+      </template>
+
+      <template id="tpl-legend-row">
+        <div class="gsat-legend-row">
+          <span class="legend-dot"></span>
+          <span class="gsat-list-main" data-bind="label"></span>
+          <span class="gsat-list-value" data-bind="value"></span>
+        </div>
+      </template>
+
+      <template id="tpl-bar-row">
+        <div class="gsat-bar-row">
+          <span class="bar-name" data-bind="label"></span>
+          <div class="gsat-bar-track"><div class="gsat-bar"></div></div>
+          <span class="bar-value" data-bind="value"></span>
+        </div>
+      </template>
+
+      <template id="tpl-recent-row">
+        <div class="gsat-list-row">
+          <span class="gsat-list-code" data-bind="code"></span>
+          <span class="gsat-list-main text-truncate" data-bind="tradeArea"></span>
+          <span class="gsat-chip"></span>
+        </div>
+      </template>
+
+      <template id="tpl-unassigned-row">
+        <tr>
+          <td class="fw-semibold" data-label="Site Code" data-bind="code"></td>
+          <td data-label="Trade Area">
+            <div data-bind="tradeArea"></div>
+            <div class="small text-secondary" data-bind="where"></div>
+          </td>
+          <td data-label="Assign to SAS"><select class="form-select form-select-sm assign-pick"></select></td>
+          <td class="js-actions" data-label=""><button type="button" class="btn btn-sm btn-success w-100 assign-btn" disabled>Assign</button></td>
+        </tr>
+      </template>
+
+      <template id="tpl-coverage-row">
+        <div class="gsat-list-row">
+          <span class="gsat-list-code narrow" data-bind="code"></span>
+          <span class="gsat-list-main" data-bind="manager"></span>
+          <span class="gsat-list-meta" data-bind="specialists"></span>
+        </div>
+      </template>
+
+      <!-- REM: the sub-territory is the row, the manager who holds it reads
+           underneath, and the territory / area count sits opposite. The
+           coverage row above cannot be reused — its code column is sized for
+           "NCR", not "Batangas/Quezon (BonPen)/Bicol". -->
+      <template id="tpl-rem-manager-row">
+        <div class="gsat-cov-row">
+          <div class="gsat-cov-main">
+            <div class="gsat-cov-name" data-bind="subTerritory"></div>
+            <div class="gsat-cov-sam">
+              <i class="bi bi-person"></i><span data-bind="manager"></span>
+            </div>
+          </div>
+          <div class="gsat-cov-meta">
+            <div class="gsat-cov-territory" data-bind="territory"></div>
+            <div class="gsat-cov-areas" data-bind="areas"></div>
+          </div>
+        </div>
+      </template>
+
+      <!-- SAM queue: the whole row is the link into the assessment queue, so the
+           site code, where it is and the specialist who submitted it all read as
+           one target rather than sitting beside a button. -->
+      <template id="tpl-queue-row">
+        <a class="gsat-queue-row" href="site-assessment.html">
+          <span class="gsat-queue-code" data-bind="code"></span>
+          <span class="gsat-queue-main">
+            <span class="gsat-queue-name text-truncate" data-bind="tradeArea"></span>
+            <span class="gsat-queue-where text-truncate" data-bind="where"></span>
+          </span>
+          <span class="gsat-queue-sas">
+            <i class="bi bi-person"></i><span data-bind="sas"></span>
+          </span>
+          <i class="bi bi-chevron-right gsat-queue-go"></i>
+        </a>
+      </template>
+
+      <template id="tpl-decision-row">
+        <div class="gsat-decision-row">
+          <span class="gsat-list-code" data-bind="code"></span>
+          <span class="gsat-chip"></span>
+          <span class="gsat-list-meta ms-auto" data-bind="when"></span>
+          <span class="gsat-list-meta w-100 js-reason" data-bind="reason" hidden></span>
+        </div>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/dashboard.js"></script>
+</body>
+</html>

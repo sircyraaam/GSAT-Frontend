@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'Site and Lessor Transactions' });</script>
+</head>
+<body data-page="site-assessment" data-crumb="Site and Lessor Transactions" data-allow="SAS SAM PM REM FMS Admin" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <div>
+          <h1 class="gsat-page-title" data-roles="SAS PM REM FMS Admin">Site and Lessor Transactions</h1>
+          <h1 class="gsat-page-title" data-roles="SAM">Site and Lessor Transactions</h1>
+
+          <div class="gsat-page-sub" data-roles="SAM">Assessments submitted by SAS awaiting your approval.</div>
+          <div class="gsat-page-sub" data-roles="PM">View only. You may encode the Actual Floor Area (sqm) under Commercial Terms.</div>
+        </div>
+
+        <a href="site-creation.html" class="btn btn-gsat gsat-btn-new" data-roles="SAS" title="New Trade Area" aria-label="New Trade Area">
+          <i class="bi bi-plus-lg"></i><span class="gsat-btn-new-label">New Trade Area</span>
+        </a>
+      </div>
+
+      <div class="row g-3 mb-3" id="transaction-kpis">
+        <div class="col-6 col-lg-3"><div class="gsat-kpi">
+          <div class="gsat-kpi-label">TOTAL SITES</div>
+          <div class="gsat-kpi-value" data-bind="kpiTotal">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi">
+          <div class="gsat-kpi-label">ONGOING</div>
+          <div class="gsat-kpi-value" data-bind="kpiOngoing">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi">
+          <div class="gsat-kpi-label">FOR APPROVAL</div>
+          <div class="gsat-kpi-value" data-bind="kpiForApproval">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi">
+          <div class="gsat-kpi-label">COMPLETED</div>
+          <div class="gsat-kpi-value" data-bind="kpiCompleted">0</div>
+        </div></div>
+      </div>
+
+      <div class="gsat-card mb-3" id="filter-card" hidden><div class="gsat-card-body">
+        <div class="gsat-filters">
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-sas">SITE ACQUISITION SPECIALIST</label>
+            <select id="f-sas" class="form-select form-select-sm"></select>
+          </div>
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-status">STATUS</label>
+            <select id="f-status" class="form-select form-select-sm"></select>
+          </div>
+          <div class="gsat-filter wide">
+            <label class="gsat-kpi-label form-label" for="f-q">SEARCH</label>
+            <input type="text" id="f-q" class="form-control form-control-sm"
+                   placeholder="Code, trade area, city">
+          </div>
+        </div>
+      </div></div>
+
+      <div class="gsat-card"><div class="gsat-card-body p-0">
+        <div class="table-responsive transaction-table" id="records-wrap">
+          <table class="gsat-table">
+            <thead>
+              <tr>
+                <th>Date Submitted</th>
+                <th>Site Code</th>
+                <th>Trade Area</th>
+                <th>Territory</th>
+                <th>SAM Assigned</th>
+                <th>Assigned SAS</th>
+                <th>Franchisee</th>
+                <th>Status</th>
+                <th class="transaction-actions-head">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="records-body"></tbody>
+          </table>
+        </div>
+
+        <div class="gsat-empty m-3" id="records-empty" hidden>
+          <span data-roles="SAM">No submissions waiting for approval.</span>
+          <span data-roles="SAS PM">No site records yet.</span>
+        </div>
+
+        <!-- there are records, the filters just excluded all of them -->
+        <div class="gsat-empty m-3" id="records-nomatch" hidden>
+          No site matches <b data-bind="query"></b>.
+        </div>
+
+      </div></div>
+
+      <div class="gsat-note mt-3" data-bind="summary"></div>
+
+      <!-- ------------------------- return-to-SAS reason ------------------------- -->
+      <div class="gsat-overlay" id="return-overlay" hidden>
+        <div class="gsat-overlay-card" style="max-width:560px">
+          <div class="gsat-overlay-head">
+            <div>
+              <div class="fw-bold fs-5">Return to SAS</div>
+              <div class="small text-secondary" id="return-code"></div>
+            </div>
+            <button type="button" class="btn-close" id="return-close"></button>
+          </div>
+          <div class="gsat-overlay-body">
+            <label class="fw-semibold mt-3 mb-1" for="return-reason">
+              Reason for returning <span class="text-danger">*</span>
+            </label>
+            <textarea class="form-control" id="return-reason" rows="4"
+              placeholder="Tell the SAS what needs to be corrected or completed."></textarea>
+            <div class="gsat-note">The reason is sent back to the SAS with the assessment.</div>
+          </div>
+          <div class="gsat-overlay-foot">
+            <button type="button" class="btn btn-outline-secondary" id="return-cancel">Cancel</button>
+            <button type="button" class="btn btn-danger" id="return-confirm">Return to SAS</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-record-row">
+        <tr>
+          <td data-label="Date Submitted" data-bind="submittedAt"></td>
+          <td class="fw-semibold" data-label="Site Code" data-bind="code"></td>
+          <td data-label="Trade Area">
+            <div data-bind="tradeArea"></div>
+            <div class="small text-secondary" data-bind="where"></div>
+          </td>
+          <td data-label="Status"><span class="gsat-chip"></span></td>
+          <td data-label="Territory">
+            <div data-bind="territory"></div>
+            <div class="small text-secondary" data-bind="subTerritory"></div>
+          </td>
+          <td class="cell-sam" data-label="SAM Assigned" data-bind="sam"></td>
+          <td class="cell-sas" data-label="Assigned SAS" data-bind="sas"></td>
+          <td class="cell-franchisee" data-label="Franchisee" data-bind="franchisee"></td>
+          <td class="text-nowrap js-actions" data-label="Actions"></td>
+        </tr>
+      </template>
+
+      <!-- data-action-label is what the phone layout prints beside the icon -->
+      <!-- No margin utilities on these: the gap between action buttons is set
+           once in style.css, on .js-actions. -->
+      <template id="tpl-actions-sam">
+        <button type="button" class="gsat-icon-btn solid act-open"
+                title="View assessment details" data-action-label="View">
+          <i class="bi bi-eye"></i>
+        </button>
+        <button type="button" class="gsat-icon-btn ok act-approve"
+                title="Approve assessment" data-action-label="Approve">
+          <i class="bi bi-check-lg"></i>
+        </button>
+        <button type="button" class="gsat-icon-btn danger act-return"
+                title="Return to SAS" data-action-label="Return to SAS">
+          <i class="bi bi-arrow-counterclockwise"></i>
+        </button>
+      </template>
+
+      <template id="tpl-actions-default">
+        <button type="button" class="gsat-icon-btn solid act-details"
+                title="Site Assessment" data-action-label="View Details">
+          <i class="bi bi-file-earmark-text"></i>
+        </button>
+        <button type="button" class="gsat-icon-btn act-checklist"
+                title="Site Technical Checklist" data-action-label="Checklist">
+          <i class="bi bi-card-checklist"></i>
+        </button>
+        <button type="button" class="gsat-icon-btn muted act-score"
+                title="Trade and Site Scorecard" data-action-label="Scorecard">
+          <i class="bi bi-bar-chart"></i>
+        </button>
+      </template>
+
+      <template id="tpl-actions-viewonly">
+        <button type="button" class="gsat-icon-btn solid act-details"
+                title="View assessment details" data-action-label="View Details">
+          <i class="bi bi-eye"></i>
+        </button>
+      </template>
+
+      <template id="tpl-actions-transaction">
+        <button type="button" class="gsat-icon-btn act-franchise"
+                title="Add Franchise Name" data-action-label="Franchisee">
+          <i class="bi bi-person-badge"></i>
+        </button>
+        <button type="button" class="gsat-icon-btn act-update-status"
+                title="Update Status" data-action-label="Update Status">
+          <i class="bi bi-flag"></i>
+        </button>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/site-assessment.js"></script>
+</body>
+</html>

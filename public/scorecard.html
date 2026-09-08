@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'Trade and Site Scorecard' });</script>
+</head>
+<body data-page="scorecard" data-crumb="Trade and Site Scorecard" data-allow="SAS SAM PM" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <h1 class="gsat-page-title">Trade and Site Scorecard</h1>
+        <a href="site-assessment.html" class="btn btn-outline-secondary">Return</a>
+      </div>
+
+      <div class="gsat-card mb-3"><div class="gsat-card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Site Code:</label>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="siteCode" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Trade and Site Scorecard (TS) Rating</label>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control fw-bold gsat-locked" id="ts-rating" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+        </div>
+      </div></div>
+
+      <div class="gsat-tabs mb-3">
+        <div class="gsat-tab active" data-tab="Trade Area Assessment">Trade Area Assessment</div>
+        <div class="gsat-tab" data-tab="Site Assessment">Site Assessment</div>
+        <div class="gsat-tab" data-tab="Others">Others</div>
+      </div>
+
+      <!-- ------------------ Trade Area Assessment ------------------ -->
+      <section data-pane="Trade Area Assessment">
+        <div class="table-responsive">
+          <div class="gsat-score-grid">
+
+            <!-- header -->
+            <div class="gsat-score-cell head"><span class="fw-bold">Trade Area Assessment</span></div>
+            <div class="gsat-score-cell head">Scoring</div>
+            <div class="gsat-score-cell head"></div>
+            <div class="gsat-score-cell head"></div>
+            <div class="gsat-score-cell head">Score</div>
+            <div class="gsat-score-cell head">Remarks</div>
+
+            <!-- block 0 — Traffic Generators / POI -->
+            <div class="gsat-score-cell blocktitle">Traffic Generators / POI</div>
+            <div class="gsat-score-cell band">18</div>
+            <div class="gsat-score-cell band">12</div>
+            <div class="gsat-score-cell band">8</div>
+            <div class="gsat-score-cell blocktitle"></div>
+            <div class="gsat-score-cell blocktitle"></div>
+
+            <div class="gsat-score-cell">Public Market / Commercial Area</div>
+            <div class="gsat-score-cell center">Major Market</div>
+            <div class="gsat-score-cell center">Mid Size</div>
+            <div class="gsat-score-cell center">Talipapa / Tiangge</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="0|0">
+                <option value="">Select Score</option>
+                <option>18</option><option>12</option><option>8</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="0|0">
+            </div>
+
+            <div class="gsat-score-cell">Riding Point Toda</div>
+            <div class="gsat-score-cell center">Main Terminal</div>
+            <div class="gsat-score-cell center">Small Terminal</div>
+            <div class="gsat-score-cell center">Drop off Point</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="0|1">
+                <option value="">Select Score</option>
+                <option>18</option><option>12</option><option>8</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="0|1">
+            </div>
+
+            <!-- block 1 -->
+            <div class="gsat-score-cell blocktitle"></div>
+            <div class="gsat-score-cell band">7</div>
+            <div class="gsat-score-cell band">5</div>
+            <div class="gsat-score-cell band">3</div>
+            <div class="gsat-score-cell blocktitle"></div>
+            <div class="gsat-score-cell blocktitle"></div>
+
+            <div class="gsat-score-cell">Remittance Centers / Convenience Store</div>
+            <div class="gsat-score-cell center">2 or more</div>
+            <div class="gsat-score-cell center">2</div>
+            <div class="gsat-score-cell center">1 or None</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="1|0">
+                <option value="">Select Score</option>
+                <option>7</option><option>5</option><option>3</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="1|0">
+            </div>
+
+            <div class="gsat-score-cell">Sari Sari Stores (within 300m)</div>
+            <div class="gsat-score-cell center">10 above</div>
+            <div class="gsat-score-cell center">4 to 9</div>
+            <div class="gsat-score-cell center">less than 3</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="1|1">
+                <option value="">Select Score</option>
+                <option>7</option><option>5</option><option>3</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="1|1">
+            </div>
+
+            <!-- block 2 — Competition -->
+            <div class="gsat-score-cell blocktitle">Competition (within 150 meters)</div>
+            <div class="gsat-score-cell band">Yes</div>
+            <div class="gsat-score-cell band">No</div>
+            <div class="gsat-score-cell band"></div>
+            <div class="gsat-score-cell blocktitle"></div>
+            <div class="gsat-score-cell blocktitle"></div>
+
+            <div class="gsat-score-cell">MD AND RP/ Major Chain / Regional Chain</div>
+            <div class="gsat-score-cell center">7.5</div>
+            <div class="gsat-score-cell center">0</div>
+            <div class="gsat-score-cell center"></div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="2|0">
+                <option value="">Select Score</option>
+                <option>7.5</option><option>0</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="2|0">
+            </div>
+
+            <div class="gsat-score-cell">TGP / Local Drugstore / Botika</div>
+            <div class="gsat-score-cell center">7.5</div>
+            <div class="gsat-score-cell center">0</div>
+            <div class="gsat-score-cell center"></div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="2|1">
+                <option value="">Select Score</option>
+                <option>7.5</option><option>0</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="2|1">
+            </div>
+
+            <!-- block 3 — Market -->
+            <div class="gsat-score-cell blocktitle">Market</div>
+            <div class="gsat-score-cell band">10</div>
+            <div class="gsat-score-cell band">7</div>
+            <div class="gsat-score-cell band">5</div>
+            <div class="gsat-score-cell blocktitle"></div>
+            <div class="gsat-score-cell blocktitle"></div>
+
+            <div class="gsat-score-cell">Type</div>
+            <div class="gsat-score-cell center">Mix</div>
+            <div class="gsat-score-cell center">Residential</div>
+            <div class="gsat-score-cell center">Pass thru</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="3|0">
+                <option value="">Select Score</option>
+                <option>10</option><option>7</option><option>5</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="3|0">
+            </div>
+
+            <div class="gsat-score-cell">Social Class</div>
+            <div class="gsat-score-cell center">C2D</div>
+            <div class="gsat-score-cell center">BC1</div>
+            <div class="gsat-score-cell center">AB</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="3|1">
+                <option value="">Select Score</option>
+                <option>10</option><option>7</option><option>5</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="3|1">
+            </div>
+
+            <!-- block 4 -->
+            <div class="gsat-score-cell blocktitle"></div>
+            <div class="gsat-score-cell band">15</div>
+            <div class="gsat-score-cell band">10</div>
+            <div class="gsat-score-cell band">5</div>
+            <div class="gsat-score-cell blocktitle"></div>
+            <div class="gsat-score-cell blocktitle"></div>
+
+            <div class="gsat-score-cell">Population</div>
+            <div class="gsat-score-cell center">25k above</div>
+            <div class="gsat-score-cell center">20-25K</div>
+            <div class="gsat-score-cell center">20K below</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="4|0">
+                <option value="">Select Score</option>
+                <option>15</option><option>10</option><option>5</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="4|0">
+            </div>
+
+          </div>
+        </div>
+
+        <div class="gsat-card mt-3"><div class="gsat-card-body gsat-score-total">
+          <div>
+            <div class="fw-bold">Total Trade Assessment Score (60%)</div>
+            <div class="gsat-note" data-note="Trade Area Assessment"></div>
+          </div>
+          <span class="gsat-score-total-value" data-total="Trade Area Assessment">0.00</span>
+        </div></div>
+      </section>
+
+      <!-- ------------------ Site Assessment ------------------
+           One block, one band of scores: every criterion here is worth 20, 15
+           or 10, so the band row is stated once and the four rows share it. -->
+      <section data-pane="Site Assessment" hidden>
+        <div class="table-responsive">
+          <div class="gsat-score-grid">
+
+            <!-- header -->
+            <div class="gsat-score-cell head"><span class="fw-bold">Site Assessment</span></div>
+            <div class="gsat-score-cell head">Scoring</div>
+            <div class="gsat-score-cell head"></div>
+            <div class="gsat-score-cell head"></div>
+            <div class="gsat-score-cell head">Score</div>
+            <div class="gsat-score-cell head">Remarks</div>
+
+            <!-- block — CTAV -->
+            <div class="gsat-score-cell blocktitle">CTAV</div>
+            <div class="gsat-score-cell band">20</div>
+            <div class="gsat-score-cell band">15</div>
+            <div class="gsat-score-cell band">10</div>
+            <div class="gsat-score-cell blocktitle"></div>
+            <div class="gsat-score-cell blocktitle"></div>
+
+            <div class="gsat-score-cell">Circulation</div>
+            <div class="gsat-score-cell center">Main</div>
+            <div class="gsat-score-cell center">Secondary</div>
+            <div class="gsat-score-cell center">Away</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="s|0">
+                <option value="">Select Score</option>
+                <option>20</option><option>15</option><option>10</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="s|0">
+            </div>
+
+            <div class="gsat-score-cell">Traffic Generators / POI</div>
+            <div class="gsat-score-cell center">Center</div>
+            <div class="gsat-score-cell center">Nearby (75m to 100m)</div>
+            <div class="gsat-score-cell center">Far (above 100m)</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="s|1">
+                <option value="">Select Score</option>
+                <option>20</option><option>15</option><option>10</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="s|1">
+            </div>
+
+            <div class="gsat-score-cell">Accessibility</div>
+            <div class="gsat-score-cell center">Easy</div>
+            <div class="gsat-score-cell center">Effort</div>
+            <div class="gsat-score-cell center">Difficult (with presence of physical barriers)</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="s|2">
+                <option value="">Select Score</option>
+                <option>20</option><option>15</option><option>10</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="s|2">
+            </div>
+
+            <div class="gsat-score-cell">Visibility</div>
+            <div class="gsat-score-cell center">High</div>
+            <div class="gsat-score-cell center">Normal</div>
+            <div class="gsat-score-cell center">Low</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="s|3">
+                <option value="">Select Score</option>
+                <option>20</option><option>15</option><option>10</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="s|3">
+            </div>
+
+          </div>
+        </div>
+
+        <div class="gsat-card mt-3"><div class="gsat-card-body gsat-score-total">
+          <div>
+            <div class="fw-bold">Site Assessment Score</div>
+            <div class="gsat-note" data-note="Site Assessment"></div>
+          </div>
+          <span class="gsat-score-total-value" data-total="Site Assessment">0.00</span>
+        </div></div>
+      </section>
+
+      <!-- ------------------ Others ------------------
+           The other half of the 40%: Site Assessment carries 80 points and
+           these four carry the remaining 20, so the tab closes on the
+           combined figure rather than its own. -->
+      <section data-pane="Others" hidden>
+        <div class="table-responsive">
+          <div class="gsat-score-grid">
+
+            <!-- header -->
+            <div class="gsat-score-cell head"><span class="fw-bold">Others</span></div>
+            <div class="gsat-score-cell head">Scoring</div>
+            <div class="gsat-score-cell head"></div>
+            <div class="gsat-score-cell head"></div>
+            <div class="gsat-score-cell head">Score</div>
+            <div class="gsat-score-cell head">Remarks</div>
+
+            <!-- block — OTHERS -->
+            <div class="gsat-score-cell blocktitle">OTHERS</div>
+            <div class="gsat-score-cell band">5</div>
+            <div class="gsat-score-cell band">3</div>
+            <div class="gsat-score-cell band">1</div>
+            <div class="gsat-score-cell blocktitle"></div>
+            <div class="gsat-score-cell blocktitle"></div>
+
+            <div class="gsat-score-cell">Size</div>
+            <div class="gsat-score-cell center">25 above</div>
+            <div class="gsat-score-cell center">20 &ndash; 25</div>
+            <div class="gsat-score-cell center">15 &ndash; 20</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="o|0">
+                <option value="">Select Score</option>
+                <option>5</option><option>3</option><option>1</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="o|0">
+            </div>
+
+            <div class="gsat-score-cell">Frontage</div>
+            <div class="gsat-score-cell center">&ge;5 meters</div>
+            <div class="gsat-score-cell center">3 meters</div>
+            <div class="gsat-score-cell center">&lt; 3 meters</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="o|1">
+                <option value="">Select Score</option>
+                <option>5</option><option>3</option><option>1</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="o|1">
+            </div>
+
+            <div class="gsat-score-cell">Foot Traffic (7&ndash;9am / 5&ndash;7pm)</div>
+            <div class="gsat-score-cell center">High</div>
+            <div class="gsat-score-cell center">Mid</div>
+            <div class="gsat-score-cell center">Low</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="o|2">
+                <option value="">Select Score</option>
+                <option>5</option><option>3</option><option>1</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="o|2">
+            </div>
+
+            <div class="gsat-score-cell">Parking</div>
+            <div class="gsat-score-cell center">2</div>
+            <div class="gsat-score-cell center">1</div>
+            <div class="gsat-score-cell center">None</div>
+            <div class="gsat-score-cell">
+              <select class="form-select form-select-sm gsat-soft score-sel" data-key="o|3">
+                <option value="">Select Score</option>
+                <option>5</option><option>3</option><option>1</option>
+              </select>
+            </div>
+            <div class="gsat-score-cell">
+              <input type="text" class="form-control form-control-sm gsat-soft score-rem" data-key="o|3">
+            </div>
+
+          </div>
+        </div>
+
+        <div class="gsat-card mt-3"><div class="gsat-card-body gsat-score-total">
+          <div>
+            <div class="fw-bold">Total Site Assessment Score (40%)</div>
+            <div class="gsat-note" data-note="Others"></div>
+          </div>
+          <span class="gsat-score-total-value" data-total="Others">0.00</span>
+        </div></div>
+      </section>
+
+      <!-- ------------------------ action bar ------------------------
+           Scores save themselves as they are picked, so there is no draft
+           button here — only the Final Save that closes the third of the SAS's
+           three forms. Both controls appear on the last tab, the same way the
+           other two forms do it. -->
+      <div class="d-flex align-items-center flex-wrap gap-2 mt-4" id="sc-actions">
+        <span class="small text-secondary">Scorecard status:</span>
+        <span class="gsat-chip" id="scorecard-chip"></span>
+        <span class="ms-auto"></span>
+
+        <button type="button" class="btn btn-outline-gsat" id="sc-preview" hidden>Preview</button>
+        <button type="button" class="btn btn-success" id="sc-final" hidden>Final Save</button>
+      </div>
+
+      <div class="text-end small text-secondary mt-2" id="sc-note" hidden>
+        <span data-note="open">Score every criterion, then Final Save. The site goes to SAM once the
+          Site Assessment and the Site Technical Checklist are complete too.</span>
+        <span data-note="done" hidden>Scorecard completed &mdash; one of the three forms this site needs.</span>
+      </div>
+
+      <!-- ------------------------ preview overlay ------------------------ -->
+      <div class="gsat-overlay" id="preview-overlay" hidden>
+        <div class="gsat-overlay-card">
+          <div class="gsat-overlay-head">
+            <div>
+              <div class="fw-bold fs-5">Scorecard Preview</div>
+              <div class="small text-secondary">
+                <span data-bind="siteCode"></span> &nbsp;&middot;&nbsp;
+                TS Rating <span class="fw-semibold" data-bind="previewRating"></span>
+              </div>
+            </div>
+            <button type="button" class="btn-close" id="preview-close"></button>
+          </div>
+          <div class="gsat-overlay-body" id="preview-body"></div>
+          <div class="gsat-overlay-foot">
+            <button type="button" class="btn btn-outline-secondary" id="preview-back">Back to Edit</button>
+            <button type="button" class="btn btn-success" id="preview-final">Confirm Final Save</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-preview-head">
+        <div class="gsat-preview-head" data-bind="label"></div>
+      </template>
+
+      <template id="tpl-preview-row">
+        <div class="gsat-preview-row gsat-preview-row-3">
+          <div data-bind="label"></div>
+          <div class="val" data-bind="value"></div>
+          <div class="text-secondary small" data-bind="remarks"></div>
+        </div>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/scorecard.js"></script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'Site Creation' });</script>
+</head>
+<body data-page="site-creation" data-crumb="Site Creation" data-allow="SAS REM FMS" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+        <h1 class="gsat-page-title" data-label-rem="Franchisee Name" data-label-fms="Franchisee Name">Site Creation</h1>
+        <div class="d-flex gap-2">
+          <button type="button" id="btn-save" class="btn btn-gsat px-4" data-roles="SAS">Save</button>
+          <button type="button" id="btn-save-franchisee" class="btn btn-gsat px-4" data-roles="REM FMS">Save Franchisee</button>
+          <button type="button" id="btn-open-assess" class="btn btn-outline-gsat" data-roles="SAS" hidden>Open Assessment</button>
+          <a href="dashboard.html" class="btn btn-outline-secondary" id="btn-return">Return</a>
+        </div>
+      </div>
+
+      <div class="gsat-page-sub mb-3" data-roles="REM FMS">
+        Please fill up only the highlighted field.
+      </div>
+
+      <div class="gsat-card"><div class="gsat-card-body">
+        <div class="gsat-form-grid">
+
+          <!-- ------------- identity: filled in by the system ------------- -->
+          <label class="gsat-form-label">Site Code:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="siteCode"
+                     placeholder="Auto-generated on save" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <label class="gsat-form-label">Status:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="status" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <label class="gsat-form-label">Trade Area Name:</label>
+          <div class="span-field">
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="tradeArea"
+                     placeholder="Auto-generated on save" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+            <div class="gsat-note" data-hint="saved" hidden>Generated on save. Read-only.</div>
+            <div class="gsat-note" data-hint="preview" hidden>Will generate: <span data-bind="tradeAreaPreview"></span></div>
+            <div class="gsat-note" data-hint="format">Format: Barangay_City_Territory and auto-generated on save.</div>
+          </div>
+
+          <label class="gsat-form-label">Territory:</label>
+          <div>
+            <div class="gsat-locked-field">
+              <input type="text" class="form-control gsat-locked" data-bind="territory" readonly>
+              <i class="bi bi-lock-fill"></i>
+            </div>
+          </div>
+
+          <label class="gsat-form-label">Sub-Territory:</label>
+          <div>
+            <select id="sel-sub-territory" class="form-select"></select>
+          </div>
+
+          <div class="gsat-note span-all">
+            Territory is based on the assignment of the creator / SAS. Choose the applicable Sub-Territory.
+          </div>
+
+          <hr class="gsat-form-rule">
+
+          <!-- ------------------------ PSGC cascade ------------------------ -->
+          <label class="gsat-form-label">Region:</label>
+          <div><select id="sel-region" class="form-select"></select></div>
+
+          <label class="gsat-form-label">Province:</label>
+          <div><select id="sel-province" class="form-select" disabled></select></div>
+
+          <label class="gsat-form-label">City / Municipality:</label>
+          <div><select id="sel-city" class="form-select" disabled></select></div>
+
+          <label class="gsat-form-label">Barangay:</label>
+          <div><select id="sel-brgy" class="form-select" disabled></select></div>
+
+          <div class="gsat-note span-all" data-hint="locked" hidden>Locked after save.</div>
+
+          <hr class="gsat-form-rule">
+
+          <!-- ------------------------- categories ------------------------- -->
+          <label class="gsat-form-label">Site Category:</label>
+          <div class="span-field gsat-radio-row" data-radio-group="siteCategory">
+            <span class="gsat-radio" data-val="New Store"><span class="dot"></span>New Store</span>
+            <span class="gsat-radio" data-val="Relocation"><span class="dot"></span>Relocation</span>
+            <span class="gsat-radio" data-val="Transfer of Store Ownership"><span class="dot"></span>Transfer of Store Ownership</span>
+            <span class="gsat-radio" data-val="Divestment"><span class="dot"></span>Divestment</span>
+          </div>
+
+          <label class="gsat-form-label">Store Ownership:</label>
+          <div class="span-field gsat-radio-row" data-radio-group="ownership">
+            <span class="gsat-radio" data-val="Franchise-Owned"><span class="dot"></span>Franchise-Owned</span>
+            <span class="gsat-radio" data-val="Company-Owned"><span class="dot"></span>Company-Owned</span>
+          </div>
+
+          <label class="gsat-form-label" id="franchisee-label">Franchisee-Owned Type:</label>
+          <div class="span-field gsat-radio-row" id="franchisee-block" data-radio-group="franchiseeType">
+            <span class="gsat-radio" data-val="New"><span class="dot"></span>New</span>
+            <span class="gsat-radio" data-val="Existing"><span class="dot"></span>Existing</span>
+            <span class="gsat-note" id="franchisee-note">Disabled unless Franchise-Owned is selected</span>
+          </div>
+
+          <!-- Only a Regional Expansion Manager or Franchise Management Service
+               may write this; every other role sees it locked. -->
+          <label class="gsat-form-label" id="franchisee-name-label">Franchisee Name:<span
+              class="gsat-editable-tag" id="franchisee-name-tag" hidden>Editable</span></label>
+          <div class="span-field">
+            <div class="gsat-editable-field" id="franchisee-name-field">
+              <input type="text" id="inp-franchisee" class="form-control" autocomplete="off"
+                     placeholder="Full name of the franchisee">
+              <i class="bi bi-pencil-fill"></i>
+            </div>
+            <div class="gsat-note" id="franchisee-name-note" hidden></div>
+          </div>
+
+          <label class="gsat-form-label">Store Type:</label>
+          <div class="span-field gsat-radio-row" data-radio-group="storeType">
+            <span class="gsat-radio" data-val="Hub (19 sqm and above)"><span class="dot"></span>Hub (19 sqm and above)</span>
+            <span class="gsat-radio" data-val="Spoke (18 sqm and below)"><span class="dot"></span>Spoke (18 sqm and below)</span>
+          </div>
+
+          <hr class="gsat-form-rule">
+
+          <!-- ------------------ retail area + source ------------------ -->
+          <label class="gsat-form-label">Retail Trade Area Name:</label>
+          <div class="span-field position-relative">
+            <input type="text" id="inp-retail" class="form-control" autocomplete="off">
+            <div class="gsat-suggest" id="retail-suggest" hidden></div>
+          </div>
+
+          <label class="gsat-form-label">Franchisee Source:</label>
+          <div class="span-field gsat-radio-row" data-radio-group="source">
+            <span class="gsat-radio" data-val="Expo"><span class="dot"></span>Expo</span>
+            <span class="gsat-radio" data-val="Online"><span class="dot"></span>Online</span>
+            <span class="gsat-radio" data-val="Connections"><span class="dot"></span>Connections</span>
+            <span class="gsat-radio" data-val="Field Works"><span class="dot"></span>Field Works</span>
+          </div>
+
+        </div>
+      </div></div>
+
+      <div class="gsat-note mt-3">
+        Site Code format: TERRITORY-YEAR(4)-SEQUENCE(4, zero-padded), e.g. NCR-2025-0001.
+        Sequence is continuous across territories and resets each year.
+      </div>
+
+      <template id="tpl-suggest-item">
+        <div class="gsat-suggest-item"></div>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/site-creation.js"></script>
+</body>
+</html>

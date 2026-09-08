@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'SAS Assignment' });</script>
+</head>
+<body data-page="sas-assignment" data-crumb="Site Assignment / SAS Assignment" data-allow="Admin" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="mb-3">
+        <h1 class="gsat-page-title">SAS Assignment</h1>
+        <div class="gsat-page-sub">Sites are assigned to the SAS who created them. Review ownership here or reassign a site when coverage changes.</div>
+      </div>
+
+      <div class="row g-3">
+
+        <!-- specialists -->
+        <div class="col-lg-4"><div class="gsat-panel">
+          <div class="gsat-panel-head">
+            <div class="fw-bold mb-2">SAS</div>
+            <input type="text" id="sas-filter" class="form-control form-control-sm" placeholder="Filter specialists">
+          </div>
+          <div class="gsat-panel-body" id="specialist-list"></div>
+        </div></div>
+
+        <!-- sites assigned to the selected specialist -->
+        <div class="col-lg-4"><div class="gsat-panel">
+          <div class="gsat-panel-head">
+            <div class="fw-bold">Site</div>
+            <div class="small text-secondary" data-bind="selectedSas"></div>
+            <div class="small text-secondary" data-bind="siteCount"></div>
+          </div>
+          <div class="gsat-panel-body">
+            <div id="site-list"></div>
+            <div class="p-3 small text-secondary" id="site-empty" hidden>No sites assigned yet.</div>
+          </div>
+        </div></div>
+
+        <!-- reassign an existing site -->
+        <div class="col-lg-4"><div class="gsat-panel">
+          <div class="gsat-panel-head">
+            <div class="fw-bold">Reassign Site</div>
+            <div class="small text-secondary mb-2">Search a site, then reassign it to the selected SAS.</div>
+            <input type="text" id="site-search" class="form-control form-control-sm" placeholder="Search site code, trade area or city">
+          </div>
+          <div class="gsat-panel-body">
+            <div id="result-list"></div>
+            <div class="p-3 small text-secondary" id="result-hint">Type at least two characters to search.</div>
+            <div class="p-3 small text-secondary" id="result-empty" hidden>No site matches that search.</div>
+          </div>
+        </div></div>
+
+      </div>
+
+      <div class="gsat-note mt-3" data-bind="summary"></div>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-specialist-row">
+        <div class="gsat-person-row">
+          <div class="flex-fill min-w-0">
+            <div class="small" data-bind="name"></div>
+            <div class="small text-secondary" data-bind="territory"></div>
+          </div>
+          <span class="gsat-count-pill" data-bind="count"></span>
+        </div>
+      </template>
+
+      <template id="tpl-site-row">
+        <div class="gsat-person-row" style="cursor:default">
+          <div class="flex-fill min-w-0">
+            <div class="small fw-semibold" data-bind="code"></div>
+            <div class="small" data-bind="tradeArea"></div>
+            <div class="small text-secondary" data-bind="where"></div>
+          </div>
+        </div>
+      </template>
+
+      <template id="tpl-result-row">
+        <div class="gsat-person-row" style="cursor:default">
+          <div class="flex-fill min-w-0">
+            <div class="small fw-semibold" data-bind="code"></div>
+            <div class="small" data-bind="tradeArea"></div>
+            <div class="small text-secondary" data-bind="owner"></div>
+          </div>
+          <button type="button" class="btn btn-sm btn-success site-reassign">Reassign</button>
+          <button type="button" class="btn btn-sm btn-light site-assigned" disabled hidden>Assigned</button>
+        </div>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/sas-assignment.js"></script>
+</body>
+</html>

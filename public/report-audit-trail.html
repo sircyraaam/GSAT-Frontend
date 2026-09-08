@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'Audit Trail Report' });</script>
+</head>
+<body data-page="report-audit-trail" data-crumb="Reports / Audit Trail Report" data-allow="Admin" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="mb-3">
+        <h1 class="gsat-page-title">Audit Trail Report</h1>
+        <div class="gsat-page-sub">
+          Every site created, field updated, draft saved, assessment submitted, approval given
+          and area assigned &mdash; by whom, in which module, and when. Administrators only.
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-6 col-lg-3"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">TOTAL ENTRIES</div>
+          <div class="gsat-kpi-value" data-bind="kpiTotal">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">CREATED</div>
+          <div class="gsat-kpi-value" data-bind="kpiCreated">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">UPDATED</div>
+          <div class="gsat-kpi-value" data-bind="kpiUpdated">0</div>
+        </div></div>
+        <div class="col-6 col-lg-3"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">APPROVALS &amp; RETURNS</div>
+          <div class="gsat-kpi-value" data-bind="kpiDecisions">0</div>
+        </div></div>
+      </div>
+
+      <div class="gsat-card mb-3"><div class="gsat-card-body">
+        <div class="gsat-filters">
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-module">MODULE</label>
+            <select id="f-module" class="form-select form-select-sm"></select>
+          </div>
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-action">ACTION</label>
+            <select id="f-action" class="form-select form-select-sm"></select>
+          </div>
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-user">USER</label>
+            <select id="f-user" class="form-select form-select-sm"></select>
+          </div>
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-from">FROM</label>
+            <input type="date" id="f-from" class="form-control form-control-sm">
+          </div>
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-to">TO</label>
+            <input type="date" id="f-to" class="form-control form-control-sm">
+          </div>
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-q">SEARCH</label>
+            <input type="text" id="f-q" class="form-control form-control-sm" placeholder="Site code, field, detail">
+          </div>
+          <button type="button" id="f-clear" class="btn btn-sm btn-outline-secondary">Clear filters</button>
+        </div>
+      </div></div>
+
+      <div class="gsat-card"><div class="gsat-card-body p-0">
+        <div class="table-responsive" id="rows-wrap">
+          <table class="gsat-table">
+            <thead>
+              <tr>
+                <th>When</th>
+                <th>User</th>
+                <th>Module</th>
+                <th>Action</th>
+                <th>Record</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody id="rows-body"></tbody>
+          </table>
+        </div>
+        <div class="gsat-empty m-3" id="rows-empty" hidden>No audit entries match these filters.</div>
+      </div></div>
+
+      <div class="gsat-note mt-3" data-bind="summary"></div>
+      <div class="gsat-note">
+        The trail records what was written, not what was read &mdash; opening a record leaves no entry.
+        A run of keystrokes in one field is kept as the single line saying where that field ended up.
+      </div>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-audit-row">
+        <tr>
+          <td data-label="When" data-bind="when"></td>
+          <td data-label="User">
+            <div data-bind="user"></div>
+            <div class="small text-secondary" data-bind="role"></div>
+          </td>
+          <td data-label="Module" data-bind="module"></td>
+          <td data-label="Action"><span class="gsat-chip"></span></td>
+          <td class="fw-semibold" data-label="Record" data-bind="entity"></td>
+          <td data-label="Details" data-bind="detail"></td>
+        </tr>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/report-audit-trail.js"></script>
+</body>
+</html>

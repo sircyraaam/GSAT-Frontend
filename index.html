@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Site Acquisition</title>
+  <link rel="icon" href="assets/images/site-acquisition-logo.webp">
+
+  <!-- The app lives in public/ — this file just forwards the root to the
+       login page. On Apache the .htaccess redirect handles it first; this is
+       here for the static dev servers (npx serve, python -m http.server),
+       which do not read .htaccess and would otherwise show a file listing. -->
+  <meta http-equiv="refresh" content="0; url=public/">
+</head>
+<body>
+  <p>Redirecting to the <a href="public/">login page</a>&hellip;</p>
+  <script>location.replace('public/');</script>
+</body>
+</html>

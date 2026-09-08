@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <script src="../assets/js/include.js"></script>
+  <script>GSATInclude('inc/head.html', { title: 'Site and Lessor Transaction Module' });</script>
+  <script>window.location.replace('report-site-assessment.html');</script>
+</head>
+<body data-page="report-location-mapping" data-crumb="Reports / Location Mapping" data-allow="Admin SAM" data-fallback="dashboard.html">
+
+<div class="gsat-layout">
+  <script>GSATInclude('inc/sidebar.html');</script>
+
+  <div class="gsat-main">
+    <script>GSATInclude('inc/navbar.html');</script>
+
+    <main class="gsat-content">
+      <div class="gsat-banner" id="gsat-banner" hidden></div>
+
+      <div class="mb-3">
+        <h1 class="gsat-page-title">Location Mapping Report</h1>
+        <div class="gsat-page-sub" data-roles="Admin">
+          These are the sites under all Site Acquisition Managers, all territories.
+        </div>
+        <div class="gsat-page-sub" data-roles="SAM">
+          These are the sites under <span data-bind="userName"></span>, <span data-bind="samTerritory"></span>.
+        </div>
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-12 col-sm-4"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">TOTAL NO. OF SITES</div>
+          <div class="gsat-kpi-value" data-bind="kpiSites">0</div>
+        </div></div>
+        <div class="col-12 col-sm-4"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">TOTAL NO. OF SAM</div>
+          <div class="gsat-kpi-value" data-bind="kpiSam">0</div>
+        </div></div>
+        <div class="col-12 col-sm-4"><div class="gsat-kpi h-100">
+          <div class="gsat-kpi-label">TOTAL NO. OF SAS</div>
+          <div class="gsat-kpi-value" data-bind="kpiSas">0</div>
+        </div></div>
+      </div>
+
+      <div class="gsat-card mb-3"><div class="gsat-card-body">
+        <div class="gsat-filters">
+          <div class="gsat-filter" data-roles="Admin">
+            <label class="gsat-kpi-label form-label" for="f-terr">TERRITORY</label>
+            <select id="f-terr" class="form-select form-select-sm"></select>
+          </div>
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-sas">SITE ACQUISITION SPECIALIST</label>
+            <select id="f-sas" class="form-select form-select-sm"></select>
+          </div>
+          <div class="gsat-filter">
+            <label class="gsat-kpi-label form-label" for="f-q">SEARCH</label>
+            <input type="text" id="f-q" class="form-control form-control-sm" placeholder="Code, trade area, city">
+          </div>
+          <button type="button" id="f-clear" class="btn btn-sm btn-outline-secondary">Clear filters</button>
+        </div>
+      </div></div>
+
+      <div class="gsat-card"><div class="gsat-card-body p-0">
+        <div class="table-responsive" id="rows-wrap">
+          <table class="gsat-table">
+            <thead>
+              <tr>
+                <th>Site Code</th>
+                <th>Trade Area</th>
+                <th>Province / City</th>
+                <th>Territory</th>
+                <th>SAM</th>
+                <th>SAS</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="rows-body"></tbody>
+          </table>
+        </div>
+        <div class="gsat-empty m-3" id="rows-empty" hidden>No site records match these filters.</div>
+      </div></div>
+
+      <div class="gsat-note mt-3" data-bind="summary"></div>
+
+      <!-- ===================== row markup (cloned by jQuery) ===================== -->
+      <template id="tpl-mapping-row">
+        <tr>
+          <td class="fw-semibold" data-label="Site Code" data-bind="code"></td>
+          <td data-label="Trade Area" data-bind="tradeArea"></td>
+          <td data-label="Province / City">
+            <div data-bind="city"></div>
+            <div class="small text-secondary" data-bind="province"></div>
+          </td>
+          <td data-label="Territory">
+            <div data-bind="territory"></div>
+            <div class="small text-secondary" data-bind="subTerritory"></div>
+          </td>
+          <td class="cell-sam" data-label="SAM" data-bind="sam"></td>
+          <td class="cell-sas" data-label="SAS" data-bind="sas"></td>
+          <td data-label="Status"><span class="gsat-chip"></span></td>
+        </tr>
+      </template>
+    </main>
+
+    <script>GSATInclude('inc/footer.html');</script>
+  </div>
+</div>
+
+<script src="../assets/js/vendor/jquery.min.js"></script>
+<script src="../assets/js/vendor/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/gsat-mapping.js"></script>
+<script src="../assets/js/data.js"></script>
+<script src="../assets/js/app.js"></script>
+<script src="../assets/js/pages/report-location-mapping.js"></script>
+</body>
+</html>

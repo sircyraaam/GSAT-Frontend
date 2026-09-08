@@ -1,0 +1,1632 @@
+/* ============================================================
+   GSAT — Design system
+   Brand teal #17a2b8 · Open Sans
+   ============================================================ */
+
+:root {
+  /* ---- brand ---- */
+  --brand:        #17a2b8;
+  --brand-hover:  #128fa3;
+  --brand-dark:   #117a8b;
+  --brand-ink:    #0e5c6a;   /* brand colour that is legible as text */
+  --brand-soft:   #e8f5f7;
+  --brand-ring:   rgba(23, 162, 184, .18);
+  --navy:         #123a5e;
+
+  /* ---- neutrals ---- */
+  --n-0:   #ffffff;
+  --n-25:  #fbfcfd;
+  --n-50:  #f6f8fa;
+  --n-100: #eef1f5;
+  --n-200: #e4e8ee;
+  --n-300: #d0d7e0;
+  --n-400: #a6b0bd;
+  --n-500: #78838f;
+  --n-600: #586372;
+  --n-700: #3d4653;
+  --n-800: #29313b;
+  --n-900: #161b21;
+
+  /* ---- semantic ---- */
+  --ok:      #1f9254;
+  --ok-bg:   #e7f6ed;
+  --ok-ink:  #14663b;
+  --warn:    #b5820b;
+  --warn-bg: #fdf4e0;
+  --warn-ink:#8a6209;
+  --danger:  #d1394b;
+  --danger-bg:#fdecee;
+  --danger-ink:#9c2634;
+  --purple:  #6b4bb5;
+
+  /* ---- text ---- */
+  --text:        var(--n-800);
+  --text-muted:  var(--n-500);
+  --text-subtle: var(--n-400);
+
+  /* ---- surfaces ---- */
+  --surface:     var(--n-0);
+  --surface-alt: var(--n-50);
+  --page:        #f4f6f9;
+  --border:      var(--n-200);
+  --border-strong: var(--n-300);
+
+  /* legacy aliases — still used by older rules and some inline styles */
+  --gsat-teal: var(--brand);
+  --gsat-teal-dark: var(--brand-dark);
+  --gsat-teal-ink: var(--brand-ink);
+  --gsat-teal-soft: var(--brand-soft);
+  --gsat-navy: var(--navy);
+  --gsat-green: var(--ok);
+  --gsat-purple: var(--purple);
+  --gsat-border: var(--border);
+  --gsat-bg: var(--page);
+
+  /* ---- radius ---- */
+  --r-xs: 5px;
+  --r-sm: 7px;
+  --r:    9px;
+  --r-lg: 13px;
+  --r-pill: 999px;
+
+  /* ---- elevation ---- */
+  --shadow-xs: 0 1px 2px rgba(16, 24, 40, .05);
+  --shadow-sm: 0 1px 3px rgba(16, 24, 40, .07), 0 1px 2px rgba(16, 24, 40, .04);
+  --shadow-md: 0 6px 16px rgba(16, 24, 40, .08);
+  --shadow-lg: 0 20px 48px rgba(16, 24, 40, .16);
+
+  /* ---- layout ---- */
+  --aside-w: 258px;
+  --aside-w-mini: 68px;
+  --topbar-h: 60px;
+
+  /* ---- field height ----
+     One height per size for every control, whatever draws it — Tom Select
+     builds its own box, so matching padding and font size is not enough. */
+  --field-h:    39px;
+  --field-h-sm: 34px;
+}
+
+/* ============================================================
+   base
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--page);
+  font-family: 'Open Sans', -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 { color: var(--n-900); letter-spacing: -.011em; }
+
+a { color: var(--brand-ink); text-decoration: none; }
+a:hover { color: var(--brand-dark); text-decoration: underline; }
+
+:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; border-radius: 3px; }
+
+/* toggled by the `hidden` attribute — must beat display rules below */
+[hidden] { display: none !important; }
+
+.gsat-table, .gsat-kpi-value, .gsat-chip, .gsat-count-pill,
+.gsat-score-cell, .gsat-step .num { font-variant-numeric: tabular-nums; }
+
+.gsat-panel-body, .gsat-aside, .gsat-overlay-body, .table-responsive,
+.gsat-scroll-list { scrollbar-width: thin; }
+.gsat-panel-body::-webkit-scrollbar,
+.gsat-aside::-webkit-scrollbar,
+.gsat-overlay-body::-webkit-scrollbar,
+.gsat-scroll-list::-webkit-scrollbar,
+.table-responsive::-webkit-scrollbar { width: 10px; height: 10px; }
+.gsat-panel-body::-webkit-scrollbar-thumb,
+.gsat-aside::-webkit-scrollbar-thumb,
+.gsat-overlay-body::-webkit-scrollbar-thumb,
+.gsat-scroll-list::-webkit-scrollbar-thumb,
+.table-responsive::-webkit-scrollbar-thumb {
+  background: var(--n-300); border-radius: var(--r-pill); border: 3px solid transparent; background-clip: content-box;
+}
+
+/* ============================================================
+   login
+   ============================================================ */
+.gsat-login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(900px 520px at 50% -15%, #34bcd1 0%, rgba(52, 188, 209, 0) 60%),
+    linear-gradient(165deg, var(--brand) 0%, #0f7688 100%);
+}
+.gsat-login-card {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow: 0 24px 64px rgba(6, 38, 46, .28);
+  padding: 40px 40px 32px;
+  width: 100%;
+  max-width: 424px;
+  text-align: center;
+}
+.gsat-login-card .gsat-logo { width: 116px; height: 116px; object-fit: contain; }
+.gsat-login-title {
+  font-size: 22px; font-weight: 700; color: var(--navy);
+  letter-spacing: -.015em; margin: 12px 0 26px;
+}
+.gsat-login-foot {
+  color: rgba(255, 255, 255, .88); font-size: 13px;
+  margin-top: 24px; text-align: center; line-height: 1.9;
+}
+
+/* role picker — a grid, not a row, so extra roles wrap to a new line */
+#role-picker {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  background: var(--n-50);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  padding: 4px;
+}
+.gsat-role-btn {
+  min-width: 0;
+  border: 0 !important;
+  background: transparent !important;
+  border-radius: var(--r-sm);
+  padding: 7px 4px;
+  font-size: 13px; font-weight: 600;
+  color: var(--text-muted) !important;
+  transition: background .15s ease, color .15s ease;
+}
+.gsat-role-btn:hover { color: var(--n-700) !important; }
+.gsat-role-btn.active {
+  background: var(--surface) !important;
+  color: var(--brand-ink) !important;
+  box-shadow: var(--shadow-xs);
+}
+
+/* ============================================================
+   shell — sidebar
+   ============================================================ */
+.gsat-layout { display: flex; min-height: 100vh; }
+
+.gsat-aside {
+  width: var(--aside-w);
+  flex: none;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: width .18s ease;
+}
+.gsat-brand {
+  display: flex; align-items: center; gap: 11px;
+  padding: 0 18px;
+  height: var(--topbar-h);
+  flex: none;
+  border-bottom: 1px solid var(--border);
+  font-size: 14.5px; font-weight: 700;
+  color: var(--navy);
+  letter-spacing: .04em;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.gsat-brand-logo { width: 30px; height: 30px; object-fit: contain; flex: none; }
+
+.gsat-modules-label {
+  padding: 20px 22px 8px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .12em;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+}
+
+.gsat-nav {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 1px 10px;
+  padding: 9px 12px;
+  border-radius: var(--r-sm);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--n-600);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.gsat-nav:hover { background: var(--n-50); color: var(--n-800); text-decoration: none; }
+.gsat-nav.active { background: var(--brand-soft); color: var(--brand-ink); font-weight: 600; }
+/* the group holding the current page: coloured, but not a second pill */
+.gsat-nav-group.active-parent { color: var(--brand-ink); font-weight: 600; }
+.gsat-nav-group.active-parent .gsat-nav-icon { color: var(--brand); }
+.gsat-nav-group.active-parent:hover { background: var(--n-50); }
+.gsat-nav-icon { font-size: 16px; line-height: 1; width: 18px; flex: none; text-align: center; color: var(--n-400); }
+.gsat-nav:hover .gsat-nav-icon { color: var(--n-600); }
+.gsat-nav.active .gsat-nav-icon { color: var(--brand); }
+.gsat-nav .gsat-caret { margin-left: auto; font-size: 10px; line-height: 1; color: var(--text-subtle); }
+.gsat-nav-group { user-select: none; }
+
+.gsat-subgroup { display: flex; flex-direction: column; padding: 2px 0 6px; }
+.gsat-subnav {
+  margin: 1px 10px;
+  padding: 7px 12px 7px 42px;
+  border-radius: var(--r-sm);
+  font-size: 13.5px;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: background .15s ease, color .15s ease;
+}
+.gsat-subnav:hover { background: var(--n-50); color: var(--n-800); text-decoration: none; }
+.gsat-subnav.active { background: var(--brand-soft); color: var(--brand-ink); font-weight: 600; }
+
+.gsat-aside-note {
+  margin-top: auto;
+  padding: 22px 22px 0;
+  font-size: 12px;
+  color: var(--text-subtle);
+  line-height: 1.65;
+}
+
+/* The mini rail is a desktop idea. Below 901px the same .collapsed class means
+   "the drawer is open", so the icon-only rules must not apply there. */
+@media (min-width: 901px) {
+  .gsat-aside.collapsed { width: var(--aside-w-mini); }
+  .gsat-aside.collapsed .gsat-brand { justify-content: center; padding: 0; }
+  .gsat-aside.collapsed .gsat-brand-full { display: none; }
+  .gsat-aside.collapsed .gsat-modules-label,
+  .gsat-aside.collapsed .gsat-nav-label,
+  .gsat-aside.collapsed .gsat-caret,
+  .gsat-aside.collapsed .gsat-subgroup,
+  .gsat-aside.collapsed .gsat-aside-note { display: none !important; }
+  .gsat-aside.collapsed .gsat-nav { justify-content: center; padding: 9px 0; }
+}
+
+/* ============================================================
+   shell — topbar, content, footer
+   ============================================================ */
+.gsat-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.gsat-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  height: var(--topbar-h);
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 24px;
+  background: rgba(255, 255, 255, .9);
+  backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.gsat-burger {
+  border: none; background: transparent; padding: 6px 8px;
+  font-size: 20px; line-height: 1; color: var(--n-600);
+  border-radius: var(--r-sm); cursor: pointer;
+  transition: background .15s ease, color .15s ease;
+}
+.gsat-burger:hover { background: var(--n-100); color: var(--n-800); }
+
+.gsat-scrim { position: fixed; inset: 0; z-index: 35; background: rgba(22, 27, 33, .45); }
+@media (min-width: 901px) { .gsat-scrim { display: none !important; } }
+
+.gsat-user-wrap { margin-left: auto; position: relative; }
+.gsat-user {
+  display: flex; align-items: center; gap: 9px;
+  padding: 5px 10px 5px 6px;
+  border-radius: var(--r-pill);
+  font-size: 13.5px;
+  cursor: pointer;
+  transition: background .15s ease;
+}
+.gsat-user:hover { background: var(--n-100); }
+.gsat-user-logo {
+  width: 30px; height: 30px; object-fit: contain; border-radius: 50%;
+  background: var(--n-50); border: 1px solid var(--border); flex: none;
+}
+.gsat-user .gsat-caret { font-size: 10px; line-height: 1; color: var(--text-subtle); }
+.gsat-user-role { font-weight: 600; color: var(--n-700); white-space: nowrap; }
+.gsat-user-role::after { content: ':'; color: var(--text-subtle); }
+.gsat-user-name { color: var(--text-muted); white-space: nowrap; }
+
+.gsat-user-menu {
+  position: absolute; right: 0; top: calc(100% + 8px); z-index: 30; width: 236px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.gsat-user-menu-head { padding: 12px 16px; border-bottom: 1px solid var(--n-100); }
+.gsat-user-menu-item {
+  padding: 10px 16px; font-size: 13.5px; color: var(--n-700); cursor: pointer;
+  transition: background .15s ease;
+}
+.gsat-user-menu-item:hover { background: var(--n-50); }
+
+.gsat-content { flex: 1; padding: 26px 28px 34px; }
+.gsat-footer { padding: 16px 28px 22px; font-size: 12.5px; color: var(--text-subtle); }
+
+/* ============================================================
+   surfaces & headings
+   ============================================================ */
+.gsat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-xs);
+}
+.gsat-card-head { padding: 18px 22px 0; }
+.gsat-card-body { padding: 20px 22px; }
+
+.gsat-page-title {
+  font-size: 22px; font-weight: 700; color: var(--n-900);
+  letter-spacing: -.018em; margin: 0;
+}
+.gsat-page-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+.gsat-note { font-size: 13px; color: var(--text-muted); margin-top: 5px; line-height: 1.6; }
+
+.gsat-empty {
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r);
+  padding: 40px 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--text-muted);
+  background: var(--n-25);
+}
+
+.gsat-empty.sm { padding: 20px 18px; font-size: 13px; }
+
+/* status pill — colours are set inline from GSAT_DATA.STATUS_CHIP */
+.gsat-chip {
+  display: inline-block;
+  padding: 4px 11px;
+  border-radius: var(--r-pill);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .005em;
+  white-space: nowrap;
+}
+.gsat-chip-moved { background: var(--warn-bg); color: var(--warn-ink); }
+
+/* SweetAlert2 confirmations */
+.gsat-swal { border-radius: var(--r-lg); font-family: inherit; }
+.gsat-swal .swal2-title { font-size: 20px; font-weight: 700; color: var(--n-900); }
+.gsat-swal .swal2-html-container { font-size: 14px; color: var(--n-700); line-height: 1.6; }
+.gsat-swal .swal2-actions { gap: 0; }
+
+.gsat-banner {
+  margin-bottom: 18px;
+  padding: 13px 16px;
+  border-radius: var(--r);
+  font-size: 14px;
+  border: 1px solid transparent;
+  box-shadow: var(--shadow-xs);
+}
+.gsat-banner.ok    { background: var(--ok-bg);     color: var(--ok-ink);     border-color: #c7e8d5; }
+.gsat-banner.warn  { background: var(--warn-bg);   color: var(--warn-ink);   border-color: #f2e0b0; }
+.gsat-banner.error { background: var(--danger-bg); color: var(--danger-ink); border-color: #f3ccd2; }
+
+.gsat-kpi {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-xs);
+  padding: 17px 19px;
+  height: 100%;
+}
+.gsat-kpi-label {
+  font-size: 10.5px; font-weight: 700; letter-spacing: .11em;
+  text-transform: uppercase; color: var(--text-muted);
+}
+.gsat-kpi-value {
+  font-size: 30px; font-weight: 700; color: var(--n-900);
+  line-height: 1.25; letter-spacing: -.02em; margin-top: 2px;
+}
+.gsat-kpi-note { font-size: 12.5px; color: var(--text-subtle); }
+
+/* ============================================================
+   controls
+   ============================================================ */
+.form-control, .form-select {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  padding: 8px 12px;
+  font-size: 14px;
+  min-height: var(--field-h);
+  color: var(--text);
+  background-color: var(--surface);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.form-control::placeholder { color: var(--text-subtle); }
+.form-control:focus, .form-select:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-ring);
+}
+.form-control-sm, .form-select-sm {
+  padding: 6px 10px; font-size: 13px; border-radius: var(--r-xs);
+  min-height: var(--field-h-sm);
+}
+/* room for the caret painted in the field's own background */
+.form-select { padding-right: 34px; }
+.form-select-sm { padding-right: 30px; }
+.form-label { font-size: 13.5px; font-weight: 600; color: var(--n-700); margin-bottom: 6px; }
+
+/* searchable dropdowns (Tom Select) wearing our field styling */
+
+/* The original <select> stays for screen readers; pinning and clipping it stops
+   it widening the document inside a sideways-scrolling table. */
+.ts-hidden-accessible {
+  position: absolute !important;
+  left: 0 !important; top: 0 !important;
+  width: 1px !important; height: 1px !important;
+  padding: 0 !important; margin: -1px !important; border: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  white-space: nowrap !important;
+}
+/* The height belongs on the wrapper, not the control: the theme's min-height em
+   resolves against the wrapper's inherited size, not .ts-control's font-size. */
+.ts-wrapper { min-height: var(--field-h); }
+.ts-wrapper.ts-sm { min-height: var(--field-h-sm); }
+
+.ts-wrapper .ts-control {
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  padding: 8px 12px;
+  font-size: 14px;
+  min-height: 0;
+  box-shadow: none;
+}
+.ts-wrapper.ts-sm .ts-control { padding: 6px 10px; font-size: 13px; border-radius: var(--r-xs); }
+/* The theme ships --ts-pr-clear-button as a unitless 0, which makes its
+   caret-padding calc() invalid and drops it. A unit makes the math valid. */
+:root { --ts-pr-clear-button: 0px; }
+.ts-wrapper.focus .ts-control {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px var(--brand-ring);
+}
+.ts-wrapper.disabled .ts-control, .ts-wrapper.input-disabled .ts-control {
+  background: var(--n-50); color: var(--n-600); border-color: var(--border); opacity: 1;
+}
+/* one line only — a long value is trimmed rather than wrapping the field */
+.ts-wrapper.single .ts-control { flex-wrap: nowrap; overflow: hidden; }
+.ts-wrapper.single .ts-control > .item { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.ts-dropdown .dropdown-input-wrap { position: relative; padding: 8px 10px; }
+.ts-dropdown .dropdown-input-wrap::before {
+  content: "\f52a";                       /* bi-search */
+  font-family: bootstrap-icons !important;
+  position: absolute; left: 21px; top: 50%; transform: translateY(-50%);
+  font-size: 13px; color: var(--text-subtle); pointer-events: none;
+}
+.ts-dropdown .dropdown-input {
+  border: 1px solid var(--border-strong) !important;
+  border-radius: var(--r-xs);
+  padding: 6px 10px 6px 32px;
+  font-size: 13.5px;
+  background: var(--surface);
+}
+.plugin-dropdown_input.focus .ts-dropdown .dropdown-input {
+  border-color: var(--brand) !important;
+  box-shadow: 0 0 0 3px var(--brand-ring);
+  outline: 0;
+}
+
+.ts-dropdown {
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-md);
+  font-size: 13.5px;
+  margin-top: 4px;
+  z-index: 70;               /* above the overlays, since it hangs off <body> */
+}
+.ts-dropdown .option { padding: 8px 12px; }
+.ts-dropdown .active { background: var(--brand-soft); color: var(--brand-ink); }
+.ts-dropdown .no-results { padding: 9px 12px; color: var(--text-muted); }
+.ts-wrapper .ts-control input::placeholder { color: var(--text-muted); }
+.ts-wrapper.single .ts-control > .item { color: var(--n-700); }
+
+/* read-only / system-computed */
+.gsat-locked, .form-control[readonly], .form-select:disabled, .form-control:disabled {
+  background-color: var(--n-50) !important;
+  color: var(--n-600);
+  border-color: var(--border);
+}
+.gsat-soft { background-color: var(--n-50); }
+
+.btn {
+  border-radius: var(--r-sm);
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease, box-shadow .15s ease;
+}
+/* several buttons are <a> elements — never underline them */
+.btn, .btn:hover, .btn:focus { text-decoration: none; }
+.btn-sm { padding: 5px 11px; font-size: 13px; border-radius: var(--r-xs); }
+
+.gsat-btn-new { display: inline-flex; align-items: center; gap: 8px; }
+.gsat-btn-new .bi { font-size: 15px; line-height: 1; }
+.btn:focus-visible { box-shadow: 0 0 0 3px var(--brand-ring); }
+
+.btn-gsat {
+  background: var(--brand); border-color: var(--brand); color: #fff;
+  box-shadow: var(--shadow-xs);
+}
+.btn-gsat:hover, .btn-gsat:focus { background: var(--brand-hover); border-color: var(--brand-hover); color: #fff; }
+.btn-outline-gsat { border: 1px solid var(--brand); color: var(--brand-ink); background: var(--surface); }
+.btn-outline-gsat:hover { background: var(--brand-soft); color: var(--brand-ink); }
+.btn-outline-secondary { border-color: var(--border-strong); color: var(--n-600); }
+.btn-outline-secondary:hover { background: var(--n-50); border-color: var(--n-400); color: var(--n-800); }
+.btn-sam { background: var(--purple); border-color: var(--purple); color: #fff; }
+.btn-sam:hover { background: #5c3fa0; border-color: #5c3fa0; color: #fff; }
+.btn-sam:disabled { background: var(--n-200); border-color: var(--n-200); color: var(--n-400); }
+
+/* square icon buttons — .solid (primary) · default outline · .muted (secondary) */
+.gsat-icon-btn {
+  width: 34px; height: 34px;
+  display: inline-grid; place-items: center;
+  border: 1px solid var(--brand);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  color: var(--brand-ink);
+  cursor: pointer;
+  font-size: 15px; line-height: 1; padding: 0;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.gsat-icon-btn:hover { background: var(--brand-soft); color: var(--brand-ink); }
+.gsat-icon-btn.solid {
+  background: var(--brand); border-color: var(--brand); color: #fff; box-shadow: var(--shadow-xs);
+}
+.gsat-icon-btn.solid:hover { background: var(--brand-hover); border-color: var(--brand-hover); color: #fff; }
+.gsat-icon-btn.muted { border-color: var(--border-strong); color: var(--text-muted); }
+.gsat-icon-btn.muted:hover { background: var(--n-50); border-color: var(--n-400); color: var(--n-700); }
+.gsat-icon-btn.ok { background: var(--ok); border-color: var(--ok); color: #fff; box-shadow: var(--shadow-xs); }
+.gsat-icon-btn.ok:hover { background: var(--ok-ink); border-color: var(--ok-ink); color: #fff; }
+.gsat-icon-btn.danger { border-color: var(--danger); color: var(--danger); }
+.gsat-icon-btn.danger:hover { background: var(--danger-bg); border-color: var(--danger); color: var(--danger-ink); }
+/* disabled wins over every variant above, so it stays last */
+.gsat-icon-btn.disabled, .gsat-icon-btn.disabled:hover {
+  background: var(--surface); border-color: var(--n-200); color: var(--n-400); cursor: not-allowed; box-shadow: none;
+}
+
+.gsat-radio, .gsat-check {
+  display: inline-flex; align-items: center; gap: 8px;
+  cursor: pointer; font-size: 14px; color: var(--n-700);
+  white-space: nowrap;
+}
+.gsat-radio .dot {
+  width: 16px; height: 16px; border-radius: 50%; flex: none;
+  border: 1.5px solid var(--n-400); background: var(--surface);
+  transition: border-color .15s ease, background .15s ease;
+}
+.gsat-radio:hover .dot, .gsat-check:hover .box { border-color: var(--brand); }
+.gsat-radio.on .dot { border-color: var(--brand); background: radial-gradient(var(--brand) 0 44%, #fff 48%); }
+.gsat-check .box {
+  width: 16px; height: 16px; border-radius: var(--r-xs); flex: none;
+  border: 1.5px solid var(--n-400); background: var(--surface); position: relative;
+  transition: border-color .15s ease, background .15s ease;
+}
+.gsat-check.on .box { border-color: var(--brand); background: var(--brand); }
+.gsat-check.on .box::after {
+  content: '\2713'; position: absolute; inset: 0; color: #fff;
+  font-size: 11px; line-height: 13px; text-align: center; font-weight: 700;
+}
+.gsat-radio.disabled, .gsat-check.disabled { cursor: default; color: var(--text-subtle); }
+.gsat-radio.disabled .dot, .gsat-check.disabled .box { border-color: var(--n-300); background: var(--surface); }
+.gsat-radio.disabled:hover .dot, .gsat-check.disabled:hover .box { border-color: var(--n-300); }
+
+/* a locked choice still reads as chosen: the mark is muted, not erased */
+.gsat-radio.disabled.on .dot {
+  border-color: var(--n-400);
+  background: radial-gradient(var(--n-500) 0 44%, #fff 48%);
+}
+.gsat-check.disabled.on .box { border-color: var(--n-400); background: var(--n-400); }
+.gsat-radio.disabled.on:hover .dot, .gsat-check.disabled.on:hover .box { border-color: var(--n-400); }
+.gsat-check-grid { grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); max-width: 720px; }
+.gsat-check-grid.cols-2 { grid-template-columns: repeat(2, minmax(170px, 1fr)); max-width: 480px; }
+
+.gsat-dim { opacity: .55; }
+.gsat-dim .form-label { color: var(--text-subtle); }
+
+/* ============================================================
+   horizontal form grid  [label][field][label][field]
+   ============================================================ */
+.gsat-form-grid {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr) max-content minmax(0, 1fr);
+  column-gap: 18px;
+  row-gap: 16px;
+  align-items: center;
+}
+.gsat-form-label { font-size: 14px; font-weight: 500; color: var(--n-700); margin: 0; white-space: nowrap; }
+.gsat-form-grid .span-field { grid-column: 2 / -1; }
+.gsat-form-grid .span-all { grid-column: 1 / -1; }
+.gsat-form-grid .gsat-note { margin-top: 7px; }
+.gsat-form-rule {
+  grid-column: 1 / -1; margin: 8px 0;
+  border: 0; border-top: 1px solid var(--border); opacity: 1;
+}
+.gsat-radio-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 28px; }
+
+/* report filter bar */
+.gsat-filters { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px; }
+.gsat-filter { flex: 1 1 170px; min-width: 0; }
+.gsat-filter .form-label { margin-bottom: 5px; }
+.gsat-filters .btn { flex: none; }
+
+.gsat-filter.wide { flex-grow: 2; }
+
+/* padlock inside a read-only field */
+.gsat-locked-field { position: relative; }
+.gsat-locked-field .form-control { padding-right: 34px; }
+.gsat-locked-field .bi-lock-fill {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  font-size: 11px; color: var(--text-subtle); pointer-events: none;
+}
+
+/* My Profile: editable identity and administrator-owned access information are
+   deliberately separate, so the reader can tell at a glance what they own. */
+.gsat-profile-card { overflow: hidden; }
+.gsat-profile-card-head {
+  display: flex; align-items: center; gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(135deg, #f6fbfc 0%, #fff 72%);
+}
+.gsat-profile-head-icon {
+  width: 38px; height: 38px; flex: none;
+  display: grid; place-items: center;
+  border-radius: 11px;
+  background: var(--brand); color: #fff;
+  font-size: 18px;
+}
+.gsat-profile-head-icon.muted { background: var(--n-100); color: var(--brand-ink); }
+.gsat-profile-card-title { margin: 0; font-size: 16px; font-weight: 700; color: var(--n-800); }
+.gsat-profile-card-head p { margin: 2px 0 0; font-size: 13px; color: var(--text-muted); }
+.gsat-profile-card .form-control { min-height: 42px; }
+.gsat-profile-note {
+  display: flex; align-items: flex-start; gap: 8px;
+  margin-top: 20px; padding: 11px 12px;
+  border-radius: var(--r-sm);
+  background: var(--brand-soft); color: var(--brand-ink);
+  font-size: 12.5px; line-height: 1.45;
+}
+.gsat-profile-note .bi { margin-top: 2px; }
+.gsat-profile-audit {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px; margin-top: 20px; padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+.gsat-profile-audit div { min-width: 0; }
+.gsat-profile-audit span {
+  display: block; margin-bottom: 4px;
+  font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--text-subtle);
+}
+.gsat-profile-audit strong {
+  display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-size: 12.5px; font-weight: 600; color: var(--n-700);
+}
+
+/* the one writable field on an otherwise locked page — inert until .on */
+.gsat-editable-field { position: relative; }
+.gsat-editable-field .bi-pencil-fill { display: none; }
+.gsat-editable-field.on .form-control {
+  padding-right: 34px;
+  border-color: var(--brand);
+  background-color: var(--brand-soft) !important;
+  box-shadow: 0 0 0 3px var(--brand-ring);
+}
+.gsat-editable-field.on .form-control:focus { background-color: #fff !important; }
+.gsat-editable-field.on .bi-pencil-fill {
+  display: block;
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  font-size: 11px; color: var(--brand-ink); pointer-events: none;
+}
+
+/* A required field the save stopped on. The class goes on the grid cell, not the
+   control, because Tom Select draws its own markup in place of the <select>; and
+   .ts-wrapper carries the box because the theme sets `border: 0` on .ts-control
+   at a specificity this cannot reach. */
+.gsat-missing .form-control,
+.gsat-missing .form-select,
+.gsat-missing .ts-wrapper {
+  border-color: var(--danger) !important;
+  box-shadow: 0 0 0 3px rgba(209, 57, 75, .13);
+}
+/* radio rows have no box of their own; outline draws one without moving anything */
+.gsat-radio-row.gsat-missing {
+  outline: 1px solid var(--danger);
+  outline-offset: 7px;
+  border-radius: var(--r-xs);
+}
+.gsat-form-label.gsat-missing { color: var(--danger-ink); font-weight: 600; }
+
+.gsat-editable-tag {
+  display: inline-block; margin-left: 8px; vertical-align: middle;
+  font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--brand-ink); background: var(--brand-soft);
+  border: 1px solid var(--brand); border-radius: var(--r-pill);
+  padding: 2px 8px; white-space: nowrap;
+}
+
+/* ============================================================
+   tables
+   ============================================================ */
+.gsat-table { width: 100%; font-size: 13.5px; margin: 0; }
+.gsat-table th {
+  background: var(--n-50);
+  font-size: 10.5px; font-weight: 700; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+  text-align: left;
+}
+.gsat-table td {
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--n-100);
+  vertical-align: middle;
+  color: var(--n-700);
+}
+.gsat-table tbody tr { transition: background .12s ease; }
+.gsat-table tbody tr:hover { background: var(--n-25); }
+.gsat-table tr:last-child td { border-bottom: none; }
+.gsat-table td .small, .gsat-table td .text-secondary { color: var(--text-muted) !important; }
+
+/* ---- the actions cell ----
+   Nowrap keeps the column at least as wide as the buttons standing in a row,
+   instead of letting them stack. The phone layout overrides both rules: there
+   the cell is a flex strip with its own gap. */
+.gsat-table td.js-actions { white-space: nowrap; }
+.gsat-table td.js-actions > * + * { margin-left: 6px; }
+
+/* a table filling a card edge-to-edge keeps the card's rounded corners */
+.gsat-card-body.p-0 > .table-responsive { border-radius: var(--r-lg); overflow: hidden; }
+
+/* Site and Lessor Transactions has mapping and assignment columns in addition
+   to the assessment workflow. Keep the full table reachable on narrower desks
+   instead of clipping the Actions column at the card edge. */
+.gsat-card-body.p-0 > .table-responsive.transaction-table { overflow-x: auto; overflow-y: hidden; }
+.transaction-table .gsat-table { min-width: 1550px; }
+
+/* Five transaction actions would make the table unnecessarily wide. In this
+   module they form a compact three-column grid: three controls above, then two. */
+@media (min-width: 768px) {
+  /* Pin Actions at the table's right edge while the data columns scroll beneath. */
+  .transaction-table .gsat-table .transaction-actions-head,
+  .transaction-table .gsat-table td.js-actions {
+    position: sticky;
+    right: 0;
+  }
+  .transaction-table .gsat-table .transaction-actions-head {
+    z-index: 3;
+    width: 128px;
+    min-width: 128px;
+    background: var(--n-50);
+    box-shadow: -8px 0 12px -12px rgba(18, 58, 94, .45);
+  }
+  .transaction-table .gsat-table td.js-actions {
+    display: grid;
+    grid-template-columns: repeat(3, 32px);
+    gap: 6px;
+    width: 128px;
+    min-width: 128px;
+    padding: 10px 8px;
+    white-space: normal;
+    z-index: 2;
+    background: #f7fafb;
+    box-shadow: -8px 0 12px -12px rgba(18, 58, 94, .45);
+  }
+  .transaction-table .gsat-table tbody tr:hover td.js-actions { background: var(--n-25); }
+  .transaction-table .gsat-table td.js-actions > * + * { margin-left: 0; }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn {
+    width: 32px;
+    height: 32px;
+    border-color: #d8e2e8;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--brand-ink);
+    box-shadow: none;
+  }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn:hover {
+    border-color: var(--brand);
+    background: var(--brand-soft);
+  }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn.solid {
+    border-color: var(--brand);
+    background: var(--brand);
+    color: #fff;
+  }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn.ok {
+    border-color: #b8e7d5;
+    background: #effbf6;
+    color: #16805f;
+  }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn.danger {
+    border-color: #f0d2d2;
+    background: #fff8f8;
+    color: #b84a4a;
+  }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn.disabled {
+    border-color: #e1e8ec;
+    background: #f4f7f8;
+    color: #a8b5bd;
+  }
+}
+
+/* ---- pager ----
+   Numbers, Previous and Next are one control with two states: .on for the
+   current page, [disabled] for the ends of the range. */
+.gsat-pager {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 10px 16px;
+  margin-top: 14px;
+}
+.gsat-pager-info { font-size: 13px; color: var(--text-muted); }
+.gsat-pager-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+
+.gsat-page {
+  min-width: 36px; height: 36px; padding: 0 11px;
+  border: 1px solid var(--border-strong); border-radius: var(--r-xs);
+  background: var(--surface); color: var(--n-700);
+  font-size: 13px; font-weight: 600; line-height: 1;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, color .15s ease;
+}
+.gsat-page:hover:not(:disabled):not(.on) {
+  background: var(--n-50); border-color: var(--n-400); color: var(--n-800);
+}
+.gsat-page.on { background: var(--brand); border-color: var(--brand); color: #fff; cursor: default; }
+.gsat-page:disabled { color: var(--n-400); cursor: not-allowed; }
+.gsat-page:focus-visible { outline: 0; box-shadow: 0 0 0 3px var(--brand-ring); }
+
+/* the ellipsis between two runs of numbers — a spacer, not a button */
+.gsat-page.gsat-page-gap, .gsat-page.gsat-page-gap:disabled {
+  border-color: transparent; background: transparent;
+  min-width: 0; padding: 0 2px; color: var(--text-subtle); cursor: default;
+}
+
+/* ============================================================
+   tabs (checklist / scorecard)
+   ============================================================ */
+.gsat-tabs {
+  display: flex; gap: 4px;
+  border-bottom: 1px solid var(--border);
+  /* overflow-y must be stated: a non-visible overflow-x turns the other axis
+     into auto, and the active tab's underline then raises a scrollbar */
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.gsat-tab {
+  padding: 11px 18px;
+  font-size: 14px; font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer; white-space: nowrap; flex: none;
+  border: 0; border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color .15s ease, border-color .15s ease;
+}
+.gsat-tab:hover { color: var(--n-800); }
+.gsat-tab.active { color: var(--brand-ink); font-weight: 600; border-bottom-color: var(--brand); }
+
+/* ============================================================
+   vertical step rail (site details)
+   ============================================================ */
+.gsat-steps { border-right: 1px solid var(--border); background: var(--n-25); }
+.gsat-steps-title {
+  padding: 16px 18px 8px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .11em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+.gsat-steps-count { padding: 12px 18px 16px; font-size: 12.5px; color: var(--text-muted); }
+.gsat-step {
+  display: grid; grid-template-columns: 26px minmax(0, 1fr) 16px;
+  align-items: center; gap: 11px;
+  padding: 10px 18px;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: background .15s ease;
+}
+.gsat-step:hover { background: var(--n-50); }
+.gsat-step.active { border-left-color: var(--brand); background: var(--surface); }
+.gsat-step .num {
+  font-size: 11px; font-weight: 700;
+  text-align: center; padding: 3px 0;
+  border-radius: var(--r-xs);
+  background: var(--n-100); color: var(--text-muted);
+}
+.gsat-step.active .num { background: var(--brand); color: #fff; }
+.gsat-step.done .num { background: var(--ok-bg); color: var(--ok-ink); }
+.gsat-step .lbl { font-size: 13.5px; color: var(--n-600); }
+.gsat-step.active .lbl { color: var(--brand-ink); font-weight: 600; }
+.gsat-step .tick { font-size: 12px; color: var(--ok); text-align: center; visibility: hidden; }
+.gsat-step.done .tick { visibility: visible; }
+
+/* ============================================================
+   detail form rows (site details)
+   ============================================================ */
+.gsat-detail-row {
+  display: grid;
+  grid-template-columns: minmax(180px, 300px) minmax(0, 1fr);
+  gap: 16px; align-items: start;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--n-100);
+}
+.gsat-detail-row:last-child { border-bottom: none; }
+.gsat-detail-row .lbl { font-size: 14px; color: var(--n-700); padding-top: 8px; }
+.gsat-detail-row .lbl.req { font-weight: 600; color: var(--n-800); }
+/* Tom Select hides the <select> and draws .ts-wrapper in its place, so the
+   width cap has to name the wrapper too or upgraded dropdowns run full width. */
+.gsat-detail-row input[type=text],
+.gsat-detail-row select,
+.gsat-detail-row .ts-wrapper { max-width: 460px; }
+
+/* ============================================================
+   checklist rows
+   ============================================================ */
+.gsat-cl-section {
+  padding: 18px 0 8px;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--brand-ink);
+}
+.gsat-cl-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 260px) minmax(110px, 150px) 70px minmax(150px, 1fr);
+  gap: 12px; align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--n-100);
+}
+.cl-label { font-size: 14px; color: var(--n-700); }
+
+/* ============================================================
+   scorecard grid
+   ============================================================ */
+.gsat-score-grid {
+  display: grid;
+  /* the Score column holds a dropdown — room for the label and the caret both */
+  grid-template-columns: minmax(220px, 1.6fr) repeat(3, minmax(110px, 1fr)) minmax(160px, 1fr) minmax(140px, 1fr);
+  /* without a floor the grid clips its own overflow and the right-hand
+     columns become unreachable on a phone */
+  min-width: 850px;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  overflow: hidden;
+  background: var(--surface);
+}
+.gsat-score-cell {
+  padding: 11px 13px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; min-width: 0;
+  font-size: 13.5px; color: var(--n-700);
+}
+.gsat-score-cell:nth-child(6n) { border-right: none; }
+.gsat-score-cell.head {
+  background: var(--n-50); font-weight: 700; justify-content: center;
+  font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-muted);
+}
+.gsat-score-cell.band { background: var(--n-25); font-weight: 700; justify-content: center; color: var(--n-800); }
+.gsat-score-cell.blocktitle { background: var(--n-25); font-weight: 700; color: var(--n-800); }
+.gsat-score-cell.center { justify-content: center; color: var(--text-muted); }
+/* band labels are whole phrases — let them wrap and centre */
+.gsat-score-cell.center { text-align: center; }
+
+.gsat-score-total { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.gsat-score-total .gsat-note { margin-top: 2px; }
+.gsat-score-total-value {
+  flex: none;
+  font-size: 23px; font-weight: 700; color: var(--n-900);
+  letter-spacing: -.02em; font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   charts (dashboard)
+   ============================================================ */
+.gsat-bar-track { flex: 1; background: var(--n-100); border-radius: var(--r-pill); height: 10px; }
+.gsat-bar { height: 10px; border-radius: var(--r-pill); background: var(--brand); }
+.gsat-donut { width: 152px; height: 152px; border-radius: 50%; position: relative; margin: 0 auto; }
+.gsat-donut::after { content: ''; position: absolute; inset: 27px; background: var(--surface); border-radius: 50%; }
+.gsat-donut .center-label {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; z-index: 1;
+}
+.gsat-vbar-wrap { display: flex; align-items: flex-end; gap: 12px; height: 180px; }
+.gsat-vbar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; justify-content: flex-end; }
+.gsat-vbar { width: 100%; max-width: 38px; border-radius: var(--r-xs) var(--r-xs) 0 0; background: var(--brand); }
+
+/* compact list + chart rows on the dashboard */
+.gsat-list-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 0; border-bottom: 1px solid var(--n-100);
+}
+.gsat-list-row:last-child { border-bottom: none; }
+.gsat-list-code { flex: none; width: 128px; font-size: 13px; font-weight: 600; color: var(--n-800); }
+.gsat-list-code.narrow { width: 46px; font-weight: 700; }
+.gsat-list-main { flex: 1 1 auto; min-width: 0; font-size: 13px; color: var(--n-700); }
+.gsat-list-meta { font-size: 12.5px; color: var(--text-muted); }
+.gsat-list-value { font-size: 13px; font-weight: 600; color: var(--n-800); }
+
+.gsat-legend-row { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
+.legend-dot { width: 11px; height: 11px; border-radius: 3px; flex: none; }
+
+.gsat-bar-row { display: flex; align-items: center; gap: 12px; margin-bottom: 9px; }
+.bar-name { flex: none; font-size: 13px; font-weight: 600; color: var(--n-700); }
+.bar-value { flex: none; width: 30px; text-align: right; font-size: 12.5px; color: var(--text-muted); }
+
+/* label column of the dashboard bar rows */
+#territory-bars .bar-name { width: 36px; }
+#admin-load .bar-name { width: 130px; }
+#sam-specialists .bar-name { width: 150px; }
+
+/* a REM's list spans several territories: the widest label column of the set,
+   and fixed, so every bar starts at the same place down the card */
+#rem-specialists .bar-name {
+  width: 168px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+#rem-specialists .gsat-bar-row:last-child { margin-bottom: 0; }
+
+.gsat-scroll-list {
+  max-height: 264px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 4px;          /* keeps the scrollbar off the row text */
+}
+
+.gsat-scroll-list.tall { max-height: 340px; }
+
+/* Card heading with its count opposite. Distinct from .gsat-card-head above,
+   which sits outside .gsat-card-body and brings its own padding — this one
+   lives inside the body, which is padded already. */
+.gsat-card-title-row {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+}
+
+/* ---- sub-territory coverage rows (REM) ----
+   These names run long — "Batangas/Quezon (BonPen)/Bicol" — so the name flexes
+   and wraps, with the territory and area count right-aligned opposite. */
+.gsat-cov-row {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 16px;
+  padding: 11px 0; border-bottom: 1px solid var(--n-100);
+}
+.gsat-cov-row:last-child { border-bottom: none; }
+
+.gsat-cov-main { flex: 1 1 auto; min-width: 0; }
+.gsat-cov-name { font-size: 13px; font-weight: 600; color: var(--n-800); }
+.gsat-cov-sam {
+  display: flex; align-items: center; gap: 5px;
+  margin-top: 3px; font-size: 12.5px; color: var(--n-700);
+}
+.gsat-cov-sam .bi { font-size: 12px; color: var(--text-muted); }
+.gsat-cov-sam.none { color: var(--text-muted); font-style: italic; }
+
+.gsat-cov-meta { flex: none; text-align: right; }
+.gsat-cov-territory { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; }
+.gsat-cov-areas { margin-top: 3px; font-size: 13px; font-weight: 600; color: var(--n-800); }
+
+
+.gsat-title-actions { flex: none; display: flex; align-items: center; gap: 10px; }
+
+.gsat-queue-list { margin: 0 -12px; padding: 0; }
+
+.gsat-queue-row {
+  display: flex; align-items: center; gap: 14px;
+  padding: 11px 12px;
+  border-bottom: 1px solid var(--n-100);
+  border-radius: var(--r-sm);
+  color: inherit; text-decoration: none;
+  transition: background .12s ease;
+}
+.gsat-queue-row:last-child { border-bottom: none; }
+.gsat-queue-row:hover { background: var(--brand-soft); color: inherit; text-decoration: none; }
+.gsat-queue-code {
+  flex: none;
+  padding: 3px 10px; border-radius: var(--r-pill);
+  background: var(--brand-soft); color: var(--brand-ink);
+  font-size: 12px; font-weight: 700; font-variant-numeric: tabular-nums;
+}
+/* the row hover tints the strip, so the code keeps its edge against it */
+.gsat-queue-row:hover .gsat-queue-code { background: var(--n-0); }
+.gsat-queue-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; }
+.gsat-queue-name { font-size: 13.5px; font-weight: 600; color: var(--n-800); }
+.gsat-queue-where { font-size: 12.5px; color: var(--text-muted); }
+.gsat-queue-sas {
+  flex: none; display: flex; align-items: center; gap: 6px;
+  font-size: 12.5px; color: var(--n-600); white-space: nowrap;
+}
+.gsat-queue-sas .bi { font-size: 12px; color: var(--text-subtle); }
+.gsat-queue-go { flex: none; font-size: 14px; color: var(--text-subtle); }
+.gsat-queue-row:hover .gsat-queue-go { color: var(--brand); }
+
+.gsat-decision-row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px;
+  padding: 9px 0; border-bottom: 1px solid var(--n-100);
+}
+.gsat-decision-row:last-child { border-bottom: none; }
+.gsat-decision-row .js-reason { color: var(--text-muted); }
+
+/* a second heading inside a card */
+.gsat-mini-head {
+  margin: 18px 0 12px; padding-top: 15px;
+  border-top: 1px solid var(--n-100);
+  font-size: 11px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* one bar split by status, above the legend that names the parts */
+.gsat-stack-bar {
+  display: flex; height: 10px; margin-bottom: 14px;
+  border-radius: var(--r-pill); overflow: hidden; background: var(--n-100);
+}
+.gsat-stack-bar > span { height: 100%; }
+.gsat-legend-row:last-child { margin-bottom: 0; }
+
+/* ============================================================
+   overlay / preview
+   ============================================================ */
+.gsat-overlay {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgba(22, 27, 33, .55);
+  backdrop-filter: blur(2px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.gsat-overlay-card {
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  width: 100%; max-width: 720px; max-height: 86vh;
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.gsat-overlay-head {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 18px 22px; border-bottom: 1px solid var(--border);
+}
+.gsat-overlay-body { padding: 6px 22px 18px; overflow-y: auto; }
+.gsat-overlay-foot {
+  padding: 14px 22px; border-top: 1px solid var(--border);
+  display: flex; justify-content: flex-end; gap: 10px;
+  background: var(--n-25);
+}
+.gsat-preview-head {
+  padding: 18px 0 8px; margin-bottom: 6px;
+  border-bottom: 1px solid var(--n-100);
+  font-size: 12px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  color: var(--brand-ink);
+}
+.gsat-preview-row {
+  display: grid; grid-template-columns: minmax(180px, 1.2fr) minmax(140px, 1fr);
+  gap: 14px; align-items: start; padding: 7px 0; font-size: 13.5px; color: var(--n-600);
+}
+.gsat-preview-row .val { font-weight: 600; color: var(--n-800); }
+.gsat-preview-row .val.miss { color: var(--danger); font-weight: 500; }
+.gsat-preview-row-3 { grid-template-columns: minmax(160px, 1.4fr) minmax(90px, 120px) minmax(120px, 1fr); }
+
+/* ============================================================
+   assignment panels
+   ============================================================ */
+.gsat-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-xs);
+  display: flex; flex-direction: column;
+  min-height: 380px;
+  overflow: hidden;
+}
+.gsat-panel-head { padding: 16px 18px; border-bottom: 1px solid var(--border); background: var(--n-25); }
+.gsat-panel-body { flex: 1; overflow-y: auto; max-height: 480px; }
+.gsat-person-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 18px;
+  border-bottom: 1px solid var(--n-100);
+  cursor: pointer;
+  transition: background .12s ease;
+}
+.gsat-person-row:hover { background: var(--n-25); }
+.gsat-person-row.on {
+  background: var(--brand-soft);
+  box-shadow: inset 3px 0 0 var(--brand);
+  color: var(--brand-ink);
+  font-weight: 600;
+}
+.gsat-count-pill {
+  flex: none; min-width: 30px; text-align: center;
+  padding: 3px 9px; border-radius: var(--r-pill);
+  font-size: 12px; font-weight: 700;
+  background: var(--n-100); color: var(--text-muted);
+}
+.gsat-person-row.on .gsat-count-pill { background: var(--brand); color: #fff; }
+
+/* ============================================================
+   typeahead
+   ============================================================ */
+.gsat-suggest {
+  position: absolute; z-index: 15; width: 100%;
+  margin-top: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+.gsat-suggest-item { padding: 9px 13px; font-size: 13.5px; color: var(--n-700); cursor: pointer; }
+.gsat-suggest-item:hover { background: var(--brand-soft); color: var(--brand-ink); }
+
+/* ============================================================
+   responsive
+   ============================================================ */
+img, svg, video { max-width: 100%; }
+
+@media (max-width: 991.98px) {
+  .gsat-form-grid { grid-template-columns: max-content minmax(0, 1fr); }
+
+  /* the step rail becomes a horizontal strip above the pane */
+  .gsat-steps {
+    border-right: 0;
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: stretch;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .gsat-steps-title { display: none; }
+  .gsat-steps-count { flex: none; align-self: center; padding: 12px 16px; white-space: nowrap; }
+  .gsat-step {
+    flex: none;
+    grid-template-columns: auto auto;
+    gap: 8px;
+    padding: 12px 14px;
+    border-left: 0;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .gsat-step .tick { display: none; }
+  .gsat-step.active { border-bottom-color: var(--brand); background: var(--surface); }
+}
+
+@media (max-width: 900px) {
+  .gsat-aside {
+    position: fixed; z-index: 40; height: 100vh; left: 0; top: 0;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+  }
+  /* never full width — the scrim stays tappable */
+  .gsat-aside.collapsed { transform: translateX(0); width: min(86vw, var(--aside-w)); }
+  .gsat-overlay-foot { flex-wrap: wrap; }
+  .gsat-content { padding: 18px 16px 26px; }
+  .gsat-topbar { padding: 0 14px; gap: 10px; }
+  .gsat-footer { padding: 14px 16px 20px; }
+  .gsat-card-body { padding: 16px; }
+  .gsat-page-title { font-size: 19px; }
+  .gsat-table th, .gsat-table td { padding: 11px 12px; }
+  .gsat-overlay { padding: 12px; }
+  .gsat-overlay-card { max-height: 92vh; }
+  .gsat-overlay-head, .gsat-overlay-foot { padding: 14px 16px; }
+  .gsat-overlay-body { padding: 4px 16px 14px; }
+  .gsat-panel { min-height: 0; }
+  .gsat-panel-body { max-height: 320px; }
+}
+
+@media (max-width: 720px) {
+  .gsat-cl-row { grid-template-columns: 1fr; gap: 6px; padding: 14px 0; }
+  .gsat-user-role { display: none; }
+  .gsat-preview-row, .gsat-preview-row-3 { grid-template-columns: 1fr; gap: 2px; padding: 9px 0; }
+  .gsat-preview-row + .gsat-preview-row { border-top: 1px solid var(--n-100); }
+}
+
+@media (max-width: 575.98px) {
+  .gsat-form-grid { grid-template-columns: minmax(0, 1fr); row-gap: 6px; }
+  .gsat-form-grid .span-field { grid-column: 1 / -1; }
+  .gsat-form-label { margin-top: 10px; white-space: normal; }
+  .gsat-detail-row { grid-template-columns: 1fr; gap: 6px; }
+  .gsat-detail-row .lbl { padding-top: 0; }
+  .gsat-detail-row input[type=text],
+  .gsat-detail-row select,
+  .gsat-detail-row .ts-wrapper { max-width: none; }
+  .gsat-kpi { padding: 14px 15px; }
+  .gsat-kpi-value { font-size: 24px; }
+  .gsat-kpi-label { font-size: 10px; letter-spacing: .08em; }
+  .gsat-login-card { padding: 30px 22px 24px; }
+  .gsat-login-card .gsat-logo { width: 92px; height: 92px; }
+  .gsat-check-grid, .gsat-check-grid.cols-2 { grid-template-columns: 1fr; }
+  .gsat-vbar-wrap { height: 140px; gap: 7px; }
+  .gsat-tab { padding: 10px 13px; font-size: 13.5px; }
+  .gsat-content .btn:not(.btn-sm) { flex: 1 1 auto; }
+
+  /* …except the "+ New" button, which shrinks to its plus */
+  .gsat-content .btn.gsat-btn-new {
+    flex: none;
+    width: 40px; height: 40px; padding: 0;
+    justify-content: center;
+  }
+  .gsat-btn-new-label { display: none; }
+
+  .gsat-profile-card-head { padding: 16px; align-items: flex-start; }
+  .gsat-profile-card .gsat-card-body { padding: 16px; }
+  .gsat-profile-audit { grid-template-columns: 1fr; gap: 12px; }
+  .gsat-profile-audit strong { white-space: normal; }
+
+  .gsat-list-row { flex-wrap: wrap; gap: 5px 10px; }
+  .gsat-list-code, .gsat-list-code.narrow { width: auto; }
+  .gsat-list-main { flex-basis: 100%; }
+  #admin-load .bar-name, #sam-specialists .bar-name { width: 96px; }
+  #rem-specialists .bar-name { width: 104px; }
+
+  /* the trade area drops under the code and specialist, which share a line */
+  .gsat-queue-row { flex-wrap: wrap; gap: 7px 10px; }
+  .gsat-queue-main { flex-basis: 100%; order: 3; }
+  .gsat-queue-sas { margin-left: auto; }
+  .gsat-queue-go { display: none; }
+
+  .gsat-card-title-row { flex-wrap: wrap; }
+  .gsat-title-actions { width: 100%; justify-content: space-between; }
+
+  .gsat-cov-row { flex-direction: column; gap: 4px; }
+  .gsat-cov-meta { text-align: left; display: flex; align-items: baseline; gap: 10px; }
+  .gsat-cov-areas { margin-top: 0; }
+
+  /* the page already scrolls — don't add a second scroll to fight with */
+  .gsat-scroll-list { max-height: 60vh; }
+
+  /* ---- data tables become cards ----
+     Every row is re-drawn as a card: the record's key first, its fields
+     labelled underneath, actions on a strip at the foot. The labels come from
+     data-label on the <td>. */
+  .gsat-table, .gsat-table tbody, .gsat-table tr, .gsat-table td { display: block; width: 100%; }
+  .gsat-table thead { display: none; }
+
+  .gsat-card-body > .table-responsive { background: var(--n-50); padding: 4px 0; }
+
+  /* a card that only frames the table steps aside; the row cards sit on the page */
+  .gsat-card:has(> .gsat-card-body.p-0 > .table-responsive) {
+    background: transparent; border: 0; box-shadow: none;
+  }
+  .gsat-card:has(> .gsat-card-body.p-0 > .table-responsive) > .gsat-card-body > .table-responsive {
+    background: transparent; padding: 0;
+  }
+  .gsat-card:has(> .gsat-card-body.p-0 > .table-responsive) .gsat-table tbody tr { margin: 12px 0; }
+
+  .gsat-table tbody tr {
+    margin: 10px 12px;
+    padding: 13px 15px;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    background: var(--surface);
+    box-shadow: var(--shadow-xs);
+  }
+  .gsat-table tbody tr:hover { background: var(--surface); }
+
+  .gsat-table td { padding: 0; border-bottom: none; }
+  .gsat-table td + td { margin-top: 11px; }
+  .gsat-table td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--text-subtle);
+  }
+  .gsat-table td[data-label=""]::before { display: none; }
+  .gsat-table td.text-nowrap { white-space: normal; }
+  .gsat-table .form-select { width: 100%; }
+
+  /* the record key is the card's headline */
+  .gsat-table tbody td:first-child {
+    font-size: 16px; font-weight: 700; color: var(--n-900); line-height: 1.3;
+  }
+  .gsat-table tbody td:first-child::before { color: var(--text-subtle); }
+
+  .gsat-table td.js-actions {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    margin-top: 13px; padding-top: 12px;
+    border-top: 1px solid var(--n-100);
+  }
+  .gsat-table td.js-actions::before { flex-basis: 100%; margin-bottom: 0; }
+  .gsat-table td.js-actions .btn { flex: 1 1 auto; margin: 0 !important; }
+
+  /* No hover on a phone, so each icon shows its label. It comes from
+     data-action-label rather than title: Bootstrap rewrites title when it
+     builds a tooltip, which would print the label twice. */
+  .gsat-table td.js-actions .gsat-icon-btn {
+    flex: none; margin: 0 !important;
+    width: auto; height: 38px;
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 0 13px;
+    font-size: 13px; font-weight: 600;
+  }
+  .gsat-table td.js-actions .gsat-icon-btn::after { content: attr(data-action-label); }
+}
+
+/* iPhone SE and other 320-360px screens */
+/* Keep the transaction actions as icons on phone cards too: three per row,
+   with the last two naturally wrapping onto a second row. Titles still carry
+   the action names for assistive and pointer users. */
+@media (max-width: 649.98px) {
+  /* The desktop table needs a wide scroll area; mobile turns the same rows into
+     cards, so that minimum must be reset or a card inherits desktop width. */
+  .transaction-table .gsat-table,
+  .transaction-table .gsat-table tbody,
+  .transaction-table .gsat-table tr,
+  .transaction-table .gsat-table td {
+    display: block;
+    width: 100%;
+  }
+  .transaction-table .gsat-table thead { display: none; }
+  .gsat-card:has(> .gsat-card-body.p-0 > .transaction-table) {
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+  .gsat-card:has(> .gsat-card-body.p-0 > .transaction-table) > .gsat-card-body > .transaction-table {
+    background: transparent;
+    padding: 0;
+  }
+  .transaction-table {
+    overflow-x: hidden !important;
+  }
+  .transaction-table .gsat-table {
+    min-width: 0;
+    width: 100%;
+  }
+  .transaction-table .gsat-table td.js-actions {
+    position: static;
+    right: auto;
+    box-shadow: none;
+  }
+  .transaction-table .gsat-table tbody tr {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 18px;
+    margin: 12px 0;
+    padding: 14px 15px;
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    background: var(--surface);
+    box-shadow: var(--shadow-xs);
+  }
+  .transaction-table .gsat-table tbody td,
+  .transaction-table .gsat-table tbody td + td {
+    padding: 0;
+    border-bottom: none;
+    margin-top: 0;
+  }
+  .transaction-table .gsat-table tbody td::before {
+    content: attr(data-label);
+    display: block;
+    margin-bottom: 3px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-subtle);
+  }
+  .transaction-table .gsat-table tbody td[data-label="Trade Area"],
+  .transaction-table .gsat-table tbody td[data-label="Territory"],
+  .transaction-table .gsat-table tbody td.js-actions {
+    grid-column: 1 / -1;
+  }
+  /* Date is supporting information; the Site Code remains the card's headline. */
+  .transaction-table .gsat-table tbody td:first-child {
+    font-size: 13.5px;
+    font-weight: 400;
+    color: var(--n-700);
+    line-height: normal;
+  }
+  .transaction-table .gsat-table tbody td[data-label="Site Code"] {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--n-900);
+    line-height: 1.3;
+  }
+  .transaction-table .gsat-table td.js-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+    width: min(100%, 280px);
+    padding: 10px;
+    border: 1px solid #e1e8ec;
+    border-radius: 10px;
+    background: #f7fafb;
+  }
+  .transaction-table .gsat-table td.js-actions::before { grid-column: 1 / -1; }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn {
+    width: 100%;
+    height: 38px;
+    padding: 0 9px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    line-height: 1;
+    border-color: #d8e2e8;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--brand-ink);
+    box-shadow: none;
+  }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn.solid {
+    border-color: var(--brand);
+    background: var(--brand);
+    color: #fff;
+  }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn.ok {
+    border-color: #b8e7d5;
+    background: #effbf6;
+    color: #16805f;
+  }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn.danger {
+    border-color: #f0d2d2;
+    background: #fff8f8;
+    color: #b84a4a;
+  }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn.disabled {
+    border-color: #e1e8ec;
+    background: #f4f7f8;
+    color: #a8b5bd;
+  }
+  .transaction-table .gsat-table td.js-actions .gsat-icon-btn::after {
+    content: attr(data-action-label);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 380px) {
+  .gsat-content { padding: 16px 12px 24px; }
+  .gsat-footer { padding: 12px 12px 18px; }
+  .gsat-card-body { padding: 14px 13px; }
+  .gsat-topbar { padding: 0 10px; }
+  .gsat-page-title { font-size: 18px; }
+  .gsat-user-name { max-width: 40vw; overflow: hidden; text-overflow: ellipsis; }
+  .gsat-user-logo { width: 26px; height: 26px; }
+  .gsat-table td { padding: 4px 12px; }
+  .gsat-tab { padding: 9px 11px; font-size: 13px; }
+
+  .gsat-login-page { padding: 14px; }
+  .gsat-login-card { padding: 26px 16px 22px; }
+  .gsat-login-card .gsat-logo { width: 80px; height: 80px; }
+  .gsat-login-title { font-size: 20px; margin-bottom: 20px; }
+  .gsat-role-btn { padding: 7px 2px; font-size: 12.5px; }
+  .gsat-cl-row .gsat-radio, .gsat-detail-row .gsat-radio { font-size: 13.5px; }
+}
+
+/* comfortable tap targets on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .gsat-icon-btn { width: 38px; height: 38px; }
+  .gsat-nav, .gsat-subnav { padding-top: 11px; padding-bottom: 11px; }
+  .gsat-user-menu-item { padding: 13px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+}
+
+/* ============================================================
+   print — reports come out without the app chrome
+   ============================================================ */
+@media print {
+  body { background: #fff; }
+  .gsat-aside, .gsat-topbar, .gsat-footer, .gsat-banner,
+  .btn, .gsat-icon-btn, .gsat-overlay { display: none !important; }
+  .gsat-content { padding: 0; }
+  .gsat-card, .gsat-kpi, .gsat-panel { box-shadow: none; border-color: #d5d5d5; }
+  .gsat-table tbody tr:hover { background: none; }
+}
