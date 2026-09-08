@@ -15,11 +15,8 @@ GSAT.page('site-assessment', function (S) {
 
   function visibleRecords() {
     if (isSam) {
-      var territory = GSAT.samTerritory();
-      return S.records.filter(function (r) {
-        var m = GSAT.mapLookup(r.municipality);
-        return m && m.territory === territory;
-      });
+      var currentSam = GSAT.userName();
+      return S.records.filter(function (record) { return samFor(record) === currentSam; });
     }
     if (isRem) {
       return S.records.filter(function (r) {
@@ -36,7 +33,7 @@ GSAT.page('site-assessment', function (S) {
 
   function samFor(record) {
     var m = mappingFor(record);
-    return m ? m.sam : 'Unmapped';
+    return S.samAssignments[record.code] || (m ? m.sam : 'Unmapped');
   }
 
   function franchiseeCell(record) {

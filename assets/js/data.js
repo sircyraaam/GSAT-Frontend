@@ -1,19 +1,7 @@
-/* ============================================================
-   GSAT — Shared datasets & constants
-
-   Reference data only. The assessment form, the technical checklist and the
-   scorecard grid are written out as real markup in public/site-details.html,
-   public/site-checklist.html and public/scorecard.html — those pages are the
-   source of truth for their fields, so no field definitions live here.
-   ============================================================ */
 window.GSAT_DATA = (function () {
   'use strict';
 
-  /* The demo's records now outlive the tab (see the store in app.js), so a copy
-     of the seed below can be sitting in a browser that never sees an edit made
-     here. Bump this whenever the seed changes and that stale copy is thrown
-     away and re-seeded instead of shadowing it. */
-  var SEED_VERSION = 5;   // 3 — the audit trail · 4 — users and profiles · 5 — Approved is its own status
+  var SEED_VERSION = 5;
 
   var PSGC = {
     'NCR - National Capital Region': { 'Metro Manila': ['Quezon City', 'Makati City', 'Pasig City', 'Caloocan City'] },
@@ -69,10 +57,6 @@ window.GSAT_DATA = (function () {
     FMS: { label: 'FMS', title: 'Franchise Management Service', user: 'Bernadette Cruz' }
   };
 
-  /* A Regional Expansion Manager holds a region, and a region can span more than
-     one territory of the mapping master list — so this is a list, not a single
-     value. The strings must match column 0 of gsat-mapping.js. Everything a REM
-     may see (SAMs, SAS, sites) is scoped to these territories. */
   var REMS = [
     {
       rem: 'Cristina Aquino', region: 'Luzon Region',
@@ -101,45 +85,18 @@ window.GSAT_DATA = (function () {
     { code: 'MIN', manager: 'Nadia Ledesma', specialists: '1 specialist' }
   ];
 
-  /* ---------------- the SAS's three forms ----------------
-     One site is assessed three times over: the Site Assessment, the Site
-     Technical Checklist and the Trade and Site Scorecard. None of them hands the
-     site to the SAM on its own — finishing one is a third of the job — so each
-     form's Final Save records only its own completion and then asks whether the
-     other two are in. All three together are what moves the site to For SAM
-     Approval, and nothing else does.
-
-     `key` is the done-flag in the store's per-site bucket; `label` is what a
-     banner names when one of them is still outstanding. */
   var SAS_STEPS = [
     { key: 'detailsDone', label: 'Site Assessment' },
     { key: 'checklistDone', label: 'Site Technical Checklist' },
     { key: 'scoresDone', label: 'Trade and Site Scorecard' }
   ];
 
-  /* ---------------- the close-out ----------------
-     SAM approval ends at Approved and nowhere else: whether the site actually
-     pushed through is not known on the day it is approved. Saying so is a
-     separate, later act on the Site Assessment Report — a SAM or a REM picks one
-     of CLOSE_TO, and Fall-Out carries a written reason.
-
-     CLOSED is every status at or past approval: the assessment, checklist and
-     scorecard behind them are finished and read-only. A fallen-out site is in
-     that list on purpose — it stays fully readable, it just stops moving. */
   var CLOSE_FROM = 'Approved';
   var CLOSE_TO = ['Completed', 'Fall-Out'];
   var CLOSED = ['Approved', 'Completed', 'Fall-Out'];
 
-  /* Two things decide whether a site can carry a Franchisee Name: it must be
-     Franchise-Owned, and it must have cleared SAM approval — so these are the
-     statuses at and after approval, minus the one that ends the site. A site
-     still in assessment, or fallen out, has no franchisee to name. */
   var FRANCHISEE_STATUS = ['Approved', 'Completed'];
 
-  /* The seed mixes both ownerships and both sides of approval, so all three
-     states — nameable, not yet, never — are visible without editing anything.
-     NCR-2026-0001 is left at Approved so the report opens with one site the
-     close-out button is actually live on, and MIN-2026-0007 already closed. */
   var SEED_RECORDS = [
     { code: 'NCR-2026-0001', tradeArea: 'Diliman_Quezon City_NCR', municipality: 'Quezon City', territory: 'NCR', status: 'Approved', ownership: 'Franchise-Owned', franchiseeType: 'New' },
     { code: 'SL-2026-0002', tradeArea: 'Balibago_Santa Rosa_SL', municipality: 'Santa Rosa', territory: 'SL', status: 'Ongoing', ownership: 'Franchise-Owned', franchiseeType: 'Existing' },
@@ -155,26 +112,13 @@ window.GSAT_DATA = (function () {
     'Ongoing': ['#d1ecf1', '#0c5460'],
     'Completed': ['#d4edda', '#155724'],
     'For SAM Approval': ['#e2d9f3', '#4b2e83'],
-    // Approved and Completed are both good news but they are not the same news,
-    // so the two greens are told apart rather than sharing one swatch
     'Approved': ['#d3f2e6', '#0b6b4f'],
     'Returned': ['#f8d7da', '#721c24'],
     'Fall-Out': ['#f8d7da', '#721c24'],
-    // user / profile records, which are active or they are not
     'Active': ['#d4edda', '#155724'],
     'Inactive': ['#e9ecef', '#41474d']
   };
 
-  /* ---------------- profiles ----------------
-     A profile IS a role. `key` is the one the rest of the app gates on — it is
-     what `data-roles` matches, what ROLES above is keyed by, and what a user
-     record stores — so it is fixed and never edited. `name` is only the wording
-     shown on screen, and that a Site Admin may reword.
-
-     Deactivating a profile does not take it away from the people who already
-     hold it; it stops the profile being handed to anyone new. Removing a role
-     the app gates on would silently lock those users out of their own modules,
-     which is a migration, not a checkbox. */
   var SEED_PROFILES = [
     { id: 1, key: 'Admin', name: 'Site Admin', active: true },
     { id: 2, key: 'SAM', name: 'Site Acquisition Manager', active: true },
@@ -184,14 +128,6 @@ window.GSAT_DATA = (function () {
     { id: 6, key: 'FMS', name: 'Franchise Management Service', active: true }
   ];
 
-  /* ---------------- users ----------------
-     The people already named across the app — the six signed-in roles, the SAS
-     team behind the dashboard's workload bars, and the managers behind its
-     coverage list — so the directory and the screens agree with each other from
-     the first load. `profile` holds a profile key, never a display name.
-
-     One record is inactive on purpose: a list that only ever shows one status
-     cannot show what the other looks like. */
   var SEED_USERS = [
     { id: 1, code: '000001', first: 'Joel', mi: 'B', last: 'Ramirez', profile: 'Admin', email: 'joel.ramirez@generika.com.ph', active: true, created: '2026-01-06T01:12:00.000Z' },
     { id: 2, code: '000002', first: 'Mary Cris', mi: 'A', last: 'Mena', profile: 'SAS', email: 'marycris.mena@generika.com.ph', active: true, created: '2026-01-06T01:20:00.000Z' },
@@ -215,11 +151,6 @@ window.GSAT_DATA = (function () {
     }
   ];
 
-  /* ---------------- audit trail ----------------
-     The actions GSAT.log() writes, in the order the Audit Trail Report offers
-     them in its Action filter. Same shape as STATUS_CHIP and read by the same
-     GSAT.chip() helper, kept in its own map so an action and a site status can
-     never collide — 'Approved' is a status, 'Approve' is something a SAM did. */
   var AUDIT_CHIP = {
     'Create':   ['#d1ecf1', '#0c5460'],
     'Update':   ['#e9ecef', '#41474d'],
@@ -238,10 +169,6 @@ window.GSAT_DATA = (function () {
     'Reset':    ['#f8d7da', '#721c24']
   };
 
-  /* The history behind SEED_RECORDS, so the report opens with a trail to read
-     rather than an empty table. Newest first — the same order GSAT.log() keeps
-     the live entries in. `at` is UTC; the report renders it in local time, and
-     these were picked to read as Philippine office hours. */
   var SEED_AUDIT = [
     {
       at: '2026-08-27T08:40:00.000Z', role: 'REM', user: 'Edgardo Panganiban',

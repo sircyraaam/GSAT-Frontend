@@ -1,6 +1,3 @@
-/* GSAT — SAS Assignment (Admin)
-   A site belongs to the SAS who created it. This page lets an administrator
-   review ownership and deliberately reassign a site when coverage changes. */
 GSAT.page('sas-assignment', function (S) {
   'use strict';
   var $ = jQuery;
@@ -36,7 +33,6 @@ GSAT.page('sas-assignment', function (S) {
     return sites().filter(function (site) { return site.code === code; })[0];
   }
 
-  /* ---------------- specialists ---------------- */
   function renderSpecialists() {
     var all = sites();
     var query = $('#sas-filter').val().trim().toLowerCase();
@@ -59,7 +55,6 @@ GSAT.page('sas-assignment', function (S) {
       });
   }
 
-  /* ---------------- sites assigned to the selection ---------------- */
   function renderSites() {
     var mine = sites().filter(function (site) { return site.sas === selected; });
     var $list = $('#site-list').empty();
@@ -81,7 +76,6 @@ GSAT.page('sas-assignment', function (S) {
     });
   }
 
-  /* ---------------- search results ---------------- */
   function renderResults() {
     var query = $('#site-search').val().trim().toLowerCase();
     var $list = $('#result-list').empty();
@@ -123,7 +117,6 @@ GSAT.page('sas-assignment', function (S) {
   renderAll();
   $('#sas-filter').trigger('focus');
 
-  /* ---------------- events ---------------- */
   $('#sas-filter').on('input', renderSpecialists);
   $('#site-search').on('input', renderResults);
 

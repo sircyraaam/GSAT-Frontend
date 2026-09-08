@@ -1,201 +1,153 @@
-/* GSAT — SAM / REM Assignment (Admin)
-   Panels and row markup live in public/sam-assignment.html. Same shape as the
-   SAS Assignment page: pick a manager on the left, see what they hold, move a
-   sub-territory across from the right. Each list refreshes on its own, so
-   typing in a filter never loses the caret. */
 GSAT.page('sam-assignment', function (S) {
   'use strict';
   var $ = jQuery;
 
-  var M = GSAT.MAP();
   var allSam = [];
-  M.forEach(function (m) { if (allSam.indexOf(m[5]) < 0) allSam.push(m[5]); });
+  function addSam(name) {
+    if (name && allSam.indexOf(name) < 0) allSam.push(name);
+  }
+  GSAT.MAP().forEach(function (row) { addSam(row[5]); });
+  S.records.forEach(function (record) { addSam(S.samAssignments[record.code]); });
   allSam.sort();
 
   var selected = allSam[0] || '';
 
-  /* One row per sub-territory: the master list holds one row per area, so the
-     areas are counted up and the manager comes from the override if there is one. */
-  function subTerritories() {
-    var seen = {}, order = [];
-
-    M.forEach(function (m) {
-      var key = m[0] + '|' + m[1];
-      if (!seen[key]) {
-        seen[key] = { key: key, territory: m[0], subTerritory: m[1], areas: 0, defaultSam: m[5] };
-        order.push(key);
-      }
-      seen[key].areas += 1;
-    });
-
-    return order.map(function (key) {
-      var row = seen[key];
-      var override = S.samOverrides[key];
+  function sites() {
+    return S.records.map(function (record) {
+      var mapped = GSAT.mapLookup(record.municipality);
       return {
-        key: key, territory: row.territory, subTerritory: row.subTerritory, areas: row.areas,
-        defaultSam: row.defaultSam,
-        // '' is a removal — the sub-territory is left with no manager
-        sam: (override === undefined) ? row.defaultSam : override,
-        moved: override !== undefined && override !== '' && override !== row.defaultSam
+        code: record.code,
+        tradeArea: record.tradeArea,
+        municipality: record.municipality,
+        territory: mapped ? mapped.territory : record.territory,
+        subTerritory: record.subTerritory || (mapped ? mapped.subTerritory : 'Not in mapping'),
+        status: record.status,
+        sam: S.samAssignments[record.code] || (mapped ? mapped.sam : 'Unassigned'),
+        sas: S.assignments[record.code] || record.createdBy || (mapped ? mapped.sas : 'Unassigned')
       };
     });
   }
 
-  function areasLabel(n) { return n + (n === 1 ? ' area' : ' areas'); }
+  function siteOf(code) {
+    return sites().filter(function (site) { return site.code === code; })[0];
+  }
 
-  /* ---------------- managers ---------------- */
   function renderManagers() {
-    var all = subTerritories();
+    var all = sites();
     var query = $('#sam-filter').val().trim().toLowerCase();
     var $list = $('#manager-list').empty();
 
     allSam.filter(function (name) { return !query || name.toLowerCase().indexOf(query) >= 0; })
       .forEach(function (name) {
-        var mine = all.filter(function (s) { return s.sam === name; });
+        var mine = all.filter(function (site) { return site.sam === name; });
         var territories = [];
-        mine.forEach(function (s) { if (territories.indexOf(s.territory) < 0) territories.push(s.territory); });
+        mine.forEach(function (site) { if (territories.indexOf(site.territory) < 0) territories.push(site.territory); });
 
         var $row = GSAT.tpl('tpl-manager-row');
         $row.attr('data-name', name).toggleClass('on', name === selected);
         GSAT.bind($row, {
           name: name, count: mine.length,
           scope: territories.length === 1 ? territories[0]
-            : (territories.length ? territories.length + ' territories' : 'Nothing assigned')
+            : (territories.length ? territories.length + ' territories' : 'No sites assigned')
         });
         $list.append($row);
       });
   }
 
-  /* ---------------- what the selection holds ---------------- */
-  function renderMine() {
-    var mine = subTerritories().filter(function (s) { return s.sam === selected; });
-    var $list = $('#mine-list').empty();
+  function renderSites() {
+    var mine = sites().filter(function (site) { return site.sam === selected; });
+    var $list = $('#site-list').empty();
 
-    $('#mine-empty').prop('hidden', !!mine.length);
+    $('#site-empty').prop('hidden', !!mine.length);
 
-    mine.forEach(function (s) {
-      var $row = GSAT.bind(GSAT.tpl('tpl-mine-row'), {
-        subTerritory: s.subTerritory,
-        where: s.territory + ' · ' + areasLabel(s.areas)
+    mine.slice(0, 40).forEach(function (site) {
+      var $row = GSAT.bind(GSAT.tpl('tpl-site-row'), {
+        code: site.code,
+        tradeArea: site.tradeArea,
+        sas: 'SAS: ' + site.sas,
+        where: [site.municipality, site.subTerritory, site.status].filter(Boolean).join(' · ')
       });
-      $row.attr('data-key', s.key).attr('data-sub', s.subTerritory).attr('data-default', s.defaultSam);
-      $row.find('.gsat-chip-moved').prop('hidden', !s.moved);
+      $row.attr('data-code', site.code);
       $list.append($row);
     });
 
-    var areas = mine.reduce(function (n, s) { return n + s.areas; }, 0);
     GSAT.bind($('body'), {
       selectedSam: selected || 'No manager selected',
-      subCount: mine.length + (mine.length === 1 ? ' sub-territory' : ' sub-territories') +
-        ' · ' + areasLabel(areas)
+      siteCount: mine.length + (mine.length === 1 ? ' site assigned' : ' sites assigned')
     });
   }
 
-  /* ---------------- the pool to move from ---------------- */
-  function renderPool() {
-    var query = $('#sub-search').val().trim().toLowerCase();
-    var $list = $('#pool-list').empty();
+  function renderResults() {
+    var query = $('#site-search').val().trim().toLowerCase();
+    var $list = $('#result-list').empty();
+    var matches = query.length < 2 ? [] : sites().filter(function (site) {
+      return (site.code + ' ' + site.tradeArea + ' ' + site.municipality).toLowerCase().indexOf(query) >= 0;
+    }).slice(0, 25);
 
-    var matches = subTerritories().filter(function (s) {
-      return !query || (s.subTerritory + ' ' + s.territory).toLowerCase().indexOf(query) >= 0;
-    });
+    $('#result-hint').prop('hidden', query.length >= 2);
+    $('#result-empty').prop('hidden', query.length < 2 || !!matches.length);
 
-    $('#pool-empty').prop('hidden', !!matches.length);
-
-    matches.forEach(function (s) {
-      var alreadyMine = s.sam === selected;
-      var $row = GSAT.bind(GSAT.tpl('tpl-pool-row'), {
-        subTerritory: s.subTerritory,
-        owner: (alreadyMine ? 'Already with ' + selected
-          : (s.sam ? 'Currently ' + s.sam : 'No manager')) +
-          ' · ' + areasLabel(s.areas)
+    matches.forEach(function (site) {
+      var alreadyMine = site.sam === selected;
+      var $row = GSAT.bind(GSAT.tpl('tpl-result-row'), {
+        code: site.code,
+        tradeArea: site.tradeArea,
+        owner: site.sam ? (alreadyMine ? 'Assigned to ' + selected : 'Currently assigned to ' + site.sam) : 'Unassigned'
       });
-      $row.attr('data-key', s.key).attr('data-sub', s.subTerritory);
-      $row.find('.sub-assign').prop('hidden', alreadyMine);
-      $row.find('.sub-assigned').prop('hidden', !alreadyMine);
+      $row.attr('data-code', site.code);
+      $row.find('.site-reassign').prop('hidden', alreadyMine);
+      $row.find('.site-assigned').prop('hidden', !alreadyMine);
       $list.append($row);
     });
   }
 
   function renderSummary() {
-    var rows = subTerritories();
-    var moved = rows.filter(function (s) { return s.moved; }).length;
+    var assigned = sites().filter(function (site) { return !!site.sam; }).length;
     GSAT.bind($('body'), {
-      summary: rows.length + ' sub-territories · ' + allSam.length + ' managers' +
-        (moved ? ' · ' + moved + ' reassigned' : '')
+      summary: S.records.length + ' created sites · ' + assigned + ' assigned · ' + allSam.length + ' SAMs'
     });
   }
 
   function renderAll() {
     renderManagers();
-    renderMine();
-    renderPool();
+    renderSites();
+    renderResults();
     renderSummary();
   }
   renderAll();
 
-  /* ---------------- events ---------------- */
   $('#sam-filter').on('input', renderManagers);
-  $('#sub-search').on('input', renderPool);
+  $('#site-search').on('input', renderResults);
 
   $('#manager-list').on('click', '.gsat-person-row', function () {
     selected = $(this).attr('data-name');
+    $('#site-search').val('');
     renderAll();
   });
 
-  function rowOf(key) {
-    return subTerritories().filter(function (s) { return s.key === key; })[0];
-  }
-
   function esc(text) { return $('<div>').text(text == null ? '' : text).html(); }
 
-  /* Both moves reach every area under the sub-territory, so each one is
-     confirmed before it is written. */
-  $('#pool-list').on('click', '.sub-assign', function () {
-    var key = $(this).closest('.gsat-person-row').attr('data-key');
-    var s = rowOf(key);
-    if (!s || s.sam === selected) return;
+  $('#result-list').on('click', '.site-reassign', function () {
+    var site = siteOf($(this).closest('.gsat-person-row').attr('data-code'));
+    if (!site || site.sam === selected) return;
 
+    var previous = site.sam || 'Unassigned';
     var to = selected;
     GSAT.ask({
-      title: 'Move this sub-territory?',
-      html: '<b>' + esc(s.subTerritory) + '</b> moves from <b>' + esc(s.sam) +
-        '</b> to <b>' + esc(to) + '</b>.<br>' + areasLabel(s.areas) + ' come with it.',
-      confirmText: 'Yes, assign',
+      title: 'Reassign this site?',
+      html: '<b>' + esc(site.code) + '</b> — ' + esc(site.tradeArea) +
+        '<br>will be assigned to <b>' + esc(to) + '</b>.<br>' +
+        'It is currently assigned to <b>' + esc(previous) + '</b>.',
+      confirmText: 'Yes, reassign',
       confirmClass: 'btn-success'
     }).then(function (ok) {
       if (!ok) return;
-      S.samOverrides[key] = to;
+      S.samAssignments[site.code] = to;
       GSAT.save();
-      GSAT.log('Assign', 'SAM / REM Assignment', s.subTerritory,
-        'Sub-territory assigned to ' + to + (s.sam ? ', taken from ' + s.sam : ', previously unmanaged') +
-        '. ' + areasLabel(s.areas) + ' moved with it.');
+      GSAT.log('Assign', 'SAM Assignment', site.code,
+        'Site reassigned from ' + previous + ' to ' + to + '.');
       renderAll();
-      GSAT.banner('ok', s.subTerritory + ' now managed by ' + to + '.');
-    });
-  });
-
-  $('#mine-list').on('click', '.sub-remove', function () {
-    var key = $(this).closest('.gsat-person-row').attr('data-key');
-    var s = rowOf(key);
-    if (!s) return;
-
-    var from = s.sam;
-    GSAT.ask({
-      title: 'Remove this sub-territory?',
-      html: '<b>' + esc(s.subTerritory) + '</b> is taken off <b>' + esc(from) + '</b>.<br>' +
-        'Its ' + areasLabel(s.areas) + ' stay without a manager until one picks it up.',
-      icon: 'warning',
-      confirmText: 'Yes, remove',
-      confirmClass: 'btn-outline-danger'
-    }).then(function (ok) {
-      if (!ok) return;
-      S.samOverrides[key] = '';
-      GSAT.save();
-      GSAT.log('Remove', 'SAM / REM Assignment', s.subTerritory,
-        'Sub-territory taken off ' + from + '. Its ' + areasLabel(s.areas) + ' are left unmanaged.');
-      renderAll();
-      GSAT.banner('warn', s.subTerritory + ' removed from ' + from + '.');
+      GSAT.banner('ok', site.code + ' reassigned to ' + to + '.');
     });
   });
 });
