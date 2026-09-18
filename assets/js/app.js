@@ -376,6 +376,15 @@ window.GSAT = (function ($) {
     };
   }
 
+  /* Who a site sits with. A missing assignment key means nobody has touched the
+     site on the assignment screens, so the fallback — its creator, or the area
+     mapping — still owns it. An empty key is a removal made on those screens and
+     must not fall back: the site reads Unassigned on every screen. */
+  function assignedTo(explicit, fallback) {
+    if (explicit === undefined) return fallback;
+    return explicit || 'Unassigned';
+  }
+
   function mappedRecords() {
     return state.records.map(function (r) {
       var m = mapLookup(r.municipality);
@@ -384,8 +393,8 @@ window.GSAT = (function ($) {
         province: m ? m.province : '—',
         territory: m ? m.territory : r.territory,
         subTerritory: r.subTerritory || (m ? m.subTerritory : 'Not in mapping'),
-        sam: state.samAssignments[r.code] || (m ? m.sam : 'Unmapped'),
-        sas: state.assignments[r.code] || r.createdBy || (m ? m.sas : 'Unmapped'),
+        sam: assignedTo(state.samAssignments[r.code], m ? m.sam : 'Unmapped'),
+        sas: assignedTo(state.assignments[r.code], r.createdBy || (m ? m.sas : 'Unmapped')),
         ownership: r.ownership || '',
         franchiseeBlock: franchiseeBlock(r),
         franchisable: canBeFranchised(r),
@@ -544,6 +553,34 @@ window.GSAT = (function ($) {
     }).then(function (res) { return !!res.isConfirmed; });
   }
 
+  function esc(text) { return $('<div>').text(text == null ? '' : text).html(); }
+
+  /* ask() with a picker. Same confirm dialog, plus a <select> of choices; the
+     promise resolves with the chosen value instead of a boolean, and with ''
+     when the dialog was cancelled or nothing was picked. */
+  function askPick(opts) {
+    var o = opts || {};
+    var id = 'gsat-ask-pick';
+    var chosen = '';
+
+    var html = (o.html || '') +
+      '<div class="mt-3 text-start">' +
+      '<label class="form-label small fw-semibold" for="' + id + '">' + esc(o.label || 'Choose') + '</label>' +
+      '<select id="' + id + '" class="form-select form-select-sm">' +
+      '<option value="">' + esc(o.placeholder || 'Select…') + '</option>' +
+      $.map(o.choices || [], function (c) {
+        return '<option value="' + esc(c) + '">' + esc(c) + '</option>';
+      }).join('') +
+      '</select></div>';
+
+    $(document).on('change.gsatAskPick', '#' + id, function () { chosen = this.value; });
+
+    return ask($.extend({}, o, { html: html })).then(function (ok) {
+      $(document).off('change.gsatAskPick');
+      return ok ? chosen : '';
+    });
+  }
+
   /* ---------------- shell wiring (markup already in the page) ---------------- */
   function initShell(page) {
     var info = D.ROLES[role()];
@@ -681,12 +718,13 @@ window.GSAT = (function ($) {
     data: D, state: function () { return state; }, set: set, save: save,
     reset: reset, resetDemo: resetDemo,
     tpl: tpl, bind: bind, options: options, chip: chip, toggle: toggle,
-    stamp: stamp, banner: banner, flash: flash, ask: ask,
+    stamp: stamp, banner: banner, flash: flash, ask: ask, askPick: askPick, esc: esc,
     log: log, logEdit: logEdit,
     statusOf: statusOf, beginWork: beginWork,
     stepsLeft: stepsLeft, submitWhenReady: submitWhenReady, stepNote: stepNote,
     searchable: searchable, searchableAll: searchableAll,
     MAP: MAP, mapLookup: mapLookup, mappedRecords: mappedRecords, samTerritory: samTerritory,
+    assignedTo: assignedTo,
     canBeFranchised: canBeFranchised, franchiseeBlock: franchiseeBlock,
     effSam: effSam, remRegion: remRegion, remTerritories: remTerritories, inRemRegion: inRemRegion,
     profileOf: profileOf, profileName: profileName,

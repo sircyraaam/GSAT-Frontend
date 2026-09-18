@@ -33,7 +33,7 @@ GSAT.page('site-assessment', function (S) {
 
   function samFor(record) {
     var m = mappingFor(record);
-    return S.samAssignments[record.code] || (m ? m.sam : 'Unmapped');
+    return GSAT.assignedTo(S.samAssignments[record.code], m ? m.sam : 'Unmapped');
   }
 
   function franchiseeCell(record) {
@@ -88,7 +88,7 @@ GSAT.page('site-assessment', function (S) {
 
   function sasFor(record) {
     var m = GSAT.mapLookup(record.municipality);
-    return S.assignments[record.code] || (m ? m.sas : 'Unmapped');
+    return GSAT.assignedTo(S.assignments[record.code], m ? m.sas : 'Unmapped');
   }
 
   /* ---------------- filters ---------------- */

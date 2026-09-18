@@ -816,21 +816,25 @@ a:hover { color: var(--brand-dark); text-decoration: underline; }
   }
   .transaction-table .gsat-table .transaction-actions-head {
     z-index: 3;
-    width: 128px;
-    min-width: 128px;
+    box-sizing: border-box;
+    width: 140px;
+    min-width: 140px;
     background: var(--n-50);
+    border-left: 1px solid var(--n-100);
     box-shadow: -8px 0 12px -12px rgba(18, 58, 94, .45);
   }
   .transaction-table .gsat-table td.js-actions {
     display: grid;
     grid-template-columns: repeat(3, 32px);
     gap: 6px;
-    width: 128px;
-    min-width: 128px;
+    box-sizing: border-box;
+    width: 140px;
+    min-width: 140px;
     padding: 10px 8px;
     white-space: normal;
     z-index: 2;
     background: #f7fafb;
+    border-left: 1px solid var(--n-100);
     box-shadow: -8px 0 12px -12px rgba(18, 58, 94, .45);
   }
   .transaction-table .gsat-table tbody tr:hover td.js-actions { background: var(--n-25); }
@@ -1247,6 +1251,11 @@ a:hover { color: var(--brand-dark); text-decoration: underline; }
   color: var(--brand-ink);
   font-weight: 600;
 }
+/* Per-row Reassign / Remove buttons in the assignment panels. */
+.gsat-row-actions { flex: none; display: flex; align-items: center; gap: 6px; }
+.gsat-row-actions .btn { padding: 3px 8px; line-height: 1; }
+.gsat-row-actions .btn i { font-size: 14px; vertical-align: -1px; }
+
 .gsat-count-pill {
   flex: none; min-width: 30px; text-align: center;
   padding: 3px 9px; border-radius: var(--r-pill);

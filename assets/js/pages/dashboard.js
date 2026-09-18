@@ -176,7 +176,7 @@ GSAT.page('dashboard', function (S) {
       $queue.append(GSAT.bind(GSAT.tpl('tpl-queue-row'), {
         code: q.code, tradeArea: q.tradeArea,
         where: q.municipality + ' · ' + q.territory,
-        sas: S.assignments[q.code] || (m ? m.sas : 'Unassigned')
+        sas: GSAT.assignedTo(S.assignments[q.code], m ? m.sas : 'Unassigned')
       }));
     });
 

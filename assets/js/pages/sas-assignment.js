@@ -10,6 +10,7 @@ GSAT.page('sas-assignment', function (S) {
   D.SAS_TEAM.forEach(function (person) { addSas(person.name); });
   GSAT.MAP().forEach(function (row) { addSas(row[6]); });
   S.records.forEach(function (record) { addSas(S.assignments[record.code] || record.createdBy); });
+  allSas = allSas.filter(function (name) { return name !== 'Unassigned' && name !== 'Unmapped'; });
   allSas.sort();
 
   var selected = allSas[0] || '';
@@ -24,9 +25,15 @@ GSAT.page('sas-assignment', function (S) {
         territory: mapped ? mapped.territory : record.territory,
         subTerritory: record.subTerritory || (mapped ? mapped.subTerritory : 'Not in mapping'),
         status: record.status,
-        sas: S.assignments[record.code] || record.createdBy || (mapped ? mapped.sas : 'Unassigned')
+        sas: GSAT.assignedTo(S.assignments[record.code],
+          record.createdBy || (mapped ? mapped.sas : 'Unassigned'))
       };
     });
+  }
+
+  /* 'Unassigned' and 'Unmapped' are placeholders, not people. */
+  function hasOwner(site) {
+    return !!site.sas && allSas.indexOf(site.sas) >= 0;
   }
 
   function siteOf(code) {
@@ -92,7 +99,9 @@ GSAT.page('sas-assignment', function (S) {
       var $row = GSAT.bind(GSAT.tpl('tpl-result-row'), {
         code: site.code,
         tradeArea: site.tradeArea,
-        owner: site.sas ? (alreadyMine ? 'Assigned to ' + selected : 'Currently assigned to ' + site.sas) : 'Unassigned'
+        owner: hasOwner(site)
+          ? (alreadyMine ? 'Assigned to ' + selected : 'Currently assigned to ' + site.sas)
+          : 'Unassigned'
       });
       $row.attr('data-code', site.code);
       $row.find('.site-reassign').prop('hidden', alreadyMine);
@@ -102,7 +111,7 @@ GSAT.page('sas-assignment', function (S) {
   }
 
   function renderSummary() {
-    var assigned = sites().filter(function (site) { return !!site.sas; }).length;
+    var assigned = sites().filter(hasOwner).length;
     GSAT.bind($('body'), {
       summary: S.records.length + ' created sites · ' + assigned + ' assigned · ' + allSas.length + ' specialists'
     });
@@ -126,7 +135,61 @@ GSAT.page('sas-assignment', function (S) {
     renderAll();
   });
 
-  function esc(text) { return $('<div>').text(text == null ? '' : text).html(); }
+  /* Moves a site to `to`, or removes its assignment when `to` is ''. Both go
+     through the same write so the audit trail reads the same either way. */
+  function applyAssignment(site, to, note) {
+    var previous = site.sas || 'Unassigned';
+    S.assignments[site.code] = to;
+    GSAT.save();
+    GSAT.log('Assign', 'SAS Assignment', site.code, note);
+    renderAll();
+    GSAT.banner('ok', site.code + (to ? ' reassigned to ' + to + '.' : ' removed from ' + previous + '.'));
+  }
+
+  $('#site-list').on('click', '.site-move', function () {
+    var site = siteOf($(this).closest('.gsat-person-row').attr('data-code'));
+    if (!site) return;
+
+    var others = allSas.filter(function (name) { return name !== site.sas; });
+    if (!others.length) {
+      GSAT.banner('warn', 'There is no other SAS to reassign ' + site.code + ' to.');
+      return;
+    }
+
+    GSAT.askPick({
+      title: 'Reassign this site?',
+      html: '<b>' + GSAT.esc(site.code) + '</b> — ' + GSAT.esc(site.tradeArea) +
+        '<br>is currently assigned to <b>' + GSAT.esc(site.sas || 'Unassigned') + '</b>.',
+      label: 'Reassign to',
+      placeholder: 'Select a SAS',
+      choices: others,
+      confirmText: 'Yes, reassign',
+      confirmClass: 'btn-success'
+    }).then(function (to) {
+      if (!to) return;
+      applyAssignment(site, to,
+        'Site reassigned from ' + (site.sas || 'Unassigned') + ' to ' + to + '.');
+    });
+  });
+
+  $('#site-list').on('click', '.site-remove', function () {
+    var site = siteOf($(this).closest('.gsat-person-row').attr('data-code'));
+    if (!site) return;
+
+    var previous = site.sas || 'Unassigned';
+    GSAT.ask({
+      title: 'Remove this assignment?',
+      html: '<b>' + GSAT.esc(site.code) + '</b> — ' + GSAT.esc(site.tradeArea) +
+        '<br>will no longer be assigned to <b>' + GSAT.esc(previous) + '</b>.<br>' +
+        'It goes back to the unassigned list until someone picks it up.',
+      icon: 'warning',
+      confirmText: 'Yes, remove',
+      confirmClass: 'btn-danger'
+    }).then(function (ok) {
+      if (!ok) return;
+      applyAssignment(site, '', 'Assignment removed — site was assigned to ' + previous + '.');
+    });
+  });
 
   $('#result-list').on('click', '.site-reassign', function () {
     var site = siteOf($(this).closest('.gsat-person-row').attr('data-code'));
@@ -136,19 +199,14 @@ GSAT.page('sas-assignment', function (S) {
     var to = selected;
     GSAT.ask({
       title: 'Reassign this site?',
-      html: '<b>' + esc(site.code) + '</b> — ' + esc(site.tradeArea) +
-        '<br>will be assigned to <b>' + esc(to) + '</b>.<br>' +
-        'It is currently assigned to <b>' + esc(previous) + '</b>.',
+      html: '<b>' + GSAT.esc(site.code) + '</b> — ' + GSAT.esc(site.tradeArea) +
+        '<br>will be assigned to <b>' + GSAT.esc(to) + '</b>.<br>' +
+        'It is currently assigned to <b>' + GSAT.esc(previous) + '</b>.',
       confirmText: 'Yes, reassign',
       confirmClass: 'btn-success'
     }).then(function (ok) {
       if (!ok) return;
-      S.assignments[site.code] = to;
-      GSAT.save();
-      GSAT.log('Assign', 'SAS Assignment', site.code,
-        'Site reassigned from ' + previous + ' to ' + to + '.');
-      renderAll();
-      GSAT.banner('ok', site.code + ' reassigned to ' + to + '.');
+      applyAssignment(site, to, 'Site reassigned from ' + previous + ' to ' + to + '.');
     });
   });
 });
